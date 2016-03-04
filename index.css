@@ -1,6 +1,6 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
 body{
-	font-family: Gill Sans Extrabold, sans-serif;
+/*	font-family: Gill Sans Extrabold, sans-serif;*/
 }
 .login {
 	background: 
@@ -70,5 +70,6 @@ body{
 	width: 0;
 }
 .nav{
+	font-size: 1.5em;
 	color: #500807;
 }
