@@ -1,5 +1,7 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
-
+body{
+	font-family: Gill Sans Extrabold, sans-serif;
+}
 .login {
 	background: 
 		linear-gradient(
@@ -67,7 +69,6 @@
 	background-image: none;
 	width: 0;
 }
-/*.panda{
-	padding-left: 20%;
-	text-align: center;
-}*/
+.nav{
+	color: #500807;
+}
