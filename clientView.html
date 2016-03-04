@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Greater Boston Legal Services Client Login</title>
-        <meta name="author"      content="Eric Snyder"/>
+        <meta name="author"      content="Isaiah and Rachael"/>
         <meta name="revised"     content="February 28th, 2016"/>
         <meta name="description" content="Login Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -19,8 +19,8 @@
         
     </head>  
 
-<body>
-  
+<body class="clientPage">
+  <div>
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -34,5 +34,28 @@
         
     <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
 
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!-- <a href="index.html" class="navbar-brand"> <img src="img/musiquiz.png" alt="logo" style="width:auto;height:30px;"> </a> -->
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" id="page">
+        <form>
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
+            <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox" id="questions">
+                    
+                </div>
+
+            <!-- Left and right controls -->
+                <a class="right carousel-control" href="#myCarousel" role="button" onclick="car_play_pause();" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </form>
+    </div>
   </body>
 </html>
