@@ -1,0 +1,59 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Greater Boston Legal Services Client Login</title>
+        <meta name="author"      content="Eric Snyder"/>
+        <meta name="revised"     content="February 28th, 2016"/>
+        <meta name="description" content="Login Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        
+    </head>  
+
+    <body>
+        <div ng-controller="historyCtrl" ng-app="history">
+            <div ng-repeat="thing in data">
+                <div class="panel panel-default">
+                    <div id="textbox">
+                        <p class ="alignleft"><h5><strong>{{thing.question}}</strong> | {{thing.text}}</h5></p>
+                        <p><b>Responses: </b>
+                            <div ng-repeat="item in thing.responses">
+                                {{ item }}
+                            </div>
+                        </p></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- ================================= THE JAVASCRIPT =================================== -->        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
+        <!-- Latest compiled and minified JavaScript for Bootstrap CDN -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!-- ANGULAR CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+        <script>
+            var app = angular.module('history', []);
+    
+            app.controller('historyCtrl', function($scope, $http) {
+                $scope.data = [
+                    {'question': 1, 'text': 'Whats up?', 'responses': ['10/12/2015', '10/13/2015']},
+                    {'question': 2, 'text': 'How are you?', 'responses': ['10/19/2015', '10/30/2015']},
+                    {'question': 3, 'text': 'How is it going?', 'responses': ['11/12/2015', '11/14/2015']}
+                ];
+            });
+        </script>
+        
+    <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
+
+  </body>
+</html>
