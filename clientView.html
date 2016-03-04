@@ -9,18 +9,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="index.css">
+        
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        
+        <link rel="stylesheet" type="text/css" href="index.css">
     </head>  
 
 <body class="clientPage">
-  <div>
+  
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -43,19 +43,28 @@
     </nav>
     <div class="container-fluid" id="page">
         <form>
+            
             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
             <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox" id="questions">
-                    
+                <div class="carousel-inner" role="listbox" id="videos">
+                    <div id="panda">
+                        <iframe width="720" height="405" src="https://www.youtube.com/embed/G3pmJeZGcwA" frameborder="0"></iframe>
+                    </div>
+                    <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">C</a>
                 </div>
 
             <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" onclick="car_play_pause();" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                </a>
                 <a class="right carousel-control" href="#myCarousel" role="button" onclick="car_play_pause();" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
             </div>
         </form>
+
     </div>
   </body>
 </html>

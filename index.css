@@ -15,8 +15,32 @@
 }
 
 #page {
-	margin-top: 25em;
+	padding-top: 5%;
+	padding-left: 10%;
+	padding-right: 10%;
 }
-{
+.clientPage{
+	text-align: center;
 	background-color: #7f8c8d;
+
+	/*background-color: #000000;*/
 }
+
+.btn-circle {
+
+  	width: 49px;
+	height: 49px;
+	text-align: center;
+	padding: 5px 0;
+	font-size: 20px;
+	line-height: 2.00;
+	border-radius: 30px;
+}
+.carousel-control{
+	background-image: none;
+	width: 0;
+}
+/*.panda{
+	padding-left: 20%;
+	text-align: center;
+}*/
