@@ -21,20 +21,47 @@
 }
 .clientPage{
 	text-align: center;
-	background-color: #7f8c8d;
+	background-color: #929090;
 
 	/*background-color: #000000;*/
 }
-
-.btn-circle {
-
-  	width: 49px;
-	height: 49px;
+.buttons{
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+.button1{
 	text-align: center;
-	padding: 5px 0;
-	font-size: 20px;
+	display: inline;
+	padding-right: 5%;
+}
+.button2{
+	text-align: center;
+	display: inline;
+}
+.btn-circle {
+	/*padding-left: 10%;*/
+	/*padding-right: 10%*/
+  	width: 100px;
+	height: 100px;
+	/*text-align: center;*/
+	padding: 15px 0;
+	font-size: 30px;
 	line-height: 2.00;
-	border-radius: 30px;
+	border-radius: 70px;
+	/*color: #ecf0f1;*/
+}
+.btn-primary{
+	color: #000000;
+	background-image: none;
+	border-color: #d8d8d8;
+	background-color: #d8d8d8;
+}
+.btn-primary:hover{
+	color: #000000;
+	background-color: #bdbdbd;
+	border-color: #bdbdbd;
+
 }
 .carousel-control{
 	background-image: none;
