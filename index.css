@@ -1,0 +1,9 @@
+/* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
+
+html {
+	background: url(images/Boston-Skyline.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover; /* used for Safari/Chrome rendering engine */
+  	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */
+  	-o-background-size: cover;		/* used for Opera's rendering engine */
+  	background-size: cover;
+}
