@@ -40,6 +40,16 @@ body{
 	text-align: center;
 	display: inline;
 }
+.button3{
+	display: inline;
+	text-align: center;
+	display: none;
+	padding-right: 5%;
+}
+.button4{
+	display: inline;
+	display: none;
+}
 .btn-circle {
 	/*padding-left: 10%;*/
 	/*padding-right: 10%*/
@@ -51,22 +61,6 @@ body{
 	line-height: 2.00;
 	border-radius: 70px;
 	/*color: #ecf0f1;*/
-}
-.btn-primary{
-	color: #000000;
-	background-image: none;
-	border-color: #d8d8d8;
-	background-color: #d8d8d8;
-}
-.btn-primary:hover{
-	color: #000000;
-	background-color: #bdbdbd;
-	border-color: #bdbdbd;
-}
-.btn-primary:click{
-	color: #000000;
-	background-color: #bdbdbd;
-	border-color: #bdbdbd;
 }
 .carousel-control{
 	background-image: none;
@@ -103,3 +97,4 @@ body{
 	font-size: 80px;
 	margin-top: -1em;
 }
+
