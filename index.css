@@ -1,0 +1,105 @@
+/* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
+body{
+/*	font-family: Gill Sans Extrabold, sans-serif;*/
+}
+.login {
+	background: 
+		linear-gradient(
+	      rgba(0, 0, 0, 0.5), 
+	      rgba(0, 0, 0, 0.5)
+	    ),
+	    url(images/Boston-Skyline.jpg) no-repeat center center fixed;
+	/*background: url(images/Boston-Skyline.jpg) no-repeat center center fixed;*/
+	-webkit-background-size: cover; /* used for Safari/Chrome rendering engine */
+  	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */
+  	-o-background-size: cover;		/* used for Opera's rendering engine */
+  	background-size: cover;
+}
+
+#page {
+	padding-top: 5%;
+	margin: 0;
+	width: 96%;
+
+}
+.clientPage{
+	text-align: center;
+	background-color: #929090;
+}
+.buttons{
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+.button1{
+	text-align: center;
+	display: inline;
+	padding-right: 5%;
+}
+.button2{
+	text-align: center;
+	display: inline;
+}
+.btn-circle {
+	/*padding-left: 10%;*/
+	/*padding-right: 10%*/
+  	width: 100px;
+	height: 100px;
+	/*text-align: center;*/
+	padding: 15px 0;
+	font-size: 30px;
+	line-height: 2.00;
+	border-radius: 70px;
+	/*color: #ecf0f1;*/
+}
+.btn-primary{
+	color: #000000;
+	background-image: none;
+	border-color: #d8d8d8;
+	background-color: #d8d8d8;
+}
+.btn-primary:hover{
+	color: #000000;
+	background-color: #bdbdbd;
+	border-color: #bdbdbd;
+}
+.btn-primary:click{
+	color: #000000;
+	background-color: #bdbdbd;
+	border-color: #bdbdbd;
+}
+.carousel-control{
+	background-image: none;
+	width: 0;
+	font-size: 100px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 500px;
+	margin-top: -1em;
+}
+.nav{
+	font-size: 1.5em;
+	background-color: #500807;
+}
+.navbar-collapse{
+	background-color: #500807;
+	border-color: #500807;
+}
+.navbar-default{
+	background-color: #500807;
+	border-color: #500807;
+}
+.navbar-header{
+	background-color: #500807;
+	border-color: #500807;
+}
+.ourNav{
+	background-color: #500807;
+	border-color: #500807;
+	color: #dbdbdb;
+}
+
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 80px;
+	margin-top: -1em;
+}
