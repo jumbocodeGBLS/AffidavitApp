@@ -86,28 +86,6 @@ body{
 	font-size: 500px;
 	margin-top: -1em;
 }
-.nav{
-	font-size: 1.5em;
-	background-color: #500807;
-}
-.navbar-collapse{
-	background-color: #500807;
-	border-color: #500807;
-}
-.navbar-default{
-	background-color: #500807;
-	border-color: #500807;
-}
-.navbar-header{
-	background-color: #500807;
-	border-color: #500807;
-}
-.ourNav{
-	background-color: #500807;
-	border-color: #500807;
-	color: #dbdbdb;
-}
-
 .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
 	font-size: 80px;
 	margin-top: -1em;
