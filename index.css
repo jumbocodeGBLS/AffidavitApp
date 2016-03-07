@@ -1,6 +1,13 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
+<<<<<<< HEAD
 
  html {
+=======
+body{
+/*	font-family: Gill Sans Extrabold, sans-serif;*/
+}
+.login {
+>>>>>>> c23f8f5a27d33b502e0356bf674378c5c40056af
 	background: 
 		linear-gradient(
 	      rgba(0, 0, 0, 0.5), 
@@ -14,6 +21,7 @@
   	background-size: cover;
 }
 
+<<<<<<< HEAD
 .jumbotron {
 	position: absolute;
 	left: 50%;
@@ -31,3 +39,87 @@
 #inputbox { 			/* class used to override default jumbotron color */
 	background: red;
 }
+=======
+#page {
+	padding-top: 5%;
+	margin: 0;
+	width: 96%;
+
+}
+.clientPage{
+	text-align: center;
+	background-color: #929090;
+}
+.buttons{
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+.button1{
+	text-align: center;
+	display: inline;
+	padding-right: 5%;
+}
+.button2{
+	text-align: center;
+	display: inline;
+}
+.button3{
+	display: inline;
+	text-align: center;
+	display: none;
+	padding-right: 5%;
+}
+.button4{
+	display: inline;
+	display: none;
+}
+.btn-circle {
+	/*padding-left: 10%;*/
+	/*padding-right: 10%*/
+  	width: 100px;
+	height: 100px;
+	/*text-align: center;*/
+	padding: 15px 0;
+	font-size: 30px;
+	line-height: 2.00;
+	border-radius: 70px;
+	/*color: #ecf0f1;*/
+}
+.carousel-control{
+	background-image: none;
+	width: 0;
+	font-size: 100px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 500px;
+	margin-top: -1em;
+}
+.nav{
+	font-size: 1.5em;
+	background-color: #500807;
+}
+.navbar-collapse{
+	background-color: #500807;
+	border-color: #500807;
+}
+.navbar-default{
+	background-color: #500807;
+	border-color: #500807;
+}
+.navbar-header{
+	background-color: #500807;
+	border-color: #500807;
+}
+.ourNav{
+	background-color: #500807;
+	border-color: #500807;
+	color: #dbdbdb;
+}
+
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 80px;
+	margin-top: -1em;
+}
+
+>>>>>>> c23f8f5a27d33b502e0356bf674378c5c40056af
