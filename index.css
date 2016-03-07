@@ -1,13 +1,6 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
-<<<<<<< HEAD
 
- html {
-=======
 body{
-/*	font-family: Gill Sans Extrabold, sans-serif;*/
-}
-.login {
->>>>>>> c23f8f5a27d33b502e0356bf674378c5c40056af
 	background: 
 		linear-gradient(
 	      rgba(0, 0, 0, 0.5), 
@@ -21,14 +14,13 @@ body{
   	background-size: cover;
 }
 
-<<<<<<< HEAD
 .jumbotron {
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%,-50%);
 	z-index: 5; 
-	background-color: red
+	/*background-color: red*/
 }
 
 .footer {
@@ -39,7 +31,6 @@ body{
 #inputbox { 			/* class used to override default jumbotron color */
 	background: red;
 }
-=======
 #page {
 	padding-top: 5%;
 	margin: 0;
@@ -122,4 +113,4 @@ body{
 	margin-top: -1em;
 }
 
->>>>>>> c23f8f5a27d33b502e0356bf674378c5c40056af
+
