@@ -1,6 +1,8 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
-
 body{
+/*	font-family: Gill Sans Extrabold, sans-serif;*/
+}
+.login {
 	background: 
 		linear-gradient(
 	      rgba(0, 0, 0, 0.5), 
@@ -14,23 +16,6 @@ body{
   	background-size: cover;
 }
 
-.jumbotron {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%,-50%);
-	z-index: 5; 
-	/*background-color: red*/
-}
-
-.footer {
-	position: absolute;
-	bottom: 0%;
-}
-
-#inputbox { 			/* class used to override default jumbotron color */
-	background: red;
-}
 #page {
 	padding-top: 5%;
 	margin: 0;
@@ -86,31 +71,8 @@ body{
 	font-size: 500px;
 	margin-top: -1em;
 }
-.nav{
-	font-size: 1.5em;
-	background-color: #500807;
-}
-.navbar-collapse{
-	background-color: #500807;
-	border-color: #500807;
-}
-.navbar-default{
-	background-color: #500807;
-	border-color: #500807;
-}
-.navbar-header{
-	background-color: #500807;
-	border-color: #500807;
-}
-.ourNav{
-	background-color: #500807;
-	border-color: #500807;
-	color: #dbdbdb;
-}
-
 .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
 	font-size: 80px;
 	margin-top: -1em;
 }
-
 
