@@ -20,7 +20,7 @@ body{
 	top: 50%;
 	transform: translate(-50%,-50%);
 	z-index: 5; 
-	/*background-color: red*/
+	background-color: red
 }
 
 .footer {
