@@ -1,6 +1,6 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
 
-html {
+ html {
 	background: 
 		linear-gradient(
 	      rgba(0, 0, 0, 0.5), 
@@ -12,4 +12,22 @@ html {
   	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */
   	-o-background-size: cover;		/* used for Opera's rendering engine */
   	background-size: cover;
+}
+
+.jumbotron {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	z-index: 5; 
+	background-color: red
+}
+
+.footer {
+	position: absolute;
+	bottom: 0%;
+}
+
+#inputbox { 			/* class used to override default jumbotron color */
+	background: red;
 }
