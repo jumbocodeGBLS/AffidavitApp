@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Greater Boston Legal Services Client Login</title>
+        <meta name="author"      content="Eric Snyder"/>
+        <meta name="revised"     content="February 28th, 2016"/>
+        <meta name="description" content="Login Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+        <style>
+        .heading, .body {
+            padding:10px;
+            margin:10px;
+        }
+        .center {
+            text-align: center;
+        }
+        .input-group {
+            padding:10px;
+            margin:10px;
+        }
+        </style>
+        
+    </head>  
+
+    <body>
+        <div ng-controller="historyCtrl" ng-app="history">
+            <div class="row heading">
+                <span class="center">NEW USER</span>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="First Name">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Last Name">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Password">
+            </div>
+            <div class="input-group">
+                User Type:<br>
+                <input type="checkbox" name="type" value="lawyer">&nbsp;&nbsp;Lawyer<br>
+                <input type="checkbox" name="type" value="client">&nbsp;&nbsp;Client<br>
+                <input type="checkbox" name="type" value="advocate">&nbsp;&nbsp;Community Advocate
+            </div>
+            <div class="input-group">
+                <select>
+                  <option value="preference" selected disabled>Language Preference</option>
+                  <option value="english">English</option>
+                  <option value="spanish">Spanish</option>
+                  <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <button class="btn btn-default">SUBMIT</button>
+            </div>
+        </div>
+
+    <!-- ================================= THE JAVASCRIPT =================================== -->        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
+        <!-- Latest compiled and minified JavaScript for Bootstrap CDN -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!-- ANGULAR CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+        <script>
+            var app = angular.module('history', []);
+    
+            app.controller('historyCtrl', function($scope, $http) {
+                $scope.data = [
+                    {'name': 'Isaiah', 'progress': 96},
+                    {'name': 'Rachael', 'progress': 72},
+                    {'name': 'Shanshan', 'progress': 89},
+                    {'name': 'Eric', 'progress': 57},
+                    {'name': 'Erica', 'progress': 48}
+                ];
+            });
+        </script>
+        
+    <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
+
+  </body>
+</html>
