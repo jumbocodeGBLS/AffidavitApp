@@ -28,7 +28,7 @@ body{
 	bottom: 0%;
 }
 
-#inputbox { 			/* class used to override default jumbotron color */
+#input-box { 			/* class used to override default jumbotron color */
 	background: red;
 }
 #page {
