@@ -20,7 +20,6 @@ body{
 	top: 50%;
 	transform: translate(-50%,-50%);
 	z-index: 5; 
-	/*background-color: red*/
 }
 
 .footer {
@@ -29,8 +28,13 @@ body{
 }
 
 #input-box { 			/* class used to override default jumbotron color */
-	background: red;
+	background: #941818;
 }
+
+#check-box {
+	text-align:center;
+}
+
 #page {
 	padding-top: 5%;
 	margin: 0;
