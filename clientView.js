@@ -5,6 +5,9 @@ $(document).ready(function(){
     	$(this).siblings('.answer').css("background", "#64E986");
     	useranswer[this.getAttribute("name")[8]] = parseInt(this.getAttribute("value"));
     });
+    $("#b1").click(function(){
+
+    });
 });
 var app = angular.module('ngSongs', []);
 app.controller('songs', function($scope, $http) {
@@ -49,6 +52,7 @@ app.controller('songs', function($scope, $http) {
 
 		$scope.sendResults = function () {
 			var user_id = localStorage.getItem("user_id");
+
 			var request = new XMLHttpRequest();
 			var url = ??;
 
