@@ -2,10 +2,6 @@
 body{
 /*	font-family: Gill Sans Extrabold, sans-serif;*/
 }
-i{
-	font-size: 1.5em;
-	color: white;
-}
 .login {
 	background: 
 		linear-gradient(
@@ -43,6 +39,8 @@ i{
 	padding-right: 5%;
 }
 button.circle{
+	font-size: 1.5em;
+	color: white;
 	background-color: #9F0303 !important;
 	width: 100px;
 	height: 100px;
