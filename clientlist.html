@@ -15,10 +15,37 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
+        <link rel="stylesheet" type="text/css" href="clientView.css">
+        <link rel="stylesheet" type="text/css" href="navBar.css">
+
         <style>
         .heading, .body {
             padding:10px;
             margin:10px;
+        }
+        .big {
+            font-size: 24px;
+        }
+        .page {
+            margin:10px;
+            padding:10px;
+            background-color: white;
+        }
+        a {
+            color:black;
+        }
+        a:hover{
+            color:black;
+            text-decoration: none;
+        }
+        .panel {
+            box-shadow: 2px 2px 1px #888888;
+        }
+        .panel:hover {
+            box-shadow: 4px 4px 2px #888888;
+        }
+        body {
+            background-color: #929090;
         }
         </style>
         
@@ -26,19 +53,80 @@
 
     <body>
         <div ng-controller="historyCtrl" ng-app="history">
+            <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
+                <nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid ourNav">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!-- <a class="navbar-brand" href="#">Brand</a> -->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li> -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User
+           <!-- <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> -->
+           <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Acount Settings</a></li>
+            <li><a href="#">History</a></li>
+            <!-- <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li> -->
+          </ul>
+        </li>
+      </ul>
+      <!-- <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form> -->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Logout</a></li>
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li> -->
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+            <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
+        <div class="page">
             <div class="row heading">
-                <span class="pull-left">Client Name:</span>
-                <span class="pull-right">% Complete:</span>
+                <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;Client Name:</span>
+                <span class="pull-right"><span class="big">% </span> Complete:</span>
             </div>
             <div ng-repeat="thing in data">
                 <div class="panel panel-default">
-                    <div class="row body">
-                        <span class="pull-left">{{thing.name}}</span>
-                        <span class="pull-right">{{thing.progress}}</span>
-                    </div>
+                    <a href="{{thing.url}}">
+                        <div class="row body">
+                            <span class="pull-left">{{thing.name}}</span>
+                            <span class="pull-right">{{thing.progress}}</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -53,11 +141,11 @@
     
             app.controller('historyCtrl', function($scope, $http) {
                 $scope.data = [
-                    {'name': 'Isaiah', 'progress': 96},
-                    {'name': 'Rachael', 'progress': 72},
-                    {'name': 'Shanshan', 'progress': 89},
-                    {'name': 'Eric', 'progress': 57},
-                    {'name': 'Erica', 'progress': 48}
+                    {'name': 'Isaiah', 'progress': 96, 'url':'http://www.google.com'},
+                    {'name': 'Rachael', 'progress': 72, 'url':'http://www.facebook.com'},
+                    {'name': 'Shanshan', 'progress': 89, 'url':'http://www.bing.com'},
+                    {'name': 'Eric', 'progress': 57, 'url':'http://mail.google.com'},
+                    {'name': 'Erica', 'progress': 48, 'url':'http://www.addictinggames.com'}
                 ];
             });
         </script>
