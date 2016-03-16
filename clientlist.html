@@ -26,6 +26,9 @@
         .big {
             font-size: 24px;
         }
+        .medium {
+            font-size: 18px;
+        }
         .page {
             margin:10px;
             padding:10px;
@@ -51,10 +54,10 @@
         
     </head>  
 
-    <body>
-        <div ng-controller="historyCtrl" ng-app="history">
+<body>
             <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
-                <nav class="navbar navbar-default navbar-inverse">
+            
+<nav class="navbar navbar-default navbar-inverse">
   <div class="container-fluid ourNav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -110,10 +113,12 @@
   </div><!-- /.container-fluid -->
 </nav>
             <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
+
+    <div ng-controller="listCtrl" ng-app="list">
         <div class="page">
             <div class="row heading">
-                <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;Client Name:</span>
-                <span class="pull-right"><span class="big">% </span> Complete:</span>
+                <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
+                <span class="pull-right"><span class="big">% </span><span class="medium"> Complete:</span></span>
             </div>
             <div ng-repeat="thing in data">
                 <div class="panel panel-default">
@@ -137,9 +142,9 @@
         <!-- ANGULAR CDN -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
         <script>
-            var app = angular.module('history', []);
+            var app = angular.module('list', []);
     
-            app.controller('historyCtrl', function($scope, $http) {
+            app.controller('listCtrl', function($scope, $http) {
                 $scope.data = [
                     {'name': 'Isaiah', 'progress': 96, 'url':'http://www.google.com'},
                     {'name': 'Rachael', 'progress': 72, 'url':'http://www.facebook.com'},

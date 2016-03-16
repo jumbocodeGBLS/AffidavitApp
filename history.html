@@ -14,23 +14,129 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="clientView.css">
+        <link rel="stylesheet" type="text/css" href="navBar.css">
+        <style>
+        body {
+            background-color: #929090;
+        }
+        .history {
+            margin:20px;
+            padding:10px;
+            background-color: white;
+            color:#500807;
+            display: block;
+            text-align: center;
+        }
+        .heading {
+            font-size: 18px;
+        }
+        a {
+            color:black;
+        }
+        a:hover{
+            color:black;
+            text-decoration: none;
+        }
+        </style>
         
     </head>  
 
-    <body>
+<body>
+            <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
+
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid ourNav">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!-- <a class="navbar-brand" href="#">Brand</a> -->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li> -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User
+           <!-- <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> -->
+           <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Acount Settings</a></li>
+            <li><a href="#">History</a></li>
+            <!-- <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li> -->
+          </ul>
+        </li>
+      </ul>
+      <!-- <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form> -->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Logout</a></li>
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li> -->
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+            <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
         <div ng-controller="historyCtrl" ng-app="history">
+            <div class="history">
+            <div class="row">
+            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                <img src="images/question.png" alt="question" height="60px" style="padding:10px">
+                &nbsp;&nbsp;<span class="heading">Question</span>
+            </div>
+            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                <img src="images/text.png" alt="text" height="60px">
+                &nbsp;&nbsp;<span class="heading">Text</span>
+            </div>
+            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                <img src="images/replay.png" alt="replay" height="60px" style="padding:10px">
+                &nbsp;&nbsp;<span class="heading">Replay</span>
+            </div>
+            </div>
+            <div class="row">
             <div ng-repeat="thing in data">
-                <div class="panel panel-default">
-                    <div id="textbox">
-                        <p class ="alignleft"><h5><strong>{{thing.question}}</strong> | {{thing.text}}</h5></p>
-                        <p><b>Responses: </b>
-                            <div ng-repeat="item in thing.responses">
-                                {{ item }}
-                            </div>
-                        </p></span>
+                <hr>
+                <div class="row">
+                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                    {{thing.question}}
+                </div>
+                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                    {{thing.text}}
+                </div>
+                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                    <div ng-repeat="item in thing.responses">
+                        <a href="{{item.link}}"><img src="images/play.png" alt="play" height="20px">&nbsp;&nbsp;{{ item.date }}</a>
                     </div>
                 </div>
+                </div>
             </div>
+            </div>
+        </div>
         </div>
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
@@ -46,9 +152,15 @@
     
             app.controller('historyCtrl', function($scope, $http) {
                 $scope.data = [
-                    {'question': 1, 'text': 'Whats up?', 'responses': ['10/12/2015', '10/13/2015']},
-                    {'question': 2, 'text': 'How are you?', 'responses': ['10/19/2015', '10/30/2015']},
-                    {'question': 3, 'text': 'How is it going?', 'responses': ['11/12/2015', '11/14/2015']}
+                    {'question': 1, 'text': 'Whats up?', 
+                    'responses': [{'date': '10/12/2015', 'link':'http://www.youtube.com'},
+                                  {'date': '10/13/2015', 'link':'http://www.youtube.com'}]},
+                    {'question': 2, 'text': 'How are you?', 
+                    'responses': [{'date':'10/19/2015', 'link':'http://www.youtube.com'},
+                                  {'date': '10/30/2015', 'link':'http://www.youtube.com'}]},
+                    {'question': 3, 'text': 'How is it going?', 
+                    'responses': [{'date':'11/12/2015', 'link':'http://www.youtube.com'}, 
+                                  {'date': '11/14/2015', 'link':'http://www.youtube.com'}]}
                 ];
             });
         </script>
