@@ -24,7 +24,7 @@ body{
 }
 .clientPage{
 	text-align: center;
-	background-color: #929090;
+	background-color: #d8d5d5;
 }
 .buttons{
 	padding-top: 5%;
@@ -32,9 +32,25 @@ body{
 	padding-right: 5%;
 }
 .button1{
+	/*color: #9F0303;*/
+	/*background-color: #9F0303;*/
 	text-align: center;
 	display: inline;
 	padding-right: 5%;
+}
+button.circle{
+	font-size: 1.5em;
+	color: white;
+	background-color: #9F0303 !important;
+	width: 100px;
+	height: 100px;
+	/*text-align: center;*/
+	padding: 15px 0;
+	font-size: 30px;
+	line-height: 2.00;
+	border-radius: 70px;
+	background-color: white;
+	border-color: #9F0303 !important;
 }
 .button2{
 	text-align: center;
@@ -50,18 +66,6 @@ body{
 	display: inline;
 	display: none;
 }
-.btn-circle {
-	/*padding-left: 10%;*/
-	/*padding-right: 10%*/
-  	width: 100px;
-	height: 100px;
-	/*text-align: center;*/
-	padding: 15px 0;
-	font-size: 30px;
-	line-height: 2.00;
-	border-radius: 70px;
-	/*color: #ecf0f1;*/
-}
 .carousel-control{
 	background-image: none;
 	width: 0;
@@ -74,5 +78,15 @@ body{
 .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
 	font-size: 80px;
 	margin-top: -1em;
+}
+.progress{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	float: none;
+	margin-top: 2%;
+}
+.prog-custom{
+	background: #830101 !important;
 }
 

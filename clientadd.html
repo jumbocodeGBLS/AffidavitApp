@@ -17,35 +17,47 @@
 
         <link rel="stylesheet" type="text/css" href="clientView.css">
         <link rel="stylesheet" type="text/css" href="navBar.css">
+
         <style>
+        .heading, .body {
+            padding:10px;
+            margin:10px;
+        }
+        .center {
+            text-align: center;
+        }
+        .input-group {
+            padding:5px;
+            margin:5px;
+        }
         body {
             background-color: #929090;
         }
-        .history {
+        .page {
             margin:20px;
             padding:10px;
             background-color: white;
             color:#500807;
+        }
+        .input-group {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 {
             display: block;
+            margin-left: auto;
+            margin-right: auto;
             text-align: center;
+            color:#500807;
         }
-        .heading {
-            font-size: 18px;
-        }
-        a {
-            color:black;
-        }
-        a:hover{
-            color:black;
-            text-decoration: none;
-        }
+        
         </style>
         
     </head>  
 
 <body>
-            <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
 
+            <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
 <nav class="navbar navbar-default navbar-inverse">
   <div class="container-fluid ourNav">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -99,42 +111,43 @@
   </div><!-- /.container-fluid -->
 </nav>
             <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
-        <div ng-controller="historyCtrl" ng-app="history">
-            <div class="history">
-            <div class="row">
-            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                <img src="images/question.png" alt="question" height="60px" style="padding:10px">
-                &nbsp;&nbsp;<span class="heading">Question</span>
+
+<div ng-controller="historyCtrl" ng-app="history">
+    <div class="page">
+            <div class="row heading">
+                <h2>NEW USER</h2>
             </div>
-            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                <img src="images/text.png" alt="text" height="60px">
-                &nbsp;&nbsp;<span class="heading">Text</span>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="First Name">
             </div>
-            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                <img src="images/replay.png" alt="replay" height="60px" style="padding:10px">
-                &nbsp;&nbsp;<span class="heading">Replay</span>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Last Name">
             </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Username">
             </div>
-            <div class="row">
-            <div ng-repeat="thing in data">
-                <hr>
-                <div class="row">
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    {{thing.question}}
-                </div>
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    {{thing.text}}
-                </div>
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    <div ng-repeat="item in thing.responses">
-                        <a href="{{item.link}}"><img src="images/play.png" alt="play" height="20px">&nbsp;&nbsp;{{ item.date }}</a>
-                    </div>
-                </div>
-                </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Password">
             </div>
+            <div class="input-group">
+                User Type:<br>
+                <input type="checkbox" name="type" value="lawyer">&nbsp;&nbsp;Lawyer<br>
+                <input type="checkbox" name="type" value="client">&nbsp;&nbsp;Client<br>
+                <input type="checkbox" name="type" value="advocate">&nbsp;&nbsp;Community Advocate
             </div>
-        </div>
-        </div>
+            <div class="input-group">
+                <select>
+                  <option value="preference" selected disabled>Language Preference</option>
+                  <option value="english">English</option>
+                  <option value="spanish">Spanish</option>
+                  <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <button class="btn btn-default"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+            </div>
+    </div>
+</div>
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -149,15 +162,11 @@
     
             app.controller('historyCtrl', function($scope, $http) {
                 $scope.data = [
-                    {'question': 1, 'text': 'Whats up?', 
-                    'responses': [{'date': '10/12/2015', 'link':'http://www.youtube.com'},
-                                  {'date': '10/13/2015', 'link':'http://www.youtube.com'}]},
-                    {'question': 2, 'text': 'How are you?', 
-                    'responses': [{'date':'10/19/2015', 'link':'http://www.youtube.com'},
-                                  {'date': '10/30/2015', 'link':'http://www.youtube.com'}]},
-                    {'question': 3, 'text': 'How is it going?', 
-                    'responses': [{'date':'11/12/2015', 'link':'http://www.youtube.com'}, 
-                                  {'date': '11/14/2015', 'link':'http://www.youtube.com'}]}
+                    {'name': 'Isaiah', 'progress': 96},
+                    {'name': 'Rachael', 'progress': 72},
+                    {'name': 'Shanshan', 'progress': 89},
+                    {'name': 'Eric', 'progress': 57},
+                    {'name': 'Erica', 'progress': 48}
                 ];
             });
         </script>
