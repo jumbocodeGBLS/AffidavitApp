@@ -28,13 +28,18 @@
         <!-- JUMBOTRON -->
 
         <div class="jumbotron" id="input-box">
-            <h1>GBLS Affidavit</h1>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username"><br>
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="psw"><br>
-                    <input type="submit" class="btn btn-default btn-lg" value="Submit">
-                </form>
+            <h1 id="title">GBLS Affidavit</h1>
+            <br>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Username" />
+                    <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Password" />
+                    <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                </div>
+                <br>
+                <p class="text-center"><button type="submit" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-ok"></i></button></p>
         </div>
 
         <div></div>
@@ -43,7 +48,8 @@
 
         <div class="footer">
             <hr>
-                <p>look it's a footer!!!! neat!!!</p>
+                <a href="http://www.jumbocode.org"><img src="images/jc_logo.png" alt="JumboCode Logo" id="jc-logo"></a>
+                <a href="http://www.gbls.org/"><img src="images/gbls_logo.jpg" alt="GBLS Logo" id="gbls-logo"></a>
             <hr>
         </div>
 
