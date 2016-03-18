@@ -1,3 +1,31 @@
+videos = [
+    {   
+        url:"https://www.youtube.com/watch?v=nFAK8Vj62WM",
+        yesno: false,
+        // list of videos it removes (by index)
+        removes: [], 
+        show: true
+    },
+    {   
+        url:"https://www.youtube.com/watch?v=YtIPmVN6zdc",
+        yesno: true,
+        removes: [],
+        show: true
+    },
+    {   
+        url:"https://www.youtube.com/watch?v=YtIPmVN6zdc",
+        yesno: no,
+        removes: [],
+        show: true
+    },
+    {   
+        url:"https://www.youtube.com/watch?v=dTnKYgyCD8A",
+        yesno: no,
+        removes: [],
+        show: true
+    }
+];
+
 $(document).ready(function(){
 	console.log("READY");
 	$("#myCarousel").carousel({interval: false});
@@ -10,8 +38,14 @@ $(document).ready(function(){
     	console.log("clicked");
     });
 });
-// var app = angular.module('ngSongs', []);
-// app.controller('songs', function($scope, $http) {
+var app = angular.module('videos', []);
+app.controller('videoCtrl', function($scope, $http) {
+        $scope.videos 
+
+
+
+
+
 // 		$scope.genquiz = function(i, url) {
 // 				var quiz = document.getElementById('questions');
 // 				var options =  [$scope.pop[i]['name'],
