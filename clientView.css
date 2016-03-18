@@ -1,24 +1,8 @@
 /* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
-body{
-/*	font-family: Gill Sans Extrabold, sans-serif;*/
-}
-.login {
-	background: 
-		linear-gradient(
-	      rgba(0, 0, 0, 0.5), 
-	      rgba(0, 0, 0, 0.5)
-	    ),
-	    url(images/Boston-Skyline.jpg) no-repeat center center fixed;
-	/*background: url(images/Boston-Skyline.jpg) no-repeat center center fixed;*/
-	-webkit-background-size: cover; /* used for Safari/Chrome rendering engine */
-  	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */
-  	-o-background-size: cover;		/* used for Opera's rendering engine */
-  	background-size: cover;
-}
 
 #page {
-	padding-top: 5%;
 	margin: 0;
+	padding:0;
 	width: 96%;
 
 }

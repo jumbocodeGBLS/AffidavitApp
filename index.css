@@ -37,13 +37,17 @@ body{
 }
 
 #jc-logo {
-	width: 200px;
-    height: auto;
+	height: 50px;
+    width: auto;
+    margin:0;
+    padding: 0;
 }
 
 #gbls-logo {
-	width: 100px;
-    height: auto;
+	height: 50px;
+    width: auto;
+    margin:0;
+    padding:0;
 }
 
 #check-box {

@@ -27,19 +27,19 @@
 
         <!-- JUMBOTRON -->
 
-        <div class="jumbotron" id="input-box">
+        <div class="jumbotron" id="input-box" ng-controller="loginCtrl" ng-app="login">
             <h1 id="title">GBLS Affidavit</h1>
             <br>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Username" />
+                    <input type="text" class="form-control" placeholder="Username" ng-model="username" />
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Password" />
+                    <input type="password" class="form-control" placeholder="Password" ng-model="password"/>
                     <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                 </div>
                 <br>
-                <p class="text-center"><button type="submit" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-ok"></i></button></p>
+                <p class="text-center"><button type="submit" class="btn btn-default btn-lg" ng-click="login()"><i class="glyphicon glyphicon-ok"></i></button></p>
         </div>
 
         <div></div>
@@ -48,7 +48,7 @@
 
         <div class="footer">
             <hr>
-                <a href="http://www.jumbocode.org"><img src="images/jc_logo.png" alt="JumboCode Logo" id="jc-logo"></a>
+                <a href="http://www.jumbocode.org"><img src="images/jumbocode.jpg" alt="JumboCode Logo" id="jc-logo"></a>
                 <a href="http://www.gbls.org/"><img src="images/gbls_logo.jpg" alt="GBLS Logo" id="gbls-logo"></a>
             <hr>
         </div>
@@ -62,8 +62,22 @@
         <!-- Latest compiled and minified JavaScript for Bootstrap CDN -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-        <!-- ANGULAR CDN -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+       <!-- ANGULAR CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+        <script>
+            var app = angular.module('login', []);
+    
+            app.controller('loginCtrl', function($scope, $http) {
+
+                /********************** NAV STUFF ****************************/
+                $scope.login = function() {
+                    console.log({
+                        'username':$scope.username,
+                        'password':$scope.password
+                    })
+                }
+            });
+        </script>
         
     <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
 

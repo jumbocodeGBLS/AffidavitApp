@@ -14,6 +14,29 @@ j(document).ready(function(){
 });
 var app = angular.module('videos', []);
 app.controller('videoCtrl', function($scope, $http) {
+
+
+        /********************** NAV STUFF ****************************/
+        $scope.user = {
+            'id': 1,
+            'name': 'James',
+            'type' : 3, // 1 is client, 2 is lawyer, 3 is administrator
+            'canView': [1] // list of user ids which this user can view (including their own)
+        }
+        if ($scope.user['type'] == 1) {
+            document.getElementById('options').innerHTML +=
+                '<li><a href="history.html">History</a></li>';
+        } else if ($scope.user['type'] == 2) {
+            document.getElementById('options').innerHTML +=
+                '<li><a href="clientlist.html">Client List</a></li>';
+        } else if ($scope.user['type'] == 3) {
+            document.getElementById('options').innerHTML +=
+                '<li><a href="clientlist.html">Client List</a></li>' + 
+                '<li><a href="admin.html">Admin Home</a></li>';
+        }
+        /********************* NAV STUFF END *************************/
+
+
         $scope.response = false;
         $scope.firstpage = function(){
             i = $scope.curIndex;

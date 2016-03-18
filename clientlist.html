@@ -15,7 +15,6 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-        <link rel="stylesheet" type="text/css" href="clientView.css">
         <link rel="stylesheet" type="text/css" href="navBar.css">
 
         <style>
@@ -55,74 +54,52 @@
     </head>  
 
 <body>
-            <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
-            
-<nav class="navbar navbar-default navbar-inverse">
+
+<div ng-controller="listCtrl" ng-app="list">
+
+<!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
+<nav class="navbar navbar-default navbar-inverse" >
   <div class="container-fluid ourNav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" id="navright">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <!-- <a class="navbar-brand" href="#">Brand</a> -->
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Hi James <span class="sr-only">(current)</span></a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-list"></i></a></li>
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp; {{user.fname}} 
            <span class="caret"></span></a>
-           <a href="#"role="button">Setting
-          <ul class="dropdown-menu">
-            <li><a href="#">Acount Settings</a></li>
-            <li><a href="#">History</a></li>
+          <ul class="dropdown-menu" id="options">
+            <li><a href="#">Change Password</a></li>
           </ul>
         </li>
- -->
+        <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
+        <li><a id="listlink" href="history.html"><i class="glyphicon glyphicon-list"></i></a></li>
       </ul>
-      <!-- <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form> -->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><i class="glyphicon glyphicon-log-out"></i></a></li>
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li> -->
+        <li><a href="index.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-            <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
 
-    <div ng-controller="listCtrl" ng-app="list">
         <div class="page">
             <div class="row heading">
                 <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
                 <span class="pull-right"><span class="big">% </span><span class="medium"> Complete:</span></span>
             </div>
-            <div ng-repeat="thing in data">
+            <div ng-repeat="client in data">
                 <div class="panel panel-default">
-                    <a href="{{thing.url}}">
+                    <a ng-click="click(client.id)">
                         <div class="row body">
-                            <span class="pull-left">{{thing.name}}</span>
-                            <span class="pull-right">{{thing.progress}}</span>
+                            <span class="pull-left">{{client.name}}</span>
+                            <span class="pull-right">{{client.progress}}</span>
                         </div>
                     </a>
                 </div>
@@ -142,13 +119,69 @@
             var app = angular.module('list', []);
     
             app.controller('listCtrl', function($scope, $http) {
+
+                /********************** NAV STUFF ****************************/
+                /*
+                    Schema for user type:
+                    0:  (0000) not a user
+                    1:  (0001) client only
+                    2:  (0010) lawyer only
+                    3:  (0011) lawyer and client
+                    4:  (0100) advocate only
+                    5:  (0101) advocate and client
+                    6:  (0110) advocate and lawyer
+                    7:  (0111) advocate, lawyer, and client
+                    8:  (1000) administrator only
+                    9:  (1001) administrator and client
+                    10: (1010) administrator and lawyer
+                    11: (1011) administrator, lawyer, and client
+                    12: (1100) administrator and advocate
+                    13: (1101) administrator, advocate, and client
+                    14: (1110) administrator, advocate, and lawyer
+                    15: (1111) administrator, advocate, lawyer, and client
+
+                    1 bit turned on == client
+                    2 bit turned on == lawyer
+                    4 bit turned on == advocate
+                    8 bit turned on == administrator
+                */
+                $scope.user = {
+                    'id': 1,
+                    'fname': 'James',
+                    'lname': 'Smith',
+                    'uname': 'JSmith01',
+                    'language': 'English',
+                    'type' : 15, 
+                    'clients': []
+                }
+                if ($scope.user['type'] & 1) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="history.html">History</a></li>';
+                } else {
+                    document.getElementById('listlink').href = 'clientlist.html';
+                }
+                if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="clientlist.html">Client List</a></li>';
+                }
+                if ($scope.user['type'] & 8) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="admin.html">Admin Home</a></li>';
+                }
+                /********************* NAV STUFF END *************************/
+                
+
                 $scope.data = [
-                    {'name': 'Isaiah', 'progress': 96, 'url':'http://www.google.com'},
-                    {'name': 'Rachael', 'progress': 72, 'url':'http://www.facebook.com'},
-                    {'name': 'Shanshan', 'progress': 89, 'url':'http://www.bing.com'},
-                    {'name': 'Eric', 'progress': 57, 'url':'http://mail.google.com'},
-                    {'name': 'Erica', 'progress': 48, 'url':'http://www.addictinggames.com'}
+                    {'name': 'Isaiah', 'progress': 96, 'id':6},
+                    {'name': 'Rachael', 'progress': 72, 'id':2},
+                    {'name': 'Shanshan', 'progress': 89, 'id':3},
+                    {'name': 'Eric', 'progress': 57, 'id':4},
+                    {'name': 'Erica', 'progress': 48, 'id':5}
                 ];
+                $scope.click = function(id) {
+                    localStorage.setItem('viewclient', id);
+                    window.location="history.html"
+                };
             });
         </script>
         

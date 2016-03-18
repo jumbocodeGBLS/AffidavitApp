@@ -1,0 +1,430 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Greater Boston Legal Services Client Login</title>
+        <meta name="author"      content="Eric Snyder"/>
+        <meta name="revised"     content="February 28th, 2016"/>
+        <meta name="description" content="Login Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="navBar.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
+
+        <style>
+        .heading, .body {
+            padding:10px;
+            margin:10px;
+        }
+        .center {
+            text-align: center;
+        }
+        .input-group {
+            padding:5px;
+            margin:5px;
+        }
+        body {
+            background-color: #929090;
+        }
+        .page {
+            margin:20px;
+            padding:10px;
+            background-color: white;
+            color:#500807;
+        }
+        .input-group {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            color:#500807;
+        }
+        .option {
+            color:white;
+        }
+        </style>
+        
+    </head>  
+
+<body>
+
+<div ng-controller="addCtrl" ng-app="add">
+
+<!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
+<nav class="navbar navbar-default navbar-inverse" >
+  <div class="container-fluid ourNav">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" id="navright">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp; {{user.fname}} 
+           <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="options">
+            <li><a href="#">Change Password</a></li>
+          </ul>
+        </li>
+        <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
+        <li><a id="listlink" href="history.html"><i class="glyphicon glyphicon-list"></i></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<span class="glyphicons glyphicons-user-add"></span>
+<!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
+    <div class="login container">
+
+        <!-- JUMBOTRON -->
+
+        <div class="jumbotron" id="input-box">
+            <div class="row option">
+                <!-- <div class="col-xs-4 col-s-4 col-md-4 col-lg-4 option"> -->
+                    <button type="button" ng-click="addUser()"><img src="images/add.png" alt="adduser"/width="30px"></button>&nbsp;&nbsp;  Add  User<br><br>
+                <!-- </div>
+                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4  option"> -->
+                    <button type="button" ng-click="editUser()"><img src="images/edit.png" alt="adduser" width="30px"/></button>&nbsp;&nbsp;  Edit  User<br><br>
+               <!--  </div>
+                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4  option"> -->
+                    <button type="button" ng-click="assignClient()"><img src="images/group.png"  alt="adduser" width="30px"/></button>&nbsp;&nbsp;  Assign  Client
+                <!-- </div> -->
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="myModal1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2>NEW USER</h2>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="First Name" ng-model="fname">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Last Name" ng-model="lname">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Username" ng-model="uname">
+            </div>
+            <div class="input-group">
+                <input type="password" class="form-control" placeholder="Password" ng-model="password">
+            </div>
+            <div class="input-group">
+                User Type:<br>
+                <input type="checkbox" name="type" value="lawyer" ng-model="lawyer">&nbsp;&nbsp;Lawyer<br>
+                <input type="checkbox" name="type" value="client" ng-model="client">&nbsp;&nbsp;Client<br>
+                <input type="checkbox" name="type" value="advocate" ng-model="advocate">&nbsp;&nbsp;Community Advocate<br>
+                <input type="checkbox" name="type" value="administrator" ng-model="administrator">&nbsp;&nbsp;Administrator
+            </div>
+            <div class="input-group">
+                <select id="language" ng-model="language">
+                  <option value="preference" selected disabled>Language Preference</option>
+                  <option value="english">English</option>
+                  <option value="spanish">Spanish</option>
+                  <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <button class="btn btn-default" ng-click="submitNew()" data-dismiss='modal'><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2>EDIT USER</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <select id="usertoedit" ng-model="form" ng-change="openEdit()">
+                          <option value="" selected disabled>Choose User</option>
+                          <option ng-repeat="client in clients" value="{{client.id}}">{{client.lname}}, {{client.fname}}</option>
+                        </select>
+                    </div>
+                    <div id="editcontent" hidden>
+                         <div class="input-group">
+                            <input type="text" class="form-control" placeholder="First Name" ng-model="nowfname">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Last Name" ng-model="nowlname">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" ng-model="nowuname">
+                        </div>
+                        <div class="input-group">
+                            User Type:<br>
+                            <input type="checkbox" name="type" value="lawyer" ng-model="nowlawyer">&nbsp;&nbsp;Lawyer<br>
+                            <input type="checkbox" name="type" value="client" ng-model="nowclient">&nbsp;&nbsp;Client<br>
+                            <input type="checkbox" name="type" value="advocate" ng-model="nowadvocate">&nbsp;&nbsp;Community Advocate<br>
+                            <input type="checkbox" name="type" value="administrator" ng-model="nowadministrator">&nbsp;&nbsp;Administrator
+                        </div>
+                        <div class="input-group">
+                            <select id="nowlanguage" ng-model="nowlanguage">
+                              <option value="preference" selected disabled>Language Preference</option>
+                              <option value="english">English</option>
+                              <option value="spanish">Spanish</option>
+                              <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <button class="btn btn-default" ng-click="submitEdit()" data-dismiss='modal'><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal3" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2>ASSIGN CLIENT</h2>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="input-group">
+                        <button class="btn btn-default" ng-click="submitEdit()" data-dismiss='modal'><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- ================================= THE JAVASCRIPT =================================== -->        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
+        <!-- Latest compiled and minified JavaScript for Bootstrap CDN -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!-- ANGULAR CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+        <script>
+            var app = angular.module('add', []);
+    
+            app.controller('addCtrl', function($scope, $http) {
+
+                /********************** NAV STUFF ****************************/
+                /*
+                    Schema for user type:
+                    0:  (0000) not a user
+                    1:  (0001) client only
+                    2:  (0010) lawyer only
+                    3:  (0011) lawyer and client
+                    4:  (0100) advocate only
+                    5:  (0101) advocate and client
+                    6:  (0110) advocate and lawyer
+                    7:  (0111) advocate, lawyer, and client
+                    8:  (1000) administrator only
+                    9:  (1001) administrator and client
+                    10: (1010) administrator and lawyer
+                    11: (1011) administrator, lawyer, and client
+                    12: (1100) administrator and advocate
+                    13: (1101) administrator, advocate, and client
+                    14: (1110) administrator, advocate, and lawyer
+                    15: (1111) administrator, advocate, lawyer, and client
+
+                    1 bit turned on == client
+                    2 bit turned on == lawyer
+                    4 bit turned on == advocate
+                    8 bit turned on == administrator
+                */
+                $scope.user = {
+                    'id': 1,
+                    'fname': 'James',
+                    'lname': 'Smith',
+                    'uname': 'JSmith01',
+                    'language': 'English',
+                    'type' : 15, 
+                    'clients': []
+                };
+                if ($scope.user['type'] & 1) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="history.html">History</a></li>';
+                }
+                if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="clientlist.html">Client List</a></li>';
+                }
+                if ($scope.user['type'] & 8) {
+                    document.getElementById('options').innerHTML +=
+                        '<li><a href="admin.html">Admin Home</a></li>';
+                }
+                /********************* NAV STUFF END *************************/
+
+                $scope.addUser = function() {
+                    var j =jQuery.noConflict(); 
+                    j('#myModal1').modal('show'); 
+                };
+                $scope.editUser = function() {
+                    var j =jQuery.noConflict(); 
+                    j('#myModal2').modal('show'); 
+                };
+                $scope.assignClient = function() {
+                    var j =jQuery.noConflict(); 
+                    j('#myModal3').modal('show'); 
+                };
+                $scope.fname = "";
+                $scope.lname = "";
+                $scope.uname = "";
+                $scope.password = "";
+                $scope.language = "preference";
+                $scope.lawyer = false;
+                $scope.client = false;
+                $scope.advocate = false;
+                $scope.administrator = false;
+
+                $scope.openEdit = function() {
+                    var clientid = document.getElementById('usertoedit').value;
+                    if (clientid > 0) {
+                        document.getElementById('editcontent').hidden = false;
+                        var client = $scope.getclientbyid(clientid);
+                        $scope.nowfname = client['fname'];
+                        $scope.nowlname = client['lname'];
+                        $scope.nowuname = client['uname'];
+                        $scope.nowlanguage = client['language'];
+                        $scope.nowlawyer = ((client['type'] & 2) > 0) ? true : false;
+                        $scope.nowclient = ((client['type'] & 1) > 0) ? true : false;
+                        $scope.nowadvocate = ((client['type'] & 4) > 0) ? true : false;
+                        $scope.nowadministrator = ((client['type'] & 8) > 0) ? true : false;
+
+                    }
+                };
+                $scope.getclientbyid = function(id) {
+                    for (var i = 0; i < $scope.clients.length; i++) {
+                        if ($scope.clients[i]['id'] == id) {
+                            return $scope.clients[i];
+                        }
+                    }
+                };
+                $scope.submitNew = function() {
+                    var type = 0;
+                    if ($scope.client) {
+                        type += 1;
+                    }
+                    if ($scope.lawyer) {
+                        type += 2;
+                    }
+                    if ($scope.advocate) {
+                        type += 4;
+                    }
+                    if ($scope.administrator) {
+                        type += 8;
+                    }
+                    console.log({
+                        'fname': $scope.fname,
+                        'lname': $scope.lname,
+                        'uname': $scope.uname,
+                        'password': $scope.password,
+                        'language': $scope.language,
+                        'type': type
+                    });
+                };
+                $scope.submitEdit = function() {
+                    var type = 0;
+                    if ($scope.nowclient) {
+                        type += 1;
+                    }
+                    if ($scope.nowlawyer) {
+                        type += 2;
+                    }
+                    if ($scope.nowadvocate) {
+                        type += 4;
+                    }
+                    if ($scope.nowadministrator) {
+                        type += 8;
+                    }
+                    console.log({
+                        'fname': $scope.nowfname,
+                        'lname': $scope.nowlname,
+                        'uname': $scope.nowuname,
+                        'language': $scope.nowlanguage,
+                        'type': type
+                    });
+                };
+                $scope.submitPair = function() {
+                    console.log("pair");
+                    // TODO
+                };
+                $scope.clients = [
+                    {
+                    'id': 1,
+                    'fname': 'James',
+                    'lname': 'Smith',
+                    'uname': 'JSmith01',
+                    'language': 'english',
+                    'type' : 11, 
+                    'clients': []
+                    },
+                    {
+                    'id': 2,
+                    'fname': 'Rita',
+                    'lname': 'Shatz',
+                    'uname': 'RShatz01',
+                    'language': 'spanish',
+                    'type' : 12, 
+                    'clients': []
+                    },
+                    {
+                    'id': 3,
+                    'fname': 'Sarah',
+                    'lname': 'Best',
+                    'uname': 'SBest02',
+                    'language': 'english',
+                    'type' : 13, 
+                    'clients': []
+                    },
+                    {
+                    'id': 4,
+                    'fname': 'Johnson',
+                    'lname': 'Johnson',
+                    'uname': 'JJohnson',
+                    'language': 'english',
+                    'type' : 14, 
+                    'clients': []
+                    },
+                    {
+                    'id': 5,
+                    'fname': 'Bianca',
+                    'lname': 'Blueberry',
+                    'uname': 'BB',
+                    'language': 'spanish',
+                    'type' : 15, 
+                    'clients': []
+                    }
+                ];
+            });
+        </script>
+        
+    <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
+
+  </body>
+</html>
