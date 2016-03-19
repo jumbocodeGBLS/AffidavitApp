@@ -145,6 +145,7 @@
                     4 bit turned on == advocate
                     8 bit turned on == administrator
                 */
+                // hard-coded for now. Later, get this from the server!!
                 $scope.user = {
                     'id': 1,
                     'fname': 'James',
@@ -153,12 +154,12 @@
                     'language': 'English',
                     'type' : 15, 
                     'clients': []
-                }
+                };
+
+                // set navbar options based on user type
                 if ($scope.user['type'] & 1) {
                     document.getElementById('options').innerHTML +=
                         '<li><a href="history.html">History</a></li>';
-                } else {
-                    document.getElementById('listlink').href = 'clientlist.html';
                 }
                 if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
                     document.getElementById('options').innerHTML +=
@@ -179,7 +180,7 @@
                     {'name': 'Erica', 'progress': 48, 'id':5}
                 ];
                 $scope.click = function(id) {
-                    localStorage.setItem('viewclient', id);
+                    localStorage.setItem('viewhistoryof', id);
                     window.location="history.html"
                 };
             });

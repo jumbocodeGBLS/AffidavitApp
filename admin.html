@@ -149,7 +149,7 @@
                 </select>
             </div>
             <div class="input-group">
-                <button class="btn btn-default" ng-click="submitNew()" data-dismiss='modal'><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                <button class="btn btn-default" ng-click="submitNew()" data-dismiss='modal' ng-disabled="!enoughnewinfo()"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@
                     <div class="input-group">
                         <select id="usertoedit" ng-model="form" ng-change="openEdit()">
                           <option value="" selected disabled>Choose User</option>
-                          <option ng-repeat="client in clients" value="{{client.id}}">{{client.lname}}, {{client.fname}}</option>
+                          <option ng-repeat="user in users" value="{{user.id}}">{{user.lname}}, {{user.fname}}</option>
                         </select>
                     </div>
                     <div id="editcontent" hidden>
@@ -181,10 +181,10 @@
                         </div>
                         <div class="input-group">
                             User Type:<br>
-                            <input type="checkbox" name="type" value="lawyer" ng-model="nowlawyer">&nbsp;&nbsp;Lawyer<br>
-                            <input type="checkbox" name="type" value="client" ng-model="nowclient">&nbsp;&nbsp;Client<br>
-                            <input type="checkbox" name="type" value="advocate" ng-model="nowadvocate">&nbsp;&nbsp;Community Advocate<br>
-                            <input type="checkbox" name="type" value="administrator" ng-model="nowadministrator">&nbsp;&nbsp;Administrator
+                            <input type="checkbox" name="nowtype" value="lawyer" ng-model="nowlawyer">&nbsp;&nbsp;Lawyer<br>
+                            <input type="checkbox" name="nowtype" value="client" ng-model="nowclient">&nbsp;&nbsp;Client<br>
+                            <input type="checkbox" name="nowtype" value="advocate" ng-model="nowadvocate">&nbsp;&nbsp;Community Advocate<br>
+                            <input type="checkbox" name="nowtype" value="administrator" ng-model="nowadministrator">&nbsp;&nbsp;Administrator
                         </div>
                         <div class="input-group">
                             <select id="nowlanguage" ng-model="nowlanguage">
@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <button class="btn btn-default" ng-click="submitEdit()" data-dismiss='modal'><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                        <button class="btn btn-default" ng-click="submitEdit()" data-dismiss='modal' ng-disabled="!enougheditinfo()"><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
                     </div>
                 </div>
             </div>
@@ -211,7 +211,19 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                     <div class="input-group">
-                        <button class="btn btn-default" ng-click="submitEdit()" data-dismiss='modal'><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                        Assign:<br>
+                        <select id="usertopair" ng-model="form2" ng-change="openPair()">
+                          <option value="" selected disabled>Choose User</option>
+                          <option ng-repeat="client in clients" value="{{client.id}}">{{client.lname}}, {{client.fname}}</option>
+                        </select>
+                        <br><br>
+                        <div id="paircontent" hidden>
+                            To:<br>
+                            <div ng-repeat="rep in reps">
+                            <input type="checkbox" name="representative" id="{{rep.id}}">&nbsp;&nbsp;{{rep.lname}}, {{rep.fname}}</div>
+                        </div>
+                        <br><br>
+                        <button class="btn btn-default" ng-click="submitPair()" data-dismiss='modal' ng-disabled="!enoughassigninfo()"><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
                     </div>
                 </div>
             </div>
@@ -228,6 +240,16 @@
         <!-- ANGULAR CDN -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
         <script>
+            function compare(a,b) {
+                if (a['lname'] < b['lname']) {
+                    return -1;
+                } else if (a['lname'] > b['lname']) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+
             var app = angular.module('add', []);
     
             app.controller('addCtrl', function($scope, $http) {
@@ -257,6 +279,8 @@
                     4 bit turned on == advocate
                     8 bit turned on == administrator
                 */
+
+                // hard-coded for now. Later, get this from the server!!
                 $scope.user = {
                     'id': 1,
                     'fname': 'James',
@@ -266,6 +290,8 @@
                     'type' : 15, 
                     'clients': []
                 };
+
+                // set navbar options based on user type
                 if ($scope.user['type'] & 1) {
                     document.getElementById('options').innerHTML +=
                         '<li><a href="history.html">History</a></li>';
@@ -280,18 +306,25 @@
                 }
                 /********************* NAV STUFF END *************************/
 
+                // opens add user modal
                 $scope.addUser = function() {
                     var j =jQuery.noConflict(); 
                     j('#myModal1').modal('show'); 
                 };
+
+                // opens edit user modal
                 $scope.editUser = function() {
                     var j =jQuery.noConflict(); 
                     j('#myModal2').modal('show'); 
                 };
+
+                // opens assign client modal
                 $scope.assignClient = function() {
                     var j =jQuery.noConflict(); 
                     j('#myModal3').modal('show'); 
                 };
+
+                // initialize values in add user modal
                 $scope.fname = "";
                 $scope.lname = "";
                 $scope.uname = "";
@@ -302,29 +335,64 @@
                 $scope.advocate = false;
                 $scope.administrator = false;
 
+                // open hidden section of edit user modal if user selected; initialize values
                 $scope.openEdit = function() {
                     var clientid = document.getElementById('usertoedit').value;
-                    if (clientid > 0) {
+                    if (clientid != "") {
                         document.getElementById('editcontent').hidden = false;
-                        var client = $scope.getclientbyid(clientid);
+                        var client = $scope.getuserbyid(clientid);
                         $scope.nowfname = client['fname'];
                         $scope.nowlname = client['lname'];
                         $scope.nowuname = client['uname'];
                         $scope.nowlanguage = client['language'];
-                        $scope.nowlawyer = ((client['type'] & 2) > 0) ? true : false;
-                        $scope.nowclient = ((client['type'] & 1) > 0) ? true : false;
-                        $scope.nowadvocate = ((client['type'] & 4) > 0) ? true : false;
-                        $scope.nowadministrator = ((client['type'] & 8) > 0) ? true : false;
+                        $scope.nowlawyer = (client['type'] & 2) ? true : false;
+                        $scope.nowclient = (client['type'] & 1) ? true : false;
+                        $scope.nowadvocate = (client['type'] & 4) ? true : false;
+                        $scope.nowadministrator = (client['type'] & 8) ? true : false;
 
                     }
                 };
-                $scope.getclientbyid = function(id) {
-                    for (var i = 0; i < $scope.clients.length; i++) {
-                        if ($scope.clients[i]['id'] == id) {
-                            return $scope.clients[i];
+
+                // open hidden section of client assignment modal if user selected; initialize values
+                $scope.openPair = function() {
+                    var clientid = document.getElementById('usertopair').value;
+                    if (clientid != "") {
+                        document.getElementById('paircontent').hidden = false;
+                        for (var i = 0; i < $scope.reps.length; i++) {
+                            document.getElementById($scope.reps[i]['id']).checked = false;
+                            for (var j = 0; j < $scope.reps[i]['clients'].length; j++) {
+                                if ($scope.reps[i]['clients'][j] == clientid) {
+                                    document.getElementById($scope.reps[i]['id']).checked = true;
+                                }
+                            }
                         }
                     }
                 };
+
+                // given id, returns user with that id
+                $scope.getuserbyid = function(id) {
+                    for (var i = 0; i < $scope.users.length; i++) {
+                        if ($scope.users[i]['id'] == id) {
+                            return $scope.users[i];
+                        }
+                    }
+                };
+
+                // is there enough info to create a new user?
+                // submit button controller
+                $scope.enoughnewinfo = function() {
+                    if (($scope.client || $scope.lawyer || $scope.advocate || $scope.administrator)
+                        && $scope.fname != ""
+                        && $scope.lname != ""
+                        && $scope.uname != ""
+                        && $scope.password != ""
+                        && $scope.language != "preference")
+                        return true;
+                    else
+                        return false;
+                };
+
+                // create a new user
                 $scope.submitNew = function() {
                     var type = 0;
                     if ($scope.client) {
@@ -344,10 +412,39 @@
                         'lname': $scope.lname,
                         'uname': $scope.uname,
                         'password': $scope.password,
+                        'id': $scope.users.length + 1,
                         'language': $scope.language,
-                        'type': type
+                        'type': type,
+                        'clients': []
                     });
+                    $scope.users.push({ // add new user to our array!
+                        'id': document.getElementById('usertoedit').value,
+                        'fname': $scope.fname,
+                        'lname': $scope.lname,
+                        'uname': $scope.uname,
+                        'id': $scope.users.length + 1,
+                        'language': $scope.language,
+                        'type': type,
+                        'clients': []
+                    });
+                    $scope.users.sort(compare);
+                    $scope.setClientsAndReps();
                 };
+
+                // is there enough info to edit a new user?
+                // submit button controller
+                $scope.enougheditinfo = function() {
+                    if (($scope.nowclient || $scope.nowlawyer || $scope.nowadvocate || $scope.nowadministrator)
+                        && $scope.nowfname != ""
+                        && $scope.nowlname != ""
+                        && $scope.nowuname != ""
+                        && $scope.nowlanguage != "preference")
+                        return true;
+                    else
+                        return false;
+                };
+
+                // edit a given user
                 $scope.submitEdit = function() {
                     var type = 0;
                     if ($scope.nowclient) {
@@ -363,18 +460,84 @@
                         type += 8;
                     }
                     console.log({
+                        'id': document.getElementById('usertoedit').value,
                         'fname': $scope.nowfname,
                         'lname': $scope.nowlname,
                         'uname': $scope.nowuname,
                         'language': $scope.nowlanguage,
-                        'type': type
+                        'type': type,
+                        'clients': []
                     });
+                    for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
+                        if ($scope.users[i]['id'] == document.getElementById('usertoedit').value) {
+                            $scope.users[i] = {
+                                'id': document.getElementById('usertoedit').value,
+                                'fname': $scope.nowfname,
+                                'lname': $scope.nowlname,
+                                'uname': $scope.nowuname,
+                                'language': $scope.nowlanguage,
+                                'type': type,
+                                'clients': []
+                            };
+                        }
+                    }
+                    $scope.users.sort(compare);
+                    $scope.setClientsAndReps();
                 };
+
+                // is there enough info to assign a client to a group of lawyers?
+                // submit button controller
+                $scope.enoughassigninfo = function() {
+                    if (document.getElementById('usertopair').value != "")
+                        return true;
+                    else
+                        return false;
+                };
+                // submits an assignment of a client to a group of lawyers
                 $scope.submitPair = function() {
-                    console.log("pair");
-                    // TODO
+                    var clientid = document.getElementById('usertopair').value;
+                    var clientreps = []; // array of client's reps
+
+                    for (var i = 0; i < $scope.users.length; i++) {
+
+                        // if this is true, they're not a representative
+                        if (($scope.users[i]['type'] & 2) == 0 && 
+                            ($scope.users[i]['type'] & 4) == 0) {
+                            continue;
+                        }
+
+                        // if they're checked off as one of the client's reps
+                        if (document.getElementById($scope.users[i]['id']).checked) {
+                            clientreps.push($scope.users[i]['id']);
+                            var alreadythere = false;
+                            for (var j = 0; j < $scope.users[i]['clients'].length; j++) {
+                                if ($scope.users[i]['clients'][j] == clientid) {
+                                    alreadythere = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadythere) {
+                                $scope.users[i]['clients'].push(clientid);
+                            }
+                        }
+
+                        else { // remove client from unchecked reps' client lists
+                            var newclients = []; // rep's new client array, without current client
+                            for (var j = 0; j < $scope.users[i]['clients'].length; j++) {
+                                if ($scope.users[i]['clients'][j] != clientid) {
+                                    newclients.push($scope.users[i]['clients'][j]);
+                                }
+                            }
+                            $scope.users[i]['clients'] = newclients;
+                        }
+                    }
+                    console.log({'reps':clientreps,'client':clientid});
+                    $scope.setClientsAndReps();
+
                 };
-                $scope.clients = [
+
+                // hard-coded for now. Later, get this from the server!!
+                $scope.users = [
                     {
                     'id': 1,
                     'fname': 'James',
@@ -382,7 +545,7 @@
                     'uname': 'JSmith01',
                     'language': 'english',
                     'type' : 11, 
-                    'clients': []
+                    'clients': [3]
                     },
                     {
                     'id': 2,
@@ -391,7 +554,7 @@
                     'uname': 'RShatz01',
                     'language': 'spanish',
                     'type' : 12, 
-                    'clients': []
+                    'clients': [1,5]
                     },
                     {
                     'id': 3,
@@ -400,7 +563,7 @@
                     'uname': 'SBest02',
                     'language': 'english',
                     'type' : 13, 
-                    'clients': []
+                    'clients': [5]
                     },
                     {
                     'id': 4,
@@ -409,7 +572,7 @@
                     'uname': 'JJohnson',
                     'language': 'english',
                     'type' : 14, 
-                    'clients': []
+                    'clients': [3,5]
                     },
                     {
                     'id': 5,
@@ -418,9 +581,25 @@
                     'uname': 'BB',
                     'language': 'spanish',
                     'type' : 15, 
-                    'clients': []
+                    'clients': [3]
                     }
                 ];
+                $scope.users.sort(compare);
+            
+                // sets arrays of clients and reps based on array of overall users
+                $scope.setClientsAndReps = function() {
+                    $scope.clients = [];
+                    $scope.reps = [];
+                    for (var i = 0; i < $scope.users.length; i++) {
+                        if (($scope.users[i]['type'] & 1) > 0) {
+                            $scope.clients.push($scope.users[i]);
+                        }
+                        if (($scope.users[i]['type'] & 2) > 0 || ($scope.users[i]['type'] & 4)  > 0) {
+                            $scope.reps.push($scope.users[i]);
+                        }
+                    }
+                };
+                $scope.setClientsAndReps();
             });
         </script>
         
