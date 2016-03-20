@@ -82,15 +82,15 @@
                     
                         <div class="buttons">
                             <div class="button1">
-                                <button ng-click="response = true" type="button"class="circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
+                                <button ng-click="yes()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
                                 <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">Yes</a> -->
                             </div>
                             <div class="button2">
-                                <button ng-click="response = false" type="button" class="circle"id="b2"><i class="glyphicon glyphicon-remove"class="i_button"></i></button>
+                                <button ng-click="no()" type="button" class="unclicked circle"id="b2"><i class="glyphicon glyphicon-remove"class="i_button"></i></button>
                                 <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">No</a> -->
                             </div>
                             <div class="button3">
-                                <button type="button" class="btn btn-default btn-circle btn-xl">Yes</button>
+                                <button type="button" class="btn btn-default btn-circle btn-xl">YES</button>
                                 <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">Yes</a> -->
                             </div>
                             <div class="button4">
@@ -102,11 +102,11 @@
                 </div>
 
             <!-- Left and right controls -->
-                <a ng-show = "!firstpage()" class="left carousel-control" href="#myCarousel" role="button" ng-click="prev_vid();" data-slide="prev">
+                <a ng-show = "!firstpage()" class="left carousel-control" href="#myCarousel" role="button" ng-click="prev_vid();" data-slide="prev" id="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                         <span class="sr-only">Prev</span>
                 </a>
-                <a ng-show = "!lastpage()" class="right carousel-control" href="#myCarousel" role="button" ng-click="next_vid();" data-slide="next">
+                <a ng-show = "!lastpage()" class="right carousel-control" href="#myCarousel" role="button" ng-click="next_vid();" data-slide="next" id="next">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>

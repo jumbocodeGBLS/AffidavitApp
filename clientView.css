@@ -25,7 +25,6 @@
 button.circle{
 	font-size: 1.5em;
 	color: white;
-	background-color: #9F0303 !important;
 	width: 100px;
 	height: 100px;
 	/*text-align: center;*/
@@ -34,7 +33,15 @@ button.circle{
 	line-height: 2.00;
 	border-radius: 70px;
 	background-color: white;
-	border-color: #9F0303 !important;
+
+}
+.clicked {
+	background-color: #500807 !important;
+		border-color: #500807 !important;
+}
+.unclicked {
+	background-color: #9F0303 !important;
+		border-color: #9F0303 !important;
 }
 .button2{
 	text-align: center;
