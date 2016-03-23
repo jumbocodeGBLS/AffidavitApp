@@ -62,27 +62,12 @@ app.controller('addCtrl', function($scope, $http) {
         document.getElementById('options').innerHTML +=
             '<li><a href="admin.html">Admin Home</a></li>';
     }
-    /********************* NAV STUFF END *************************/
+/********************* NAV STUFF END *************************/
 
-    // opens add user modal
-    $scope.addUser = function() {
-        var j =jQuery.noConflict(); 
-        j('#myModal1').modal('show'); 
-    };
 
-    // opens edit user modal
-    $scope.editUser = function() {
-        var j =jQuery.noConflict(); 
-        j('#myModal2').modal('show'); 
-    };
 
-    // opens assign client modal
-    $scope.assignClient = function() {
-        var j =jQuery.noConflict(); 
-        j('#myModal3').modal('show'); 
-    };
-
-    // initialize values in add user modal
+/************************* ADD USER **************************/
+   // initialize values in add user modal
     $scope.fname = "";
     $scope.lname = "";
     $scope.uname = "";
@@ -93,46 +78,10 @@ app.controller('addCtrl', function($scope, $http) {
     $scope.advocate = false;
     $scope.administrator = false;
 
-    // open hidden section of edit user modal if user selected; initialize values
-    $scope.openEdit = function() {
-        var clientid = document.getElementById('usertoedit').value;
-        if (clientid != "") {
-            document.getElementById('editcontent').hidden = false;
-            var client = $scope.getuserbyid(clientid);
-            $scope.nowfname = client['fname'];
-            $scope.nowlname = client['lname'];
-            $scope.nowuname = client['uname'];
-            $scope.nowlanguage = client['language'];
-            $scope.nowlawyer = (client['type'] & 2) ? true : false;
-            $scope.nowclient = (client['type'] & 1) ? true : false;
-            $scope.nowadvocate = (client['type'] & 4) ? true : false;
-            $scope.nowadministrator = (client['type'] & 8) ? true : false;
-        }
-    };
-
-    // open hidden section of client assignment modal if user selected; initialize values
-    $scope.openPair = function() {
-        var clientid = document.getElementById('usertopair').value;
-        if (clientid != "") {
-            document.getElementById('paircontent').hidden = false;
-            for (var i = 0; i < $scope.reps.length; i++) {
-                document.getElementById($scope.reps[i]['id']).checked = false;
-                for (var j = 0; j < $scope.reps[i]['clients'].length; j++) {
-                    if ($scope.reps[i]['clients'][j] == clientid) {
-                        document.getElementById($scope.reps[i]['id']).checked = true;
-                    }
-                }
-            }
-        }
-    };
-
-    // given id, returns user with that id
-    $scope.getuserbyid = function(id) {
-        for (var i = 0; i < $scope.users.length; i++) {
-            if ($scope.users[i]['id'] == id) {
-                return $scope.users[i];
-            }
-        }
+    // opens add user modal
+    $scope.addUser = function() {
+        var j =jQuery.noConflict(); 
+        j('#myModal1').modal('show'); 
     };
 
     // is there enough info to create a new user?
@@ -186,6 +135,43 @@ app.controller('addCtrl', function($scope, $http) {
         });
         $scope.users.sort(compare);
         $scope.setClientsAndReps();
+    };
+
+/************************* ADD USER END **********************/
+
+
+
+/************************* EDIT USER **************************/
+    // opens edit user modal
+    $scope.editUser = function() {
+        var j =jQuery.noConflict(); 
+        j('#myModal2').modal('show'); 
+    };
+
+    // open hidden section of edit user modal if user selected; initialize values
+    $scope.openEdit = function() {
+        var clientid = document.getElementById('usertoedit').value;
+        if (clientid != "") {
+            document.getElementById('editcontent').hidden = false;
+            var client = $scope.getuserbyid(clientid);
+            $scope.nowfname = client['fname'];
+            $scope.nowlname = client['lname'];
+            $scope.nowuname = client['uname'];
+            $scope.nowlanguage = client['language'];
+            $scope.nowlawyer = (client['type'] & 2) ? true : false;
+            $scope.nowclient = (client['type'] & 1) ? true : false;
+            $scope.nowadvocate = (client['type'] & 4) ? true : false;
+            $scope.nowadministrator = (client['type'] & 8) ? true : false;
+        }
+    };
+
+     // given id, returns user with that id
+    $scope.getuserbyid = function(id) {
+        for (var i = 0; i < $scope.users.length; i++) {
+            if ($scope.users[i]['id'] == id) {
+                return $scope.users[i];
+            }
+        }
     };
 
     // is there enough info to edit a new user?
@@ -242,6 +228,33 @@ app.controller('addCtrl', function($scope, $http) {
             $scope.setClientsAndReps();
     };
 
+/************************* EDIT USER END **********************/
+
+
+
+/*********************** ASSIGN CLIENT ************************/
+    // opens assign client modal
+    $scope.assignClient = function() {
+        var j =jQuery.noConflict(); 
+        j('#myModal3').modal('show'); 
+    };
+
+    // open hidden section of client assignment modal if user selected; initialize values
+    $scope.openPair = function() {
+        var clientid = document.getElementById('usertopair').value;
+        if (clientid != "") {
+            document.getElementById('paircontent').hidden = false;
+            for (var i = 0; i < $scope.reps.length; i++) {
+                document.getElementById($scope.reps[i]['id']).checked = false;
+                for (var j = 0; j < $scope.reps[i]['clients'].length; j++) {
+                    if ($scope.reps[i]['clients'][j] == clientid) {
+                        document.getElementById($scope.reps[i]['id']).checked = true;
+                    }
+                }
+            }
+        }
+    };
+
     // is there enough info to assign a client to a group of lawyers?
     // submit button controller
     $scope.enoughassigninfo = function() {
@@ -293,6 +306,11 @@ app.controller('addCtrl', function($scope, $http) {
         $scope.setClientsAndReps();
     };
 
+/********************* ASSIGN CLIENT END **********************/
+
+
+
+/****************** NEEDED FOR ALL MODULES ********************/
     // hard-coded for now. Later, get this from the server!!
     $scope.users = [
         {
