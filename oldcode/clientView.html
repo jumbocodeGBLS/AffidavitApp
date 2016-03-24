@@ -38,8 +38,9 @@
         <script type="text/javascript" src="clientView.js"></script>
         
     <!-- ================================= END OF THE JAVASCRIPT ================================= -->  
-<!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
+
 <div ng-controller="videoCtrl" ng-app="videos">
+<!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
 <nav class="navbar navbar-default navbar-inverse" >
   <div class="container-fluid ourNav">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -54,7 +55,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp; {{user.name}} 
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp; {{user.fname}} 
            <span class="caret"></span></a>
           <ul class="dropdown-menu" id="options">
             <li><a href="#">Change Password</a></li>
@@ -64,12 +65,13 @@
         <li><a id="listlink" href="history.html"><i class="glyphicon glyphicon-list"></i></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
+        <li><a href="home.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - - -->
+<span class="glyphicons glyphicons-user-add"></span>
+<!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
 
     <div class="container-fluid" id="page">
         <form>

@@ -37,28 +37,59 @@ function setunclicked() {
 var app = angular.module('videos', []);
 app.controller('videoCtrl', function($scope, $http) {
 
+/********************** NAV STUFF ****************************/
+/*
+    Schema for user type:
+    0:  (0000) not a user
+    1:  (0001) client only
+    2:  (0010) lawyer only
+    3:  (0011) lawyer and client
+    4:  (0100) advocate only
+    5:  (0101) advocate and client
+    6:  (0110) advocate and lawyer
+    7:  (0111) advocate, lawyer, and client
+    8:  (1000) administrator only
+    9:  (1001) administrator and client
+    10: (1010) administrator and lawyer
+    11: (1011) administrator, lawyer, and client
+    12: (1100) administrator and advocate
+    13: (1101) administrator, advocate, and client
+    14: (1110) administrator, advocate, and lawyer
+    15: (1111) administrator, advocate, lawyer, and client
 
-        /********************** NAV STUFF ****************************/
-        $scope.user = {
-            'id': 1,
-            'name': 'James',
-            'type' : 3, // 1 is client, 2 is lawyer, 3 is administrator
-            'canView': [1] // list of user ids which this user can view (including their own)
-        }
-        if ($scope.user['type'] == 1) {
-            document.getElementById('options').innerHTML +=
-                '<li><a href="history.html">History</a></li>';
-        } else if ($scope.user['type'] == 2) {
-            document.getElementById('options').innerHTML +=
-                '<li><a href="clientlist.html">Client List</a></li>';
-        } else if ($scope.user['type'] == 3) {
-            document.getElementById('options').innerHTML +=
-                '<li><a href="clientlist.html">Client List</a></li>' + 
-                '<li><a href="admin.html">Admin Home</a></li>';
-        }
-        /********************* NAV STUFF END *************************/
+    1 bit turned on == client
+    2 bit turned on == lawyer
+    4 bit turned on == advocate
+    8 bit turned on == administrator
+*/
 
-        /******************* SCOPE FUNCTIONS *************************/
+    // hard-coded for now. Later, get this from the server!!
+    $scope.user = {
+        'id': 1,
+        'fname': 'James',
+        'lname': 'Smith',
+        'uname': 'JSmith01',
+        'language': 'English',
+        'type' : 15, 
+        'clients': []
+    };
+
+    // set navbar options based on user type
+    if ($scope.user['type'] & 1) {
+        document.getElementById('options').innerHTML +=
+            '<li><a href="history.html">History</a></li>';
+    }
+    if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
+        document.getElementById('options').innerHTML +=
+            '<li><a href="clientlist.html">Client List</a></li>';
+    }
+    if ($scope.user['type'] & 8) {
+        document.getElementById('options').innerHTML +=
+            '<li><a href="admin.html">Admin Home</a></li>';
+    }
+/********************* NAV STUFF END *************************/
+
+/******************* SCOPE FUNCTIONS *************************/
 
         // returns true if we're on the first page, false otherwise
         $scope.firstpage = function(){
@@ -102,49 +133,49 @@ app.controller('videoCtrl', function($scope, $http) {
         };
 
         // view next video
-        $scope.next_vid = function(){
-            // set next videos' showing to true or false based on response dependencies
-            if($scope.videos[$scope.curIndex].yesno == true){
-                if($scope.response == true){
-                    for(i = 0; i < $scope.videos[$scope.curIndex].yesRemoves.length; i++){
-                        indexRemove = $scope.videos[$scope.curIndex].yesRemoves[i];
-                        $scope.videos[indexRemove].show = false;
-                    } 
-                }
-                if($scope.response == false){
-                    for(i = 0; i < $scope.videos[$scope.curIndex].noRemoves.length; i++){
-                        indexRemove = $scope.videos[$scope.curIndex].noRemoves[i];
-                        $scope.videos[indexRemove].show = false;
-                    } 
-                }
-            }
+  $scope.next_vid = function(){
+      // set next videos' showing to true or false based on response dependencies
+      if($scope.videos[$scope.curIndex].yesno == true){
+          if($scope.videos[$scope.curIndex]['response'] == true){
+              for(i = 0; i < $scope.videos[$scope.curIndex].yesRemoves.length; i++){
+                  indexRemove = $scope.videos[$scope.curIndex].yesRemoves[i];
+                  $scope.videos[indexRemove].show = false;
+              } 
+          }
+          if($scope.videos[$scope.curIndex]['response'] == false){
+              for(i = 0; i < $scope.videos[$scope.curIndex].noRemoves.length; i++){
+                  indexRemove = $scope.videos[$scope.curIndex].noRemoves[i];
+                  $scope.videos[indexRemove].show = false;
+              } 
+          }
+      }
 
-            // find index of next video
-            $scope.curIndex = $scope.curIndex +1;
-            while($scope.videos[$scope.curIndex].show != true &&
-                  $scope.curIndex < $scope.videos.length-1){
-                $scope.curIndex = $scope.curIndex +1;    
-            }
-            $scope.curvid = $scope.videos[$scope.curIndex]['url'];
+      // find index of next video
+      $scope.curIndex = $scope.curIndex +1;
+      while($scope.videos[$scope.curIndex].show != true &&
+            $scope.curIndex < $scope.videos.length-1){
+          $scope.curIndex = $scope.curIndex +1;    
+      }
+      $scope.curvid = $scope.videos[$scope.curIndex]['url'];
 
-            // set whether or not next button is hidden, and classes of true/false buttons
-            if ($scope.videos[$scope.curIndex]['yesno'] == true) {
-                if ($scope.videos[$scope.curIndex]['response'] === "") {
-                    document.getElementById('next').hidden = true;
-                    setunclicked();
-                } else {
-                    document.getElementById('next').hidden = false;
-                    if ($scope.videos[$scope.curIndex]['response'] == true) {
-                        setyes();
-                    } else {
-                        setno();
-                    }
-                }
-            } else {
-                document.getElementById('next').hidden = false;
-                console.log("TODO");
-            }
-        };
+      // set whether or not next button is hidden, and classes of true/false buttons
+      if ($scope.videos[$scope.curIndex]['yesno'] == true) {
+          if ($scope.videos[$scope.curIndex]['response'] === "") {
+              document.getElementById('next').hidden = true;
+              setunclicked();
+          } else {
+              document.getElementById('next').hidden = false;
+              if ($scope.videos[$scope.curIndex]['response'] == true) {
+                  setyes();
+              } else {
+                  setno();
+              }
+          }
+      } else {
+          document.getElementById('next').hidden = false;
+          console.log("TODO");
+      }
+  };
 
         // view previous video
         $scope.prev_vid = function(){
@@ -177,7 +208,6 @@ app.controller('videoCtrl', function($scope, $http) {
 
         // when 'yes' clicked on yes/no question
         $scope.yes = function() {
-            $scope.response = true;
             $scope.videos[$scope.curIndex]['response'] = true;
             document.getElementById('next').hidden = false;
             setyes();
@@ -185,7 +215,6 @@ app.controller('videoCtrl', function($scope, $http) {
 
         // when 'no' clicked on yes/no question
         $scope.no = function() {
-            $scope.response = false;
             $scope.videos[$scope.curIndex]['response'] = false;
             document.getElementById('next').hidden = false;
             setno();

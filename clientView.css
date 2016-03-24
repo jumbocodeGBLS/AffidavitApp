@@ -8,7 +8,7 @@
 }
 .clientPage{
 	text-align: center;
-	background-color: #d8d5d5;
+	background-color: #929090;
 }
 .buttons{
 	padding-top: 5%;
@@ -58,7 +58,7 @@ button.circle{
 	display: none;
 }
 .carousel-control{
-	background-image: none;
+	background-color: #929090;
 	width: 0;
 	font-size: 100px;
 }

@@ -8,9 +8,9 @@ function compare(a,b) {
     }
 }
 
-var app = angular.module('add', []);
+var app = angular.module('admin', []);
     
-app.controller('addCtrl', function($scope, $http) {
+app.controller('adminCtrl', function($scope, $http) {
 
 /********************** NAV STUFF ****************************/
 /*

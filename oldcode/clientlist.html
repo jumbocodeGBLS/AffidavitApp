@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Greater Boston Legal Services Client History</title>
+        <title>Greater Boston Legal Services Client List</title>
         <meta name="author"      content="Erica Schwartz"/>
         <meta name="revised"     content="March 20th, 2016"/>
-        <meta name="description" content="History Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
+        <meta name="description" content="Client List Page for GBLS Client Affadavit Creation Tool, Created by JumboCode Spring 2016"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,13 +16,13 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
         <link rel="stylesheet" type="text/css" href="navBar.css">
-        <link rel="stylesheet" type="text/css" href="history.css">
+        <link rel="stylesheet" type="text/css" href="clientlist.css">
         
     </head>  
 
 <body>
 
-<div ng-controller="historyCtrl" ng-app="history">
+<div ng-controller="listCtrl" ng-app="list">
 
 <!-- - - - - - - - - - - - - - NAV BAR - - - - - - - - - - - - - -->
 <nav class="navbar navbar-default navbar-inverse" >
@@ -49,49 +49,30 @@
         <li><a id="listlink" href="history.html"><i class="glyphicon glyphicon-list"></i></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
+        <li><a href="home.html"><i class="glyphicon glyphicon-log-out"></i></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 <!-- - - - - - - - - - - - - - / NAV BAR - - - - - - - - - - - - -->
 
-
-<div class="history">
-    <div class="row">
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-            <img src="images/question.png" alt="question" height="60px" style="padding:10px">
-            &nbsp;&nbsp;<span class="heading">Question</span>
-        </div>
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-            <img src="images/text.png" alt="text" height="60px">
-            &nbsp;&nbsp;<span class="heading">Text</span>
-        </div>
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-            <img src="images/replay.png" alt="replay" height="60px" style="padding:10px">
-            &nbsp;&nbsp;<span class="heading">Replay</span>
-        </div>
-    </div>
-    <div class="row">
-        <div ng-repeat="thing in data">
-            <hr>
-            <div class="row">
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    {{thing.question}}
-                </div>
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    {{thing.text}}
+        <div class="page">
+            <div class="row heading">
+                <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
+                <span class="pull-right"><span class="big">% </span><span class="medium"> Complete:</span></span>
             </div>
-            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
-                    <div ng-repeat="item in thing.responses">
-                        <a href="{{item.link}}"><img src="images/play.png" alt="play" height="20px">&nbsp;&nbsp;{{ item.date }}</a>
-                    </div>
+            <div ng-repeat="client in data">
+                <div class="panel panel-default">
+                    <a ng-click="click(client.id)">
+                        <div class="row body">
+                            <span class="pull-left">{{client.name}}</span>
+                            <span class="pull-right">{{client.progress}}</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 
     <!-- ================================= THE JAVASCRIPT =================================== -->        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -101,7 +82,7 @@
 
         <!-- ANGULAR CDN -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
-        <script src="history.js"></script>
+        <script src="clientlist.js"></script>
         
     <!-- ================================= END OF THE JAVASCRIPT =================================== -->  
 

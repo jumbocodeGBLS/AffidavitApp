@@ -28,7 +28,8 @@ body{
 }
 
 #input-box { 			/* class used to override default jumbotron color */
-	background: #941818;
+	/*background: #941818;*/
+	background-color: #500807;
 }
 
 #title {
