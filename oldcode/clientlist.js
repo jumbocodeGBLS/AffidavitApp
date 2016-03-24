@@ -60,9 +60,26 @@ app.controller('listCtrl', function($scope, $http) {
         {'name': 'Eric', 'progress': 57, 'id':4},
         {'name': 'Erica', 'progress': 48, 'id':5}
     ];
+    $scope.download = [];
+    for (var i = 0; i < $scope.data.length; i++) {
+        $scope.download.push(false);
+    }
+
     $scope.click = function(id) {
         localStorage.setItem('viewhistoryof', id);
         window.location="history.html"
+    };
+    $scope.selectall = function() {
+        for (var i = 0; i < $scope.download.length; i++) {
+            $scope.download[i] = true;
+        }
+    };
+    $scope.downloadtranscripts = function() {
+        for (var i = 0; i < $scope.download.length; i++) {
+            if ($scope.download[i] == true) {
+                console.log($scope.data[i]);
+            }
+        }
     };
 });
 

@@ -19,13 +19,14 @@ a {
 a:hover{
     color:black;
     text-decoration: none;
+    font-weight: bold;
 }
-.panel {
+/*.panel {
     box-shadow: 2px 2px 1px #888888;
 }
 .panel:hover {
     box-shadow: 4px 4px 2px #888888;
-}
+}*/
 body {
     background-color: #929090;
 }
