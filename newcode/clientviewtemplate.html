@@ -20,14 +20,6 @@
                                 <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">No</a> -->
                             </div>
 
-                            <audio id="audio" autoplay="autoplay" controls="false"></audio>
-                            <div class="buttons-wrapper">
-                              <button id="button-play-gum" class="button-demo" href="#">Play demo</button>
-                              <button id="button-stop-gum" class="button-demo" href="#">Stop demo</button>
-                            </div>
-                            <span id="gum-unsupported" class="hidden">API not supported</span>
-                            <span id="gum-partially-supported" class="hidden">API partially supported (video only)</span>
-
                             <div class="button3">
                                 <button type="button" class="btn btn-default btn-circle btn-xl">YES</button>
                                 <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">Yes</a> -->
@@ -68,56 +60,4 @@
                 background-color: #929090;
           }
 </style>
-    <script>
-    // http://www.sitepoint.com/introduction-getusermedia-api/
-    
-      /*var audioStream = null;
-      var audio = document.getElementById("audio");
 
-      // Test browser support
-      window.navigator = window.navigator || {};
-      navigator.getUserMedia = navigator.getUserMedia       ||
-                               navigator.webkitGetUserMedia ||
-                               navigator.mozGetUserMedia    ||
-                               null;
-
-      if (navigator.getUserMedia === null) {
-        document.getElementById('gum-unsupported').classList.remove('hidden');
-        document.getElementById('button-play-gum').setAttribute('disabled', 'disabled');
-        document.getElementById('button-stop-gum').setAttribute('disabled', 'disabled');
-      } else {
-        // Opera <= 12.16 accepts the direct stream.
-        // More on this here: http://dev.opera.com/articles/view/playing-with-html5-video-and-getusermedia-support/
-        var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
-
-        // Opera <= 12.16 support video only.
-        var audioContext = window.AudioContext       ||
-                           window.webkitAudioContext ||
-                           null;
-        if (audioContext === null) {
-          document.getElementById('gum-partially-supported').classList.remove('hidden');
-        }
-
-        document.getElementById('button-play-gum').addEventListener('click', function() {
-          // Capture user's audio and video source
-          navigator.getUserMedia({
-            video: false,
-            audio: true
-          },
-          function(stream) {
-            audioStream = stream;
-            // Stream the data
-            audio.src = createSrc(stream);
-            audio.play();
-          },
-          function(error) {
-            console.log("Video capture error: ", error.code);
-          });
-        });
-        document.getElementById('button-stop-gum').addEventListener('click', function() {
-          // Pause the video
-          audio.pause();
-
-        });
-      }*/
-    </script>
