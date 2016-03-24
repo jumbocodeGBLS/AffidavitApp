@@ -19,10 +19,10 @@ $stateProvider
         url: "/admin",
         views: {
             "nav": {
-                templateUrl: "navtemplate.html"
+                templateUrl: "newcode/navtemplate.html"
             },
             "pgbody": {
-                templateUrl: "admintemplate.html"
+                templateUrl: "newcode/admintemplate.html"
             }
         }
     })
@@ -30,10 +30,10 @@ $stateProvider
         url: "/history",
         views: {
             "nav": {
-                templateUrl: "navtemplate.html"
+                templateUrl: "newcode/navtemplate.html"
             },
             "pgbody": {
-                templateUrl: "historytemplate.html"
+                templateUrl: "newcode/historytemplate.html"
             }
         }
     })
@@ -41,10 +41,10 @@ $stateProvider
         url: "/clientlist",
         views: {
             "nav": {
-                templateUrl: "navtemplate.html"
+                templateUrl: "newcode/navtemplate.html"
             },
             "pgbody": {
-                templateUrl: "clientlisttemplate.html"
+                templateUrl: "newcode/clientlisttemplate.html"
             }
         }
     })
@@ -52,10 +52,10 @@ $stateProvider
         url: "/clientview",
         views: {
             "nav": {
-                templateUrl: "navtemplate.html"
+                templateUrl: "newcode/navtemplate.html"
             },
             "pgbody": {
-                templateUrl: "clientviewtemplate.html"
+                templateUrl: "newcode/clientviewtemplate.html"
             }
         }
     })
@@ -66,7 +66,7 @@ $stateProvider
                 template: ""
             },
             "pgbody": {
-                templateUrl: "logintemplate.html"
+                templateUrl: "newcode/logintemplate.html"
             }
         }
     });

@@ -6,7 +6,7 @@ body{
 	      rgba(0, 0, 0, 0.5), 
 	      rgba(0, 0, 0, 0.5)
 	    ),
-	    url(images/Boston-Skyline.jpg) no-repeat center center fixed;
+	    url(../images/Boston-Skyline.jpg) no-repeat center center fixed;
 	/*background: url(images/Boston-Skyline.jpg) no-repeat center center fixed;*/
 	-webkit-background-size: cover; /* used for Safari/Chrome rendering engine */
   	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */

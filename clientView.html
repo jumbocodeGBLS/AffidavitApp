@@ -16,8 +16,8 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="clientView.css">
-        <link rel="stylesheet" type="text/css" href="navBar.css">
+        <link rel="stylesheet" type="text/css" href="css/clientView.css">
+        <link rel="stylesheet" type="text/css" href="css/navBar.css">
 
     </head>  
 
@@ -118,12 +118,12 @@
                 </a>
             </div>
         </form>
-
-    </div>
-    <div class="progress">
-        <div class="progress-bar prog-custom" id="red-prog" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-            70%
+        <div class="progress">
+            <div class="progress-bar prog-custom" id="red-prog" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
+                {{ progress }}%
+            </div>
         </div>
+    </div>
     </div>
   </body>
 </html>

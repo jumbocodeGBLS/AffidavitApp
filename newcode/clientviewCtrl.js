@@ -111,6 +111,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
           document.getElementById('next').hidden = false;
           console.log("TODO");
       }
+      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
   };
 
   // view previous video
@@ -140,6 +141,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
           document.getElementById('next').hidden = false;
           console.log("TODO");
       }
+      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
   };
 
   // when 'yes' clicked on yes/no question
@@ -203,6 +205,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
   ];
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
   document.getElementById('next').hidden = true;
+  $scope.progress=0;
 });
 
 myapp.filter("trustUrl", ['$sce', function($sce){

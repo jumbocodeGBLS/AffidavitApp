@@ -115,16 +115,16 @@ app.controller('videoCtrl', function($scope, $http) {
             }
         };
 
-        // returns number of 'showable' videos
-        $scope.videoLength = function(){
-            numVids = 0;
-            for(i = 0; i < $scope.videos.length; i++){
-                if($scope.videos[i].show == true){
-                    numVids++;
-                }
-            }
-            return numVids;
-        };
+  // returns number of 'showable' videos
+  $scope.videoLength = function(){
+      numVids = 0;
+      for(i = 0; i < $scope.videos.length; i++){
+          if($scope.videos[i].show == true){
+              numVids++;
+          }
+      }
+      return numVids;
+  };
 
         // view next video
   $scope.next_vid = function(){
@@ -169,6 +169,7 @@ app.controller('videoCtrl', function($scope, $http) {
           document.getElementById('next').hidden = false;
           console.log("TODO");
       }
+      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
   };
 
   // view previous video
@@ -198,6 +199,7 @@ app.controller('videoCtrl', function($scope, $http) {
           document.getElementById('next').hidden = false;
           console.log("TODO");
       }
+      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
   };
 
   // when 'yes' clicked on yes/no question
@@ -261,6 +263,7 @@ app.controller('videoCtrl', function($scope, $http) {
   ];
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
   document.getElementById('next').hidden = true;
+  $scope.progress=0;
 });
 app.filter("trustUrl", ['$sce', function($sce){
   return function (recordingUrl) {

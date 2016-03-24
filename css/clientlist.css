@@ -19,7 +19,6 @@ a {
 a:hover{
     color:black;
     text-decoration: none;
-    font-weight: bold;
 }
 /*.panel {
     box-shadow: 2px 2px 1px #888888;
