@@ -6,8 +6,20 @@ myapp.controller('clientlistCtrl', function($scope, $http, $state) {
         {'name': 'Eric', 'progress': 57, 'id':4},
         {'name': 'Erica', 'progress': 48, 'id':5}
     ];
+    $scope.download = [];
+    for (var i = 0; i < $scope.data.length; i++) {
+        $scope.download.push(false);
+    }
     $scope.click = function(id) {
         localStorage.setItem('viewhistoryof', id);
         $state.go('history');
+    };
+    $scope.selectall = function() {
+        for (var i = 0; i < $scope.download.length; i++) {
+            $scope.download[i] = true;
+        }
+    };
+    $scope.downloadtranscripts = function() {
+        console.log($scope.download);
     };
 });
