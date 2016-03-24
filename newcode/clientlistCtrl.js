@@ -20,6 +20,10 @@ myapp.controller('clientlistCtrl', function($scope, $http, $state) {
         }
     };
     $scope.downloadtranscripts = function() {
-        console.log($scope.download);
+        for (var i = 0; i < $scope.download.length; i++) {
+            if ($scope.download[i] == true) {
+                console.log($scope.data[i]);
+            }
+        }
     };
 });
