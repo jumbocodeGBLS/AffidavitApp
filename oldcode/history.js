@@ -39,18 +39,17 @@ app.controller('historyCtrl', function($scope, $http) {
     };
 
     // set navbar options based on user type
-    if ($scope.user['type'] & 1) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="history.html">History</a></li>';
-    }
-    if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="clientlist.html">Client List</a></li>';
-    }
-    if ($scope.user['type'] & 8) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="admin.html">Admin Home</a></li>';
-    }
+    $scope.hasorisclient = function () {
+        return ($scope.user['type'] & 1 || $scope.user['clients'].length > 0);
+    };
+
+    $scope.hasclient = function() {
+        return ($scope.user['clients'].length > 0);
+    };
+    
+    $scope.isadmin = function() {
+        return ($scope.user['type'] & 8) > 0;
+    };
 /********************* NAV STUFF END *************************/
                 
     $scope.data = [

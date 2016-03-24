@@ -1,9 +1,5 @@
-var app = angular.module('list', []);
-    
-app.controller('listCtrl', function($scope, $http) {
-
-/********************** NAV STUFF ****************************/
-/*
+myapp.controller('navCtrl', function($scope, $http) {
+  /*
     Schema for user type:
     0:  (0000) not a user
     1:  (0001) client only
@@ -35,10 +31,9 @@ app.controller('listCtrl', function($scope, $http) {
         'uname': 'JSmith01',
         'language': 'English',
         'type' : 15, 
-        'clients': []
+        'clients': [2,3,4]
     };
-    
-    // set navbar options based on user type
+
     $scope.hasorisclient = function () {
         return ($scope.user['type'] & 1 || $scope.user['clients'].length > 0);
     };
@@ -50,19 +45,4 @@ app.controller('listCtrl', function($scope, $http) {
     $scope.isadmin = function() {
         return ($scope.user['type'] & 8) > 0;
     };
-/********************* NAV STUFF END *************************/
-                
-
-    $scope.data = [
-        {'name': 'Isaiah', 'progress': 96, 'id':6},
-        {'name': 'Rachael', 'progress': 72, 'id':2},
-        {'name': 'Shanshan', 'progress': 89, 'id':3},
-        {'name': 'Eric', 'progress': 57, 'id':4},
-        {'name': 'Erica', 'progress': 48, 'id':5}
-    ];
-    $scope.click = function(id) {
-        localStorage.setItem('viewhistoryof', id);
-        window.location="history.html"
-    };
 });
-

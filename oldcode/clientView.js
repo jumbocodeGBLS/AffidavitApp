@@ -2,11 +2,6 @@
 var j = jQuery.noConflict();
 j(document).ready(function(){
 	j("#myCarousel").carousel({interval: false});
-    j(document).on( "click", ".answer", function () {
-    	j(this).css("background", "#348017");
-    	j(this).siblings('.answer').css("background", "#64E986");
-    	useranswer[this.getAttribute("name")[8]] = parseInt(this.getAttribute("value"));
-    });
 });
 
 // sets classes of yes/no buttons depending on current click / click history
@@ -75,18 +70,17 @@ app.controller('videoCtrl', function($scope, $http) {
     };
 
     // set navbar options based on user type
-    if ($scope.user['type'] & 1) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="history.html">History</a></li>';
-    }
-    if ($scope.user['type'] & 2 || $scope.user['type'] & 4) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="clientlist.html">Client List</a></li>';
-    }
-    if ($scope.user['type'] & 8) {
-        document.getElementById('options').innerHTML +=
-            '<li><a href="admin.html">Admin Home</a></li>';
-    }
+    $scope.hasorisclient = function () {
+        return ($scope.user['type'] & 1 || $scope.user['clients'].length > 0);
+    };
+
+    $scope.hasclient = function() {
+        return ($scope.user['clients'].length > 0);
+    };
+    
+    $scope.isadmin = function() {
+        return ($scope.user['type'] & 8) > 0;
+    };
 /********************* NAV STUFF END *************************/
 
 /******************* SCOPE FUNCTIONS *************************/
@@ -177,101 +171,100 @@ app.controller('videoCtrl', function($scope, $http) {
       }
   };
 
-        // view previous video
-        $scope.prev_vid = function(){
-            // find index of prev video
-            $scope.curIndex = $scope.curIndex - 1;
-            while($scope.videos[$scope.curIndex].show != true &&
-                  $scope.curIndex >= 0){
-                $scope.curIndex = $scope.curIndex - 1;    
-            }
-            $scope.curvid = $scope.videos[$scope.curIndex]['url'];
+  // view previous video
+  $scope.prev_vid = function(){
+      // find index of prev video
+      $scope.curIndex = $scope.curIndex - 1;
+      while($scope.videos[$scope.curIndex].show != true &&
+            $scope.curIndex >= 0){
+          $scope.curIndex = $scope.curIndex - 1;    
+      }
+      $scope.curvid = $scope.videos[$scope.curIndex]['url'];
 
-            // set whether or not next button is hidden, and classes of true/false buttons
-            if ($scope.videos[$scope.curIndex]['yesno'] == true) {
-                if ($scope.videos[$scope.curIndex]['response'] === "") {
-                    document.getElementById('next').hidden = true;
-                    setunclicked();
-                } else {
-                    document.getElementById('next').hidden = false;
-                    if ($scope.videos[$scope.curIndex]['response'] == true) {
-                        setyes();
-                    } else {
-                        setno();
-                    }
-                }
-            } else {
-                document.getElementById('next').hidden = false;
-                console.log("TODO");
-            }
-        };
+      // set whether or not next button is hidden, and classes of true/false buttons
+      if ($scope.videos[$scope.curIndex]['yesno'] == true) {
+          if ($scope.videos[$scope.curIndex]['response'] === "") {
+              document.getElementById('next').hidden = true;
+              setunclicked();
+          } else {
+              document.getElementById('next').hidden = false;
+              if ($scope.videos[$scope.curIndex]['response'] == true) {
+                  setyes();
+              } else {
+                  setno();
+              }
+          }
+      } else {
+          document.getElementById('next').hidden = false;
+          console.log("TODO");
+      }
+  };
 
-        // when 'yes' clicked on yes/no question
-        $scope.yes = function() {
-            $scope.videos[$scope.curIndex]['response'] = true;
-            document.getElementById('next').hidden = false;
-            setyes();
-        };
+  // when 'yes' clicked on yes/no question
+  $scope.yes = function() {
+      $scope.videos[$scope.curIndex]['response'] = true;
+      document.getElementById('next').hidden = false;
+      setyes();
+  };
 
-        // when 'no' clicked on yes/no question
-        $scope.no = function() {
-            $scope.videos[$scope.curIndex]['response'] = false;
-            document.getElementById('next').hidden = false;
-            setno();
-        };
+  // when 'no' clicked on yes/no question
+  $scope.no = function() {
+      $scope.videos[$scope.curIndex]['response'] = false;
+      document.getElementById('next').hidden = false;
+      setno();
+  };
 
-        /********************** SCOPE DATA ****************************/
-        $scope.response = false;
-        $scope.curIndex = 0;
-        $scope.videos = [
-            {   
-                url:"https://www.youtube.com/embed/G3pmJeZGcwA",
-                yesno: true,
-                yesRemoves: [],
-                noRemoves: [],
-                show: true,
-                response: ""
-            },
-            {   
-                url:"https://www.youtube.com/embed/nFAK8Vj62WM",
-                yesno: true,
-                // list of videos it removes (by index)
-                yesRemoves: [],
-                noRemoves: [],
-                show: true,
-                response: ""
-            },
-            {   
-                url:"https://www.youtube.com/embed/YtIPmVN6zdc",
-                yesno: true,
-                yesRemoves: [3],
-                noRemoves: [4],
-                show: true,
-                response: ""
-            },
-            {   
-                url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
-                yesno: true,
-                yesRemoves: [],
-                noRemoves: [],
-                show: true,
-                response: ""
-            },
-            {   
-                url:"https://www.youtube.com/embed/dTnKYgyCD8A",
-                yesno: true,
-                yesRemoves: [],
-                noRemoves: [],
-                show: true,
-                response: ""
-            }
-        ];
-        $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-        document.getElementById('next').hidden = true;
+  /********************** SCOPE DATA ****************************/
+  $scope.curIndex = 0;
+  $scope.videos = [
+      {   
+          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          yesno: true,
+          yesRemoves: [],
+          noRemoves: [],
+          show: true,
+          response: ""
+      },
+      {   
+          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          yesno: true,
+          // list of videos it removes (by index)
+          yesRemoves: [],
+          noRemoves: [],
+          show: true,
+          response: ""
+      },
+      {   
+          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          yesno: true,
+          yesRemoves: [3],
+          noRemoves: [4],
+          show: true,
+          response: ""
+      },
+      {   
+          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          yesno: true,
+          yesRemoves: [],
+          noRemoves: [],
+          show: true,
+          response: ""
+      },
+      {   
+          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          yesno: true,
+          yesRemoves: [],
+          noRemoves: [],
+          show: true,
+          response: ""
+      }
+  ];
+  $scope.curvid = $scope.videos[$scope.curIndex]['url'];
+  document.getElementById('next').hidden = true;
 });
 app.filter("trustUrl", ['$sce', function($sce){
-    return function (recordingUrl) {
-        return $sce.trustAsResourceUrl(recordingUrl);
-    };
+  return function (recordingUrl) {
+      return $sce.trustAsResourceUrl(recordingUrl);
+  };
 }]);
 

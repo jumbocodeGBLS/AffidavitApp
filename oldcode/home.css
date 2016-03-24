@@ -1,0 +1,118 @@
+/* CSS Scripts for the Landing Page for GBLS, created by JumboCode Spring 2016! */
+
+body{
+	background: 
+		linear-gradient(
+	      rgba(0, 0, 0, 0.5), 
+	      rgba(0, 0, 0, 0.5)
+	    ),
+	    url(images/Boston-Skyline.jpg) no-repeat center center fixed;
+	/*background: url(images/Boston-Skyline.jpg) no-repeat center center fixed;*/
+	-webkit-background-size: cover; /* used for Safari/Chrome rendering engine */
+  	-moz-background-size: cover; 	/* used for Firefox's Gecko rendering engine */
+  	-o-background-size: cover;		/* used for Opera's rendering engine */
+  	background-size: cover;
+}
+
+.jumbotron {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	z-index: 5; 
+}
+
+.footer {
+	position: absolute;
+	bottom: 0%;
+}
+
+#input-box { 			/* class used to override default jumbotron color */
+	/*background: #941818;*/
+	background-color: #500807;
+}
+
+#title {
+    font-family: "Georgia", serif;
+    color: white;
+}
+
+#jc-logo {
+	height: 50px;
+    width: auto;
+    margin:0;
+    padding: 0;
+}
+
+#gbls-logo {
+	height: 50px;
+    width: auto;
+    margin:0;
+    padding:0;
+}
+
+#check-box {
+	text-align:center;
+}
+
+#page {
+	padding-top: 5%;
+	margin: 0;
+	width: 96%;
+
+}
+.clientPage{
+	text-align: center;
+	background-color: #929090;
+}
+.buttons{
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+.button1{
+	text-align: center;
+	display: inline;
+	padding-right: 5%;
+}
+.button2{
+	text-align: center;
+	display: inline;
+}
+.button3{
+	display: inline;
+	text-align: center;
+	display: none;
+	padding-right: 5%;
+}
+.button4{
+	display: inline;
+	display: none;
+}
+.btn-circle {
+	/*padding-left: 10%;*/
+	/*padding-right: 10%*/
+  	width: 100px;
+	height: 100px;
+	/*text-align: center;*/
+	padding: 15px 0;
+	font-size: 30px;
+	line-height: 2.00;
+	border-radius: 70px;
+	/*color: #ecf0f1;*/
+}
+.carousel-control{
+	background-image: none;
+	width: 0;
+	font-size: 100px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 500px;
+	margin-top: -1em;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev{
+	font-size: 80px;
+	margin-top: -1em;
+}
+
+

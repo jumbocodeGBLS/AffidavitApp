@@ -20,7 +20,7 @@ myapp.controller('loginCtrl', function($scope, $http, $state) {
 	    } else if ($scope.user['clients'].length > 0) {
 	    	$state.go('clientlist');
 	    } else if ($scope.user['type'] & 1) {
-	    	$state.go('history');
+	    	$state.go('clientview');
 	    } else {
 	    	console.log('error');
 	    }
