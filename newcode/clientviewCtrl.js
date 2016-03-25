@@ -57,15 +57,40 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       }
   };
 
-  // returns number of 'showable' videos
-  $scope.videoLength = function(){
-      numVids = 0;
+  // returns progress as a percentage
+  $scope.getprogress = function(){
+      var numVids = 0;
+      var numAnswers = 0;
       for(i = 0; i < $scope.videos.length; i++){
           if($scope.videos[i].show == true){
               numVids++;
+              if ($scope.videos[i].response === ""){
+              } else {
+                numAnswers++;
+              }
           }
       }
-      return numVids;
+      return (numAnswers/numVids)*100;
+  };
+
+  $scope.setbuttons = function() {
+      // set whether or not next button is hidden, and classes of true/false buttons
+      if ($scope.videos[$scope.curIndex]['yesno'] == true) {
+          if ($scope.videos[$scope.curIndex]['response'] === "") {
+              document.getElementById('next').hidden = true;
+              setunclicked();
+          } else {
+              document.getElementById('next').hidden = false;
+              if ($scope.videos[$scope.curIndex]['response'] == true) {
+                  setyes();
+              } else {
+                  setno();
+              }
+          }
+      } else {
+          document.getElementById('next').hidden = false;
+          console.log("TODO");
+      }
   };
 
   // view next video
@@ -93,25 +118,8 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
           $scope.curIndex = $scope.curIndex +1;    
       }
       $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-
-      // set whether or not next button is hidden, and classes of true/false buttons
-      if ($scope.videos[$scope.curIndex]['yesno'] == true) {
-          if ($scope.videos[$scope.curIndex]['response'] === "") {
-              document.getElementById('next').hidden = true;
-              setunclicked();
-          } else {
-              document.getElementById('next').hidden = false;
-              if ($scope.videos[$scope.curIndex]['response'] == true) {
-                  setyes();
-              } else {
-                  setno();
-              }
-          }
-      } else {
-          document.getElementById('next').hidden = false;
-          console.log("TODO");
-      }
-      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
+      $scope.setbuttons();
+      $scope.progress=$scope.getprogress();
   };
 
   // view previous video
@@ -123,25 +131,8 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
           $scope.curIndex = $scope.curIndex - 1;    
       }
       $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-
-      // set whether or not next button is hidden, and classes of true/false buttons
-      if ($scope.videos[$scope.curIndex]['yesno'] == true) {
-          if ($scope.videos[$scope.curIndex]['response'] === "") {
-              document.getElementById('next').hidden = true;
-              setunclicked();
-          } else {
-              document.getElementById('next').hidden = false;
-              if ($scope.videos[$scope.curIndex]['response'] == true) {
-                  setyes();
-              } else {
-                  setno();
-              }
-          }
-      } else {
-          document.getElementById('next').hidden = false;
-          console.log("TODO");
-      }
-      $scope.progress=($scope.curIndex/$scope.videoLength())*100;
+      $scope.setbuttons();
+      $scope.progress=$scope.getprogress();
   };
 
   // when 'yes' clicked on yes/no question
@@ -156,6 +147,23 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       $scope.videos[$scope.curIndex]['response'] = false;
       document.getElementById('next').hidden = false;
       setno();
+  };
+
+  // goes to first unanswered question
+  $scope.saveplace = function() {
+      while ($scope.curIndex < $scope.videos.length) {
+          if ($scope.videos[$scope.curIndex].show == true &&
+              $scope.videos[$scope.curIndex].response === "") {
+              break;
+          }
+          $scope.curIndex = $scope.curIndex + 1;
+      }
+      if ($scope.curIndex == $scope.videos.length) {
+          $scope.curIndex = 0;
+      }
+      $scope.curvid = $scope.videos[$scope.curIndex]['url'];
+      $scope.setbuttons();
+      $scope.progress=$scope.getprogress();
   };
 
   /********************** SCOPE DATA ****************************/
@@ -206,6 +214,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
   document.getElementById('next').hidden = true;
   $scope.progress=0;
+  $scope.saveplace();
 });
 
 myapp.filter("trustUrl", ['$sce', function($sce){
