@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  #root               'home_pages#redirect'
+  root               'sessions#new'
+  post   '/'      => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+
+#  namespace :admin do
+#    get "/"  =>  ' '
+#  end
+
+#  namespace :client do
+#    get "/" => ' '
+#  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
