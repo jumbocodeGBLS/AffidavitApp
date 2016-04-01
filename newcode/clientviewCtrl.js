@@ -52,6 +52,8 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
         console.log($scope.result);
         if ($scope.recording)
           $scope.startDictation();
+        else
+          $scope.videos[$scope.curIndex].response = $scope.result;
       };
       recognition.onerror = function(e) {
         console.log("error");
