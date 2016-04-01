@@ -10,26 +10,23 @@
                     <!-- <div class="item-active"> -->
                         <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
                     
-                        <div class="buttons">
+                        <div ng-show="yesno()" class="buttons">
                             <div class="button1">
                                 <button ng-click="yes()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
-                                <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">Yes</a> -->
                             </div>
                             <div class="button2">
                                 <button ng-click="no()" type="button" class="unclicked circle"id="b2"><i class="glyphicon glyphicon-remove"class="i_button"></i></button>
-                                <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">No</a> -->
                             </div>
-
-                            <div class="button3">
-                                <button type="button" class="btn btn-default btn-circle btn-xl">YES</button>
-                                <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">Yes</a> -->
-                            </div>
-                            <div class="button4">
-                                <button type="button" class="btn btn-default btn-circle btn-xl">NO</button>
-                                <!-- <a href="#aboutModal" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-primary">No</a> -->
-                            </div>
-                        <!-- </div> -->
-                    </div>
+                        </div>
+                        <div ng-hide="yesno()" class="buttons">
+                          <textarea name="q" id="transcript" hidden></textarea>
+                          <div class="button1">
+                            <button onclick="start()" type="button" class="unclicked circle"><i class="glyphicon glyphicon-play i_button"/></button>
+                          </div>
+                          <div class="button2">
+                            <button onclick = "stopDictation()" type="button" class="unclicked circle button4"><i class="glyphicon glyphicon-pause i_button"/></button>
+                          </div>
+                        </div>
                 </div>
 
             <!-- Left and right controls -->
@@ -42,87 +39,13 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-        </form>
-
-    </div>
-
-    <div class="progress">
-            <div class="progress-bar prog-custom" id="red-prog" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ progress }}%">
+            <div class="progress">
+              <div class="progress-bar prog-custom" id="red-prog" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ progress }}%">
                 {{ progress }}%
+              </div>
             </div>
+        </form>
     </div>
-
-
-
-
-
-
-
-
-<!--                        TODO: FIGURE OUT THIS RECORDING DEVICE!                        -->
-    <audio id="audio" autoplay="autoplay" controls="false"></audio>
-    <div class="buttons-wrapper">
-      <button id="button-play-gum" class="button-demo" href="#">Play demo</button>
-      <button id="button-stop-gum" class="button-demo" href="#">Stop demo</button>
-    </div>
-    <span id="gum-unsupported" class="hidden">API not supported</span>
-    <span id="gum-partially-supported" class="hidden">API partially supported (video only)</span>
-
-
-    <script>
-    // http://www.sitepoint.com/introduction-getusermedia-api/
-    
-      var audioStream = null;
-      var audio = document.getElementById("audio");
-
-      // Test browser support
-      window.navigator = window.navigator || {};
-      navigator.getUserMedia = navigator.getUserMedia       ||
-                               navigator.webkitGetUserMedia ||
-                               navigator.mozGetUserMedia    ||
-                               null;
-
-      if (navigator.getUserMedia === null) {
-        document.getElementById('gum-unsupported').classList.remove('hidden');
-        document.getElementById('button-play-gum').setAttribute('disabled', 'disabled');
-        document.getElementById('button-stop-gum').setAttribute('disabled', 'disabled');
-      } else {
-        // Opera <= 12.16 accepts the direct stream.
-        // More on this here: http://dev.opera.com/articles/view/playing-with-html5-video-and-getusermedia-support/
-        var createSrc = window.URL ? window.URL.createObjectURL : function(stream) {return stream;};
-
-        // Opera <= 12.16 support video only.
-        var audioContext = window.AudioContext       ||
-                           window.webkitAudioContext ||
-                           null;
-        if (audioContext === null) {
-          document.getElementById('gum-partially-supported').classList.remove('hidden');
-        }
-
-        document.getElementById('button-play-gum').addEventListener('click', function() {
-          // Capture user's audio and video source
-          navigator.getUserMedia({
-            video: false,
-            audio: true
-          },
-          function(stream) {
-            audioStream = stream;
-            // Stream the data
-            audio.src = createSrc(stream);
-            audio.play();
-          },
-          function(error) {
-            console.log("Video capture error: ", error.code);
-          });
-        });
-        document.getElementById('button-stop-gum').addEventListener('click', function() {
-          // Pause the video
-          audio.pause();
-
-        });
-      }
-    </script>
-
 </div>
 <style type="text/css">
           .clientPage {

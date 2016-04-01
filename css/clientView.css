@@ -6,6 +6,9 @@
 	width: 96%;
 
 }
+.img_button {
+	width:30px;
+}
 .clientPage{
 	text-align: center;
 	background-color: #929090;
@@ -50,12 +53,10 @@ button.circle{
 .button3{
 	display: inline;
 	text-align: center;
-	display: none;
 	padding-right: 5%;
 }
 .button4{
 	display: inline;
-	display: none;
 }
 .carousel-control{
 	background-color: #929090;

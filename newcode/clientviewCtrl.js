@@ -1,3 +1,57 @@
+var result = "";
+var user = {
+      'id': 1,
+      'fname': 'James',
+      'lname': 'Smith',
+      'uname': 'JSmith01',
+      'language': 'English',
+      'type' : 15, 
+      'clients': [2,3,4]
+  };
+
+
+var start = function() {
+  recording = true;
+  startDictation();
+};
+  
+var startDictation = function() {
+  if (!recording) {
+    return;
+  }
+ 
+  if (window.hasOwnProperty('webkitSpeechRecognition')) {
+ 
+    recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+  
+    if (user.language == "English")
+      recognition.lang = "en-US";
+    else
+      recognition.lang = "es-MX";
+    recognition.start();
+ 
+    recognition.onresult = function(e) {
+      result += e.results[0][0].transcript;
+      recognition.stop();
+      console.log(result);
+      if (recording)
+        startDictation();
+    };
+ 
+    recognition.onerror = function(e) {
+      console.log("error");
+      recognition.stop();
+    }
+ 
+  }
+};
+
+var stopDictation = function() {
+  recording = false;
+}
+
 myapp.controller('clientviewCtrl', function($scope, $http) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
@@ -93,6 +147,11 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       }
   };
 
+  // set buttons based on whether it's a yes or no question
+  $scope.yesno = function() {
+    return $scope.videos[$scope.curIndex]['yesno'];
+  };
+
   // view next video
   $scope.next_vid = function(){
       // set next videos' showing to true or false based on response dependencies
@@ -166,6 +225,9 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       $scope.progress=$scope.getprogress();
   };
 
+
+
+
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
   $scope.videos = [
@@ -179,7 +241,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       },
       {   
           url:"https://www.youtube.com/embed/nFAK8Vj62WM",
-          yesno: true,
+          yesno: false,
           // list of videos it removes (by index)
           yesRemoves: [],
           noRemoves: [],
