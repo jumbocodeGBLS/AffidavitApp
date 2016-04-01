@@ -1,57 +1,3 @@
-var result = "";
-var user = {
-      'id': 1,
-      'fname': 'James',
-      'lname': 'Smith',
-      'uname': 'JSmith01',
-      'language': 'English',
-      'type' : 15, 
-      'clients': [2,3,4]
-  };
-
-
-var start = function() {
-  recording = true;
-  startDictation();
-};
-  
-var startDictation = function() {
-  if (!recording) {
-    return;
-  }
- 
-  if (window.hasOwnProperty('webkitSpeechRecognition')) {
- 
-    recognition = new webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
-  
-    if (user.language == "English")
-      recognition.lang = "en-US";
-    else
-      recognition.lang = "es-MX";
-    recognition.start();
- 
-    recognition.onresult = function(e) {
-      result += e.results[0][0].transcript;
-      recognition.stop();
-      console.log(result);
-      if (recording)
-        startDictation();
-    };
- 
-    recognition.onerror = function(e) {
-      console.log("error");
-      recognition.stop();
-    }
- 
-  }
-};
-
-var stopDictation = function() {
-  recording = false;
-}
-
 myapp.controller('clientviewCtrl', function($scope, $http) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
@@ -80,6 +26,42 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       j('#b1').removeClass('clicked');
       j('#b1').addClass('unclicked');
   }
+
+  // TRANSCRIPTION STUFF
+  $scope.result = "";
+  $scope.start = function() {
+    $scope.recording = true;
+    $scope.startDictation();
+  };
+  $scope.startDictation = function() {
+    if (!$scope.recording) {
+      return;
+    }
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      if ($scope.user.language == "English")
+        recognition.lang = "en-US";
+      else
+        recognition.lang = "es-MX";
+      recognition.start();
+      recognition.onresult = function(e) {
+        $scope.result += e.results[0][0].transcript;
+        recognition.stop();
+        console.log($scope.result);
+        if ($scope.recording)
+          $scope.startDictation();
+      };
+      recognition.onerror = function(e) {
+        console.log("error");
+        recognition.stop();
+      }
+    }
+  };
+  $scope.stopDictation = function() {
+    $scope.recording = false;
+  };
 
   // returns true if we're on the first page, false otherwise
   $scope.firstpage = function(){
@@ -143,7 +125,6 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
           }
       } else {
           document.getElementById('next').hidden = false;
-          console.log("TODO");
       }
   };
 
@@ -230,6 +211,15 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
 
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
+  $scope.user = {
+        'id': 1,
+        'fname': 'James',
+        'lname': 'Smith',
+        'uname': 'JSmith01',
+        'language': 'English',
+        'type' : 15, 
+        'clients': [2,3,4]
+  };
   $scope.videos = [
       {   
           url:"https://www.youtube.com/embed/G3pmJeZGcwA",
