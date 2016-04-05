@@ -25,6 +25,8 @@ body{
 .footer {
 	position: absolute;
 	bottom: 0%;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 #input-box { 			/* class used to override default jumbotron color */
