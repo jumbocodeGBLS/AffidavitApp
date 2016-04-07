@@ -1,51 +1,32 @@
-var mediaRecorder;
-function startRecording(){
-  var mediaConstraints = {
-      audio: true
-  };
-
-  navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-
-  function onMediaSuccess(stream) {
-      mediaRecorder = new MediaStreamRecorder(stream);
-      mediaRecorder.mimeType = 'audio/ogg';
-      mediaRecorder.audioChannels = 1;
-      mediaRecorder.ondataavailable = function (blob) {
-          // POST/PUT "Blob" using FormData/XHR2
-          var blobURL = URL.createObjectURL(blob);
-          console.log("blob", blobURL);
-          // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
-      };
-      mediaRecorder.start(3000);
-  }
-
-  function onMediaError(e) {
-      console.error('media error', e);
-  }
-}
-
-function stopRecording(){
-  mediaRecorder.stop();
-  console.log("STOPPED", mediaRecorder);
-}
-
+// var mediaRecorder;
 // function startRecording(){
-//   navigator.getUserMedia({audio: true}, onMediaSuccess, onMediaError);
+//   var mediaConstraints = {
+//       audio: true
+//   };
 
-//   console.log("START", mediaRecorder);
-//   mediaRecorder.start(30000000);
+//   navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+
+//   function onMediaSuccess(stream) {
+//       mediaRecorder = new MediaStreamRecorder(stream);
+//       mediaRecorder.mimeType = 'audio/ogg';
+//       mediaRecorder.audioChannels = 1;
+//       mediaRecorder.ondataavailable = function (blob) {
+//           // POST/PUT "Blob" using FormData/XHR2
+//           var blobURL = URL.createObjectURL(blob);
+//           console.log("blob", blobURL);
+//           // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+//       };
+//       mediaRecorder.start();
+//   }
+
+//   function onMediaError(e) {
+//       console.error('media error', e);
+//   }
 // }
+
 // function stopRecording(){
 //   mediaRecorder.stop();
-//   mediaRecorder.ondataavailable = function (blob) {
-//         // POST/PUT "Blob" using FormData/XHR2
-//         var blobURL = URL.createObjectURL(blob);
-//         console.log(blobURL);
-//     };
-// }
-
-// function onMediaError(e) {
-//     console.error('media error', e);
+//   console.log("STOPPED", mediaRecorder);
 // }
 
 
@@ -79,10 +60,12 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
   }
 
   // TRANSCRIPTION STUFF
+  $scope.mediaRecorder;
   $scope.result = "";
   $scope.start = function() {
     $scope.recording = true;
     $scope.startDictation();
+    // $scope.startRecording();
   };
   $scope.startDictation = function() {
     if (!$scope.recording) {
@@ -114,27 +97,29 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
         mediaRecorder.stop();
       }
     }
+    navigator.getUserMedia(
+      {audio: true},
+      function(stream) {
+        $scope.mediaRecorder = new MediaStreamRecorder(stream);
+        $scope.mediaRecorder.mimeType = 'audio/ogg';
+        $scope.mediaRecorder.audioChannels = 1;
+        $scope.mediaRecorder.ondataavailable = function (blob) {
+          // POST/PUT "Blob" using FormData/XHR2
+          var blobURL = URL.createObjectURL(blob);
+          console.log("blob", blobURL);
+          // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+        };
+        $scope.mediaRecorder.start();},
+        function errorCallback(e){
+          console.error('media error', e);
+        }
+      );
   };
   $scope.stopDictation = function() {
     $scope.recording = false;
+    $scope.mediaRecorder.stop();
   };
-  // $scope.startAudioRecording = function()
-  // {
-  //   console.log("START TRIG");
-  //   navigator.getUserMedia(session, function (MediaStream) {
-  //       window.recordRTC = RecordRTC(MediaStream);
-  //       recordRTC.startRecording();
-  //   }, function(error){console.log(error)});
-  // };
 
-  // $scope.stopAudioRecording = function()
-  // { 
-  //   console.log("STOP TRIG");
-  //   navigator.getUserMedia({audio: true}, function(MediaStream) {
-  //       window.recordRTC = RecordRTC(MediaStream);
-  //       recordRTC.startRecording();
-  //   });
-  // };
 
   // returns true if we're on the first page, false otherwise
   $scope.firstpage = function(){
