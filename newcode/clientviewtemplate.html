@@ -6,7 +6,7 @@
             
             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
             <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox" id="videos">
+                <div class="carousel-inner" role="listbox" id="videos" ng-hide="lastpage()">
                     <!-- <div class="item-active"> -->
                         <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
                     
@@ -28,6 +28,11 @@
                             <button ng-click = "stopDictation()"type="button" class="unclicked circle button4"><i class="glyphicon glyphicon-pause i_button"/></button>
                           </div>
                         </div>
+                </div>
+                <div ng-show="lastpage()">
+                  <h1>Done!</h1>
+                  <h3>Submit:</h1>
+                  <button ng-click="submit()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
                 </div>
 
             <!-- Left and right controls -->
