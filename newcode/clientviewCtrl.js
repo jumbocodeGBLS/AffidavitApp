@@ -1,4 +1,4 @@
-myapp.controller('clientviewCtrl', function($scope, $http) {
+myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
     j("#myCarousel").carousel({interval: false});
@@ -87,7 +87,7 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       while(i < $scope.videos.length && $scope.videos[i].show == false){
           i++;
       }
-      if (i == $scope.videos.length){
+      if (i == $scope.videos.length + 1){
           return true;
       }
       else {
@@ -132,7 +132,10 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
 
   // set buttons based on whether it's a yes or no question
   $scope.yesno = function() {
-    return $scope.videos[$scope.curIndex]['yesno'];
+    if ($scope.curIndex < $scope.videos.length)
+      return $scope.videos[$scope.curIndex]['yesno'];
+    else
+      return true;
   };
 
   // view next video
@@ -155,12 +158,17 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
 
       // find index of next video
       $scope.curIndex = $scope.curIndex +1;
-      while($scope.videos[$scope.curIndex].show != true &&
-            $scope.curIndex < $scope.videos.length-1){
+      if ($scope.curIndex < $scope.videos.length) {
+        while($scope.curIndex < $scope.videos.length &&
+              $scope.videos[$scope.curIndex].show != true){
           $scope.curIndex = $scope.curIndex +1;    
+        }
       }
-      $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-      $scope.setbuttons();
+
+      if ($scope.curIndex != $scope.videos.length) {
+        $scope.curvid = $scope.videos[$scope.curIndex]['url'];
+        $scope.setbuttons();
+      }
       $scope.progress=$scope.getprogress();
   };
 
@@ -208,7 +216,9 @@ myapp.controller('clientviewCtrl', function($scope, $http) {
       $scope.progress=$scope.getprogress();
   };
 
-
+  $scope.submit = function() {
+      $state.go('history');
+  };
 
 
   /********************** SCOPE DATA ****************************/
