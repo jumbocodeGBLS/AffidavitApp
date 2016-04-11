@@ -16,7 +16,6 @@ app.get('/', function(request, response) {
 });
 
 app.get('/login', function(request,response) {
-	console.log("here i am");
 	response.sendFile(path.join(__dirname, '/index.html'));
 });
 
