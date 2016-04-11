@@ -15,11 +15,23 @@ app.get('/', function(request, response) {
  	response.send("<p>home page</p>");
 });
 
+app.get('/login', function(request,response) {
+	response.sendFile(path.join(__dirname, '/index.html'));
+});
+
 app.get('/admin', function(request,response) {
 	response.sendFile(path.join(__dirname, '/index.html'));
 });
 
 app.get('/history', function(request,response) {
+	response.sendFile(path.join(__dirname, '/index.html'));
+});
+
+app.get('/clientview', function(request,response) {
+	response.sendFile(path.join(__dirname, '/index.html'));
+});
+
+app.get('/clientlist', function(request,response) {
 	response.sendFile(path.join(__dirname, '/index.html'));
 });
 
