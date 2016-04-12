@@ -3,7 +3,7 @@ var app = express();
 var path = require('path');
 var pg = require('pg');
 
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
+var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
 var client = new pg.Client(connectionString);
 
 app.set('port', (process.env.PORT || 5000));
@@ -24,7 +24,8 @@ app.get('/login', function(request,response) {
 		if (err) {
 			console.log(err);
 		}
-	})
+	});
+	response.send("WOOHOO!!!");
 });
 
 app.get('/admin', function(request,response) {
