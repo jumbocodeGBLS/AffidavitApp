@@ -1,7 +1,10 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var pg = require('pg');
 
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
+var client = new pg.Client(connectionString);
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -16,7 +19,12 @@ app.get('/', function(request, response) {
 });
 
 app.get('/login', function(request,response) {
-	response.sendFile(path.join(__dirname, '/index.html'));
+	//response.sendFile(path.join(__dirname, '/index.html'));
+	client.connect(function(err) {
+		if (err) {
+			console.log(err);
+		}
+	})
 });
 
 app.get('/admin', function(request,response) {
