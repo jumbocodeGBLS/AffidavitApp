@@ -18,17 +18,24 @@ app.get('/', function(request, response) {
  	response.send("<p>home page</p>");
 });
 
-app.get('/login', function(request,response) {
-	//response.sendFile(path.join(__dirname, '/index.html'));
+app.get('/admin', function(request,response) {
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
 		}
 	});
-	response.send("WOOHOO!!!");
+	var queryStr = 'SELECT App_User.*, Client_Access.viewee FROM App_User LEFT JOIN Client_Access ON App_User.user_id = Client_Access.viewer';
+	var query = client.query(queryStr, function(err, res) {
+		if (err) {
+			console.log(err);
+		} else {
+			response.send(res.rows);
+		}
+	});
+	query.on('end', function() { client.end(); });
 });
 
-app.get('/admin', function(request,response) {
+app.get('/login', function(request,response) {
 	response.sendFile(path.join(__dirname, '/index.html'));
 });
 
