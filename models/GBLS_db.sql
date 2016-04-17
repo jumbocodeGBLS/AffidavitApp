@@ -3,8 +3,10 @@ CREATE TABLE App_User(
 	user_id 	INT NOT NULL PRIMARY KEY,
 	fname 		VARCHAR,
 	lname 		VARCHAR,
-	username	VARCHAR,
-	user_type	user_type
+	uname   	VARCHAR,
+	language    VARCHAR,
+	progress    INT,
+	type     	user_type
 );
 
 CREATE TABLE Client_Access
@@ -24,11 +26,18 @@ CREATE TABLE Affidavit
 	a_date	date
 );
 
+CREATE TABLE Question
+(
+	q_id  INT NOT NULL PRIMARY KEY,
+	txt   VARCHAR
+);
+
 CREATE TABLE Response
 (
 	affidavit 			INT NOT NULL,
 	CONSTRAINT fk_aff FOREIGN KEY (affidavit) REFERENCES Affidavit(aff_id),
 	q_num				INT NOT NULL,
+	CONSTRAINT fk_q FOREIGN KEY (q_num) REFERENCES Question(q_id),
 	rec_num				INT NOT NULL,
 	transcription_url	VARCHAR,
 	recording_url		VARCHAR,
@@ -49,4 +58,4 @@ CREATE TABLE Login
 	login_time	TIMESTAMP NOT NULL,
 	logout_time	TIMESTAMP,
 	PRIMARY KEY (user,login_time)
-)
+);
