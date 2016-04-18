@@ -63,6 +63,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         console.log("error");
         recognition.stop();
         $scope.mediaRecorder.stop();
+        $scope.mediaRecorder.save();
       }
     }
     navigator.getUserMedia(
@@ -73,9 +74,12 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         $scope.mediaRecorder.audioChannels = 1;
         $scope.mediaRecorder.ondataavailable = function (blob) {
           // POST/PUT "Blob" using FormData/XHR2
+          // console.log("Invoking save");
+          $scope.mediaRecorder.save();
           var blobURL = URL.createObjectURL(blob);
           console.log("blob", blob);
           console.log("URL", blobURL);
+          console.log(blob);
           // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
         };
         $scope.mediaRecorder.start(3000000);},
@@ -87,7 +91,6 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.stopDictation = function() {
     $scope.recording = false;
     $scope.mediaRecorder.stop();
-    $scope.mediaRecorder.save();
   };
 
 
@@ -134,7 +137,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
               }
           }
       }
-      return (numAnswers/numVids)*100;
+      return Math.floor((numAnswers/numVids)*100);
   };
 
   $scope.setbuttons = function() {
