@@ -30,12 +30,12 @@ myapp.controller('navCtrl', function($scope, $http) {
         'lname': 'Smith',
         'uname': 'JSmith01',
         'language': 'English',
-        'type' : 15, 
+        'type' : 14, 
         'clients': [2,3,4]
     };
 
-    $scope.hasorisclient = function () {
-        return ($scope.user['type'] & 1 || $scope.user['clients'].length > 0);
+    $scope.isclient = function () {
+        return ($scope.user['type'] & 1);
     };
 
     $scope.hasclient = function() {

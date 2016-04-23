@@ -6,7 +6,7 @@
             
             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
             <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox" id="videos" ng-hide="lastpage()">
+                <div class="carousel-inner" role="listbox" id="videos" ng-hide="lastpage">
                     <!-- <div class="item-active"> -->
                         <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
                     
@@ -28,26 +28,15 @@
                           </div>
                         </div>
                 </div>
-                <div ng-show="lastpage()">
+                <div ng-show="lastpage">
                   <h1>Done!</h1>
-                  <h3>Submit:</h1>
+                  <h3>Submit:</h3>
                   <button ng-click="submit()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
                 </div>
-
-            <!-- Left and right controls -->
-                <a ng-show = "!firstpage()" class="left carousel-control" href="#myCarousel" role="button" ng-click="prev_vid();" data-slide="prev" id="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Prev</span>
-                </a>
-                <a ng-show = "!lastpage()" class="right carousel-control" href="#myCarousel" role="button" ng-click="next_vid();" data-slide="next" id="next">
+                <a ng-show = "!lastpage" class="right carousel-control" href="#myCarousel" role="button" ng-click="next_vid();" data-slide="next" id="next">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
-            </div>
-            <div class="progress">
-              <div class="progress-bar prog-custom" id="red-prog" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ progress }}%">
-                {{ progress }}%
-              </div>
             </div>
         </form>
     </div>

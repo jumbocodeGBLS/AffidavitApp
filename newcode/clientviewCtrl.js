@@ -81,41 +81,15 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   };
 
   // returns true if we're on the last page, false otherwise
-  $scope.lastpage = function(){
-      i = $scope.curIndex;
-      i++;
-      while(i < $scope.videos.length && $scope.videos[i].show == false){
-          i++;
-      }
-      if (i == $scope.videos.length + 1){
-          return true;
-      }
-      else {
-          return false;
-      }
-  };
-
-  // returns progress as a percentage
-  $scope.getprogress = function(){
-      var numVids = 0;
-      var numAnswers = 0;
-      for(i = 0; i < $scope.videos.length; i++){
-          if($scope.videos[i].show == true){
-              numVids++;
-              if ($scope.videos[i].response === ""){
-              } else {
-                numAnswers++;
-              }
-          }
-      }
-      return (numAnswers/numVids)*100;
-  };
+  /*$scope.lastpage = function(){
+      return $scope.curIndex >= $scope.videos.length;
+  };*/
 
   $scope.setbuttons = function() {
       // set whether or not next button is hidden, and classes of true/false buttons
       if ($scope.videos[$scope.curIndex]['yesno'] == true) {
           if ($scope.videos[$scope.curIndex]['response'] === "") {
-              document.getElementById('next').hidden = true;
+              //document.getElementById('next').hidden = true;
               setunclicked();
           } else {
               document.getElementById('next').hidden = false;
@@ -140,80 +114,33 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
 
   // view next video
   $scope.next_vid = function(){
-      // set next videos' showing to true or false based on response dependencies
-      if($scope.videos[$scope.curIndex].yesno == true){
-          if($scope.videos[$scope.curIndex]['response'] == true){
-              for(i = 0; i < $scope.videos[$scope.curIndex].yesRemoves.length; i++){
-                  indexRemove = $scope.videos[$scope.curIndex].yesRemoves[i];
-                  $scope.videos[indexRemove].show = false;
-              } 
-          }
-          if($scope.videos[$scope.curIndex]['response'] == false){
-              for(i = 0; i < $scope.videos[$scope.curIndex].noRemoves.length; i++){
-                  indexRemove = $scope.videos[$scope.curIndex].noRemoves[i];
-                  $scope.videos[indexRemove].show = false;
-              } 
-          }
+      if ($scope.curIndex >= $scope.videos.length - 1) {
+        //return;
+        $scope.lastpage = true;
+        return;
       }
-
-      // find index of next video
-      $scope.curIndex = $scope.curIndex +1;
-      if ($scope.curIndex < $scope.videos.length) {
-        while($scope.curIndex < $scope.videos.length &&
-              $scope.videos[$scope.curIndex].show != true){
-          $scope.curIndex = $scope.curIndex +1;    
-        }
-      }
-
-      if ($scope.curIndex != $scope.videos.length) {
-        $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-        $scope.setbuttons();
-      }
-      $scope.progress=$scope.getprogress();
-  };
-
-  // view previous video
-  $scope.prev_vid = function(){
-      // find index of prev video
-      $scope.curIndex = $scope.curIndex - 1;
-      while($scope.videos[$scope.curIndex].show != true &&
-            $scope.curIndex >= 0){
-          $scope.curIndex = $scope.curIndex - 1;    
+      if($scope.videos[$scope.curIndex].yesno == true &&
+         $scope.videos[$scope.curIndex]['response'] == true){
+          $scope.curIndex = $scope.videos[$scope.curIndex]['yesJump'];
+      } else {
+          $scope.curIndex = $scope.videos[$scope.curIndex]['noJump'];
       }
       $scope.curvid = $scope.videos[$scope.curIndex]['url'];
       $scope.setbuttons();
-      $scope.progress=$scope.getprogress();
   };
 
   // when 'yes' clicked on yes/no question
   $scope.yes = function() {
       $scope.videos[$scope.curIndex]['response'] = true;
-      document.getElementById('next').hidden = false;
+      //document.getElementById('next').hidden = false;
       setyes();
   };
 
   // when 'no' clicked on yes/no question
   $scope.no = function() {
       $scope.videos[$scope.curIndex]['response'] = false;
-      document.getElementById('next').hidden = false;
+      //document.getElementById('next').hidden = false;
       setno();
-  };
-
-  // goes to first unanswered question
-  $scope.saveplace = function() {
-      while ($scope.curIndex < $scope.videos.length) {
-          if ($scope.videos[$scope.curIndex].show == true &&
-              $scope.videos[$scope.curIndex].response === "") {
-              break;
-          }
-          $scope.curIndex = $scope.curIndex + 1;
-      }
-      if ($scope.curIndex == $scope.videos.length) {
-          $scope.curIndex = 0;
-      }
-      $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-      $scope.setbuttons();
-      $scope.progress=$scope.getprogress();
   };
 
   $scope.submit = function() {
@@ -229,56 +156,15 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         'lname': 'Smith',
         'uname': 'JSmith01',
         'language': 'English',
-        'type' : 15, 
+        'type' : 14, 
         'clients': [2,3,4]
   };
-  $scope.videos = [
-      {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
-          yesno: true,
-          yesRemoves: [],
-          noRemoves: [],
-          show: true,
-          response: ""
-      },
-      {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
-          yesno: false,
-          // list of videos it removes (by index)
-          yesRemoves: [],
-          noRemoves: [],
-          show: true,
-          response: ""
-      },
-      {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
-          yesno: true,
-          yesRemoves: [3],
-          noRemoves: [4],
-          show: true,
-          response: ""
-      },
-      {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
-          yesno: true,
-          yesRemoves: [],
-          noRemoves: [],
-          show: true,
-          response: ""
-      },
-      {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
-          yesno: true,
-          yesRemoves: [],
-          noRemoves: [],
-          show: true,
-          response: ""
-      }
-  ];
+  $scope.videos = videos;
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-  document.getElementById('next').hidden = true;
+  //document.getElementById('next').hidden = true;
   $scope.progress=0;
-  $scope.saveplace();
+  //$scope.saveplace();
+  console.log($scope.videos);
 });
 
 myapp.filter("trustUrl", ['$sce', function($sce){

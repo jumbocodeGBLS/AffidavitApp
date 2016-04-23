@@ -11,7 +11,7 @@ myapp.controller('loginCtrl', function($scope, $http, $state) {
 	        'lname': 'Smith',
 	        'uname': 'JSmith01',
 	        'language': 'English',
-	        'type' : 15, 
+	        'type' : 14, 
 	        'clients': [2,3,4]
 	    };
 
