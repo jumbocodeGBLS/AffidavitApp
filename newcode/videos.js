@@ -420,6 +420,7 @@ videos = [
       {   
           url:"https://www.youtube.com/embed/nFAK8Vj62WM",
           yesno: true,
+          //DUMMY VIDEO. NOT A REAL ONE YET
           // list of videos it removes (by index)
           yesJump: 30,
           noJump: 52,
@@ -427,7 +428,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/XsK3dCANnAs",
           yesno: false,
           yesJump: 53,
           noJump: 53,
@@ -435,7 +436,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/YikIljWgH1w",
           yesno: false,
           yesJump: 54,
           noJump: 54,
@@ -443,7 +444,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          url:"https://www.youtube.com/embed/iOxnfD56E0g",
           yesno: false,
           yesJump: 55,
           noJump: 55,
@@ -451,7 +452,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          url:"https://www.youtube.com/embed/OOuUhc097-c",
           yesno: true,
           yesJump: 56,
           noJump: 61,
@@ -459,16 +460,15 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          url:"https://www.youtube.com/embed/sutDbXaUCXA",
           yesno: false,
-          // list of videos it removes (by index)
           yesJump: 57,
           noJump: 57,
           index:56,
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/8DCkVcTmCVo",
           yesno: false,
           yesJump: 58,
           noJump: 58,
@@ -476,7 +476,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/IWFjcT0iv5c",
           yesno: false,
           yesJump: 59,
           noJump: 59,
@@ -484,7 +484,15 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          url:"https://www.youtube.com/embed/28HgnvhJ0yY",
+          yesno: false,
+          yesJump: 60,
+          noJump: 60,
+          index:59,
+          response: ""
+      },
+      {   
+          url:"https://www.youtube.com/embed/TbaV021RXeE",
           yesno: false,
           yesJump: 61,
           noJump: 61,
@@ -492,7 +500,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          url:"https://www.youtube.com/embed/2j7OGLpKUMA",
           yesno: true,
           yesJump: 62,
           noJump: 74,
@@ -500,16 +508,15 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          url:"https://www.youtube.com/embed/AWZLJRpFP5I",
           yesno: false,
-          // list of videos it removes (by index)
           yesJump: 63,
           noJump: 63,
           index:62,
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/s4VZp7KXTHM",
           yesno: false,
           yesJump: 64,
           noJump: 64,
@@ -517,7 +524,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/sXz5X0gc2YA",
           yesno: false,
           yesJump: 65,
           noJump: 65,
@@ -525,7 +532,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          url:"https://www.youtube.com/embed/GsjSYF1OMiw",
           yesno: false,
           yesJump: 66,
           noJump: 66,
@@ -533,7 +540,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          url:"https://www.youtube.com/embed/tUhnB2FlGEg",
           yesno: false,
           yesJump: 67,
           noJump: 67,
@@ -541,7 +548,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          url:"https://www.youtube.com/embed/c82pZNNbwzs",
           yesno: false,
           // list of videos it removes (by index)
           yesJump: 68,
@@ -550,7 +557,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/xShWQEVhLY4",
           yesno: false,
           yesJump: 69,
           noJump: 74,
@@ -558,7 +565,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/e3ngRMraUME",
           yesno: false,
           yesJump: 70,
           noJump: 70,
@@ -566,7 +573,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          url:"https://www.youtube.com/embed/tt697EmC_k4",
           yesno: false,
           yesJump: 71,
           noJump: 71,
@@ -574,7 +581,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          url:"https://www.youtube.com/embed/IDaQvSCU-E4",
           yesno: false,
           yesJump: 72,
           noJump: 72,
@@ -582,16 +589,15 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          url:"https://www.youtube.com/embed/QRr2tH0KbvM",
           yesno: true,
-          // list of videos it removes (by index)
           yesJump: 73,
           noJump: 74,
           index:72,
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/mgHA-kdsm-w",
           yesno: false,
           yesJump: 74,
           noJump: 74,
@@ -599,7 +605,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/VXSTmE_t8EE",
           yesno: false,
           yesJump: 75,
           noJump: 75,
@@ -607,7 +613,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/dTnKYgyCD8A",
+          url:"https://www.youtube.com/embed/vksQlvhR_bw",
           yesno: false,
           yesJump: 76,
           noJump: 76,
@@ -615,7 +621,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/G3pmJeZGcwA",
+          url:"https://www.youtube.com/embed/FSlmgsQcC78",
           yesno: false,
           yesJump: 77,
           noJump: 77,
@@ -623,16 +629,15 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/nFAK8Vj62WM",
+          url:"https://www.youtube.com/embed/dNuLzUXqUnA",
           yesno: false,
-          // list of videos it removes (by index)
           yesJump: 78,
           noJump: 78,
           index:77,
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/YtIPmVN6zdc",
+          url:"https://www.youtube.com/embed/T7xkdkAcv4s",
           yesno: false,
           yesJump: 79,
           noJump: 79,
@@ -640,7 +645,7 @@ videos = [
           response: ""
       },
       {   
-          url:"https://www.youtube.com/embed/ZhSSLZpl-Vg",
+          url:"https://www.youtube.com/embed/qoKtChoOE4E",
           yesno: false,
           yesJump: 80,
           noJump: 80,
