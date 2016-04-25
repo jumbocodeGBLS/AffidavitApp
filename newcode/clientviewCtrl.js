@@ -26,7 +26,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       j('#b1').removeClass('clicked');
       j('#b1').addClass('unclicked');
   }
-
+  $scope.mediaRecorder;
   // TRANSCRIPTION STUFF
   $scope.result = "";
   $scope.start = function() {
@@ -58,11 +58,38 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       recognition.onerror = function(e) {
         console.log("error");
         recognition.stop();
+        $scope.mediaRecorder.stop();
+        $scope.mediaRecorder.save();
       }
     }
+    navigator.getUserMedia(
+      {audio: true},
+      function(stream) {
+        $scope.mediaRecorder = new MediaStreamRecorder(stream);
+        $scope.mediaRecorder.mimeType = 'audio/ogg';
+        $scope.mediaRecorder.audioChannels = 1;
+        $scope.mediaRecorder.ondataavailable = function (blob) {
+          // POST/PUT "Blob" using FormData/XHR2
+          // console.log("Invoking save");
+          $scope.mediaRecorder.save();
+          var blobURL = URL.createObjectURL(blob);
+          console.log("blob", blob);
+          console.log("URL", blobURL);
+          console.log(blob);
+          // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+        };
+        $scope.mediaRecorder.start(3000000);},
+        function errorCallback(e){
+          console.error('media error', e);
+        }
+      );
   };
   $scope.stopDictation = function() {
     $scope.recording = false;
+    $scope.mediaRecorder.stop();
+    $scope.mediaRecorder.save();
+
+
   };
 
   // returns true if we're on the first page, false otherwise
