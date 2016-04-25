@@ -1,0 +1,30 @@
+<link rel="stylesheet" type="text/css" href="../css/clientlist.css">
+<link rel="stylesheet" type="text/css" href="../css/navBar.css">
+<div class="page" ng-controller='clientlistCtrl'>
+    <div class="row heading">
+        <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
+        <span class="pull-right"><span class="big">% </span><span class="medium"> Complete:</span></span>
+    </div>
+    <button class="btn btn-default" ng-click="selectall()">Select All</button>
+    <button class="btn btn-default" ng-click="downloadtranscripts()">Download Transcripts</button>
+    <div ng-repeat="client in data">
+        <div class="panel panel-default">
+            
+                <div class="row body">
+                    <span class="pull-left">
+                        <input type="checkbox" ng-model="download[$index]" /> &nbsp;
+                        <!--<a ng-click="click(client.id)">-->
+                            {{ client.name }}
+                        <!--</a>-->
+                    </span>
+                    <span class="pull-right">
+                        <!--<a ng-click="click(client.id)">-->
+                            {{client.progress}}
+                        <!--</a>-->
+                        &nbsp;&nbsp;&nbsp; <button class="btn btn-default" ng-click="click(client.id)">View Progress</button>
+                    </span>
+                </div>
+            
+        </div>
+    </div>
+</div>
