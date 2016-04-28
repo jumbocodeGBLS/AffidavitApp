@@ -65,26 +65,6 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
     $scope.recording = false;
   };
 
-  // returns true if we're on the first page, false otherwise
-  $scope.firstpage = function(){
-      i = $scope.curIndex;
-      i--;
-      while(i > -1 && $scope.videos[i].show == false){
-          i--;
-      }
-      if (i == -1){
-          return true;
-      }
-      else {
-          return false;
-      }
-  };
-
-  // returns true if we're on the last page, false otherwise
-  /*$scope.lastpage = function(){
-      return $scope.curIndex >= $scope.videos.length;
-  };*/
-
   $scope.setbuttons = function() {
       // set whether or not next button is hidden, and classes of true/false buttons
       if ($scope.videos[$scope.curIndex]['yesno'] == true) {
@@ -121,9 +101,9 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       }
       if($scope.videos[$scope.curIndex].yesno == true &&
          $scope.videos[$scope.curIndex]['response'] == true){
-          $scope.curIndex = $scope.videos[$scope.curIndex]['yesJump'];
+          $scope.curIndex = $scope.dependencies[$scope.curIndex]['yesJump'];
       } else {
-          $scope.curIndex = $scope.videos[$scope.curIndex]['noJump'];
+          $scope.curIndex = $scope.dependencies[$scope.curIndex]['noJump'];
       }
       $scope.curvid = $scope.videos[$scope.curIndex]['url'];
       $scope.setbuttons();
@@ -160,11 +140,12 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         'clients': [2,3,4]
   };
   $scope.videos = videos;
+  $scope.dependencies = dependencies;
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
   //document.getElementById('next').hidden = true;
   $scope.progress=0;
   //$scope.saveplace();
-  console.log($scope.videos);
+  console.log($scope.videos, $scope.dependencies);
 });
 
 myapp.filter("trustUrl", ['$sce', function($sce){
