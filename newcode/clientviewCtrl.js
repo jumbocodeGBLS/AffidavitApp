@@ -26,6 +26,27 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       j('#b1').removeClass('clicked');
       j('#b1').addClass('unclicked');
   }
+  function setrecording() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('unclicked');
+      j('#b3').addClass('clicked');
+      j('#b4').removeClass('clicked');
+      j('#b4').addClass('unclicked');
+  }
+  function setpaused() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('clicked');
+      j('#b3').addClass('unclicked');
+      j('#b4').removeClass('unclicked');
+      j('#b4').addClass('clicked');
+  }
+  function setstart() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('clicked');
+      j('#b3').addClass('unclicked');
+      j('#b4').removeClass('clicked');
+      j('#b4').addClass('unclicked');
+  }
 
   // TRANSCRIPTION STUFF
   $scope.result = "";
@@ -60,9 +81,11 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         recognition.stop();
       }
     }
+    setrecording();
   };
   $scope.stopDictation = function() {
     $scope.recording = false;
+    setpaused();
   };
 
   $scope.setbuttons = function() {
@@ -72,7 +95,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
               //document.getElementById('next').hidden = true;
               setunclicked();
           } else {
-              document.getElementById('next').hidden = false;
+              //document.getElementById('next').hidden = false;
               if ($scope.videos[$scope.curIndex]['response'] == true) {
                   setyes();
               } else {
@@ -80,7 +103,8 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
               }
           }
       } else {
-          document.getElementById('next').hidden = false;
+          //document.getElementById('next').hidden = false;
+          setstart();
       }
   };
 
