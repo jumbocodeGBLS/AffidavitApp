@@ -58,8 +58,8 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       recognition.onerror = function(e) {
         console.log("error");
         recognition.stop();
-        $scope.mediaRecorder.stop();
-        $scope.mediaRecorder.save();
+        // $scope.mediaRecorder.stop();
+        // $scope.mediaRecorder.save();
       }
     }
     navigator.getUserMedia(
@@ -75,10 +75,14 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
           var blobURL = URL.createObjectURL(blob);
           console.log("blob", blob);
           console.log("URL", blobURL);
-          console.log(blob);
+          console.log("TRY TO SAVE YO");
+          $scope.mediaRecorder.save();
           // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
         };
-        $scope.mediaRecorder.start(3000000);},
+        $scope.mediaRecorder.start();
+        console.log("starting");
+        console.log("state", $scope.mediaRecorder.state);
+        console.log("recorder started");},
         function errorCallback(e){
           console.error('media error', e);
         }
@@ -86,8 +90,12 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   };
   $scope.stopDictation = function() {
     $scope.recording = false;
+    if ($scope.mediaRecorder == undefined){
+      console.log("uh oh");
+    }
     $scope.mediaRecorder.stop();
-    $scope.mediaRecorder.save();
+    console.log("state", $scope.mediaRecorder.state);
+    // $scope.mediaRecorder.save();
 
 
   };
