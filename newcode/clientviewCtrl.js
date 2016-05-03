@@ -5,28 +5,28 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   });
 
   // sets classes of yes/no buttons depending on current click / click history
-  function setyes() {
-      var j = jQuery.noConflict();
-      j('#b1').removeClass('unclicked');
-      j('#b1').addClass('clicked');
-      j('#b2').removeClass('clicked');
-      j('#b2').addClass('unclicked');
-  }
-  function setno() {
-      var j = jQuery.noConflict();
-      j('#b2').removeClass('unclicked');
-      j('#b2').addClass('clicked');
-      j('#b1').removeClass('clicked');
-      j('#b1').addClass('unclicked');
-  }
-  function setunclicked() {
-      var j = jQuery.noConflict();
-      j('#b2').removeClass('clicked');
-      j('#b2').addClass('unclicked');
-      j('#b1').removeClass('clicked');
-      j('#b1').addClass('unclicked');
-  }
   $scope.mediaRecorder;
+  function setrecording() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('unclicked');
+      j('#b3').addClass('clicked');
+      j('#b4').removeClass('clicked');
+      j('#b4').addClass('unclicked');
+  }
+  function setpaused() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('clicked');
+      j('#b3').addClass('unclicked');
+      j('#b4').removeClass('unclicked');
+      j('#b4').addClass('clicked');
+  }
+  function setstart() {
+      var j = jQuery.noConflict();
+      j('#b3').removeClass('clicked');
+      j('#b3').addClass('unclicked');
+      j('#b4').removeClass('clicked');
+      j('#b4').addClass('unclicked');
+  }
   // TRANSCRIPTION STUFF
   $scope.result = "";
   $scope.start = function() {
@@ -88,37 +88,21 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         }
       );
   };
+  // $scope.stopDictation = function() {
+  //   $scope.recording = false;
+  //   if ($scope.mediaRecorder == undefined){
+  //     console.log("uh oh");
+  //   }
+  //   $scope.mediaRecorder.stop();
+  //   console.log("state", $scope.mediaRecorder.state);
+  //   // $scope.mediaRecorder.save();
+  //   setrecording();
+  // };
   $scope.stopDictation = function() {
     $scope.recording = false;
-    if ($scope.mediaRecorder == undefined){
-      console.log("uh oh");
-    }
+    setpaused();
     $scope.mediaRecorder.stop();
-    console.log("state", $scope.mediaRecorder.state);
-    // $scope.mediaRecorder.save();
-
-
   };
-
-  // returns true if we're on the first page, false otherwise
-  $scope.firstpage = function(){
-      i = $scope.curIndex;
-      i--;
-      while(i > -1 && $scope.videos[i].show == false){
-          i--;
-      }
-      if (i == -1){
-          return true;
-      }
-      else {
-          return false;
-      }
-  };
-
-  // returns true if we're on the last page, false otherwise
-  /*$scope.lastpage = function(){
-      return $scope.curIndex >= $scope.videos.length;
-  };*/
 
   $scope.setbuttons = function() {
       // set whether or not next button is hidden, and classes of true/false buttons
@@ -127,7 +111,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
               //document.getElementById('next').hidden = true;
               setunclicked();
           } else {
-              document.getElementById('next').hidden = false;
+              //document.getElementById('next').hidden = false;
               if ($scope.videos[$scope.curIndex]['response'] == true) {
                   setyes();
               } else {
@@ -135,7 +119,8 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
               }
           }
       } else {
-          document.getElementById('next').hidden = false;
+          //document.getElementById('next').hidden = false;
+          setstart();
       }
   };
 
@@ -156,9 +141,9 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
       }
       if($scope.videos[$scope.curIndex].yesno == true &&
          $scope.videos[$scope.curIndex]['response'] == true){
-          $scope.curIndex = $scope.videos[$scope.curIndex]['yesJump'];
+          $scope.curIndex = $scope.dependencies[$scope.curIndex]['yesJump'];
       } else {
-          $scope.curIndex = $scope.videos[$scope.curIndex]['noJump'];
+          $scope.curIndex = $scope.dependencies[$scope.curIndex]['noJump'];
       }
       $scope.curvid = $scope.videos[$scope.curIndex]['url'];
       $scope.setbuttons();
@@ -195,11 +180,12 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         'clients': [2,3,4]
   };
   $scope.videos = videos;
+  $scope.dependencies = dependencies;
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
   //document.getElementById('next').hidden = true;
   $scope.progress=0;
   //$scope.saveplace();
-  console.log($scope.videos);
+  console.log($scope.videos, $scope.dependencies);
 });
 
 myapp.filter("trustUrl", ['$sce', function($sce){

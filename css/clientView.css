@@ -11,7 +11,7 @@
 }
 .clientPage{
 	text-align: center;
-	background-color: #929090;
+	/*background-color: #929090;*/
 }
 .buttons{
 	padding-top: 5%;
@@ -40,11 +40,11 @@ button.circle{
 }
 .clicked {
 	background-color: #500807 !important;
-		border-color: #500807 !important;
+	border-color: #500807 !important;
 }
 .unclicked {
 	background-color: #9F0303 !important;
-		border-color: #9F0303 !important;
+	border-color: #9F0303 !important;
 }
 .button2{
 	text-align: center;
@@ -59,7 +59,7 @@ button.circle{
 	display: inline;
 }
 .carousel-control{
-	background-color: #929090;
+	/*background-color: #929090;*/
 	width: 0;
 	font-size: 100px;
 }
@@ -80,5 +80,9 @@ button.circle{
 }
 .prog-custom{
 	background: #830101 !important;
+}
+#page {
+    background-image: url("../upfeathers.png");
+    background-repeat: repeat;
 }
 
