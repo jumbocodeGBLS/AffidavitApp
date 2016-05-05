@@ -51,11 +51,11 @@ CREATE TABLE Response
 	I don't know if front-end has already done usage-tracking stuff, butthe table
 	is small and was quick to code so I just did it anyway. */
 
-CREATE TABLE Login
+/*CREATE TABLE Login
 (
 	user 		INT NOT NULL,
 	CONSTRAINT fk_user FOREIGN KEY (user) REFERENCES App_User(user_id),
 	login_time	TIMESTAMP NOT NULL,
 	logout_time	TIMESTAMP,
 	PRIMARY KEY (user,login_time)
-);
+);*/
