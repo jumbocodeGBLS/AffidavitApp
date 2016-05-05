@@ -1,5 +1,5 @@
 myapp.controller('historyCtrl', function($scope, $http) {                
-    $scope.data = [
+    /*$scope.data = [
         {'question': 1, 'text': 'Whats up?', 
         'responses': [{'date': '10/12/2015', 'link':'1'},
                       {'date': '10/13/2015', 'link':'2'}]},
@@ -9,5 +9,15 @@ myapp.controller('historyCtrl', function($scope, $http) {
         {'question': 3, 'text': 'How is it going?', 
         'responses': [{'date':'11/12/2015', 'link':'5'}, 
                       {'date': '11/14/2015', 'link':'6'}]}
-    ];
+    ];*/
+    var j = jQuery.noConflict();
+    j.ajax({
+          method: "GET",
+          url:'/historyData',
+          data: 1
+    })
+    .done(function(msg) {
+        console.log(msg);
+        $scope.data = msg;
+    });
 });

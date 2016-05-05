@@ -154,7 +154,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
 
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
-  $scope.user = {
+  /*$scope.user = {
         'id': 1,
         'fname': 'James',
         'lname': 'Smith',
@@ -162,7 +162,17 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         'language': 'English',
         'type' : 14, 
         'clients': [2,3,4]
-  };
+  };*/
+  var j = jQuery.noConflict();
+    j.ajax({
+          method: "GET",
+          url: '/userData',
+          data: 1
+    })
+    .done(function(msg) {
+        console.log(msg);
+        $scope.user = msg;
+    });
   $scope.videos = videos;
   $scope.dependencies = dependencies;
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
@@ -177,3 +187,24 @@ myapp.filter("trustUrl", ['$sce', function($sce){
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -246,7 +246,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
 
 /****************** NEEDED FOR ALL MODULES ********************/
     // hard-coded for now. Later, get this from the server!!
-    $scope.users = [
+    /*$scope.users = [
         {
         'id': 1,
         'fname': 'James',
@@ -292,8 +292,18 @@ myapp.controller('adminCtrl', function($scope, $http) {
         'type' : 15, 
         'clients': [3]
         }
-    ];
-    $scope.users.sort(compare);
+    ];*/
+    var j = jQuery.noConflict();
+    j.ajax({
+          method: "GET",
+          url: '/allUserData'
+    })
+    .done(function(msg) {
+        console.log(msg);
+        $scope.users = msg;
+        $scope.users.sort(compare);
+        $scope.setClientsAndReps();
+    });
         
     // sets arrays of clients and reps based on array of overall users
     $scope.setClientsAndReps = function() {
@@ -308,6 +318,15 @@ myapp.controller('adminCtrl', function($scope, $http) {
             }
         }
     };
-
-    $scope.setClientsAndReps();
 });
+
+
+
+
+
+
+
+
+
+
+

@@ -25,14 +25,25 @@ myapp.controller('navCtrl', function($scope, $http) {
 */
     // hard-coded for now. Later, get this from the server!!
     $scope.user = {
-        'id': 1,
+        /*'id': 1,
         'fname': 'James',
         'lname': 'Smith',
         'uname': 'JSmith01',
         'language': 'English',
         'type' : 14, 
-        'clients': [2,3,4]
+        'clients': [2,3,4]*/
     };
+
+    var j = jQuery.noConflict();
+        j.ajax({
+              method: "GET",
+              url: '/userData',
+              data: 1
+        })
+        .done(function(msg) {
+            console.log(msg);
+            $scope.user = msg;
+        });
 
     $scope.isclient = function () {
         return ($scope.user['type'] & 1);
