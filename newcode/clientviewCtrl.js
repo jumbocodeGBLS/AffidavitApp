@@ -68,14 +68,15 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         $scope.mediaRecorder = new MediaStreamRecorder(stream);
         $scope.mediaRecorder.mimeType = 'audio/ogg';
         $scope.mediaRecorder.audioChannels = 1;
-        $scope.mediaRecorder.ondataavailable = function (e) {
+        $scope.mediaRecorder.ondataavailable = function(e) {
           // POST/PUT "Blob" using FormData/XHR2
           // console.log("Invoking save");
           // $scope.mediaRecorder.save();
+          console.log("e", e);
           var audioURL = URL.createObjectURL(e);
           // console.log("blob", blob);
           console.log("URL", audioURL);
-          console.log("e", e);
+          localStorage.setItem("audio", audioURL);
           var audio = document.createElement('audio');
           audio.src = audioURL;
           console.log("TRY TO SAVE YO");
@@ -169,7 +170,10 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.submit = function() {
       $state.go('history');
   };
-
+  $scope.getAudioUrl = function(){
+      $audioURL = localStorage.getItem("audio");
+      return $sce.trustAsResourceUrl($audioURL);
+  }
 
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
