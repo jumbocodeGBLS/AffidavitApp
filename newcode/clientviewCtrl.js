@@ -68,13 +68,16 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         $scope.mediaRecorder = new MediaStreamRecorder(stream);
         $scope.mediaRecorder.mimeType = 'audio/ogg';
         $scope.mediaRecorder.audioChannels = 1;
-        $scope.mediaRecorder.ondataavailable = function (blob) {
+        $scope.mediaRecorder.ondataavailable = function (e) {
           // POST/PUT "Blob" using FormData/XHR2
           // console.log("Invoking save");
-          $scope.mediaRecorder.save();
-          var blobURL = URL.createObjectURL(blob);
-          console.log("blob", blob);
-          console.log("URL", blobURL);
+          // $scope.mediaRecorder.save();
+          var audioURL = URL.createObjectURL(e);
+          // console.log("blob", blob);
+          console.log("URL", audioURL);
+          console.log("e", e);
+          var audio = document.createElement('audio');
+          audio.src = audioURL;
           console.log("TRY TO SAVE YO");
           $scope.mediaRecorder.save();
           // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
