@@ -15,7 +15,8 @@ app.use(body_parser.urlencoded({ extended: true }));
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
+//var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
+var connectionString = 'postgres://postgres:postgres@localhost:5432/GBLS_db';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -34,7 +35,7 @@ app.set('view engine', 'ejs');
     notFound:     { code: 404, description: "Not Found" },
     serverError:  { code: 500, description: "Internal Sever Error" }
   }
-var firefuncs = require('./firefuncs.js');
+  var firefuncs = require('./firefuncs.js');
   
   // display the page to the user
   app.get('/login', function(req, res) {
@@ -200,9 +201,9 @@ app.get('/clientlistData', function(request, response) {
 // should actually be the same as /admin
 app.get('/userData', function(request,response) {
 	var client = new pg.Client(connectionString);
-	console.log(request.query);
 	client.connect(function(err) {
 		if (err) {
+      console.log("couldn't connect");
 			console.log(err);
 			// TODO: handle error
 		}

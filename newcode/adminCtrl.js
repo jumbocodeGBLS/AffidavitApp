@@ -88,6 +88,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
         if (clientid != "") {
             document.getElementById('editcontent').hidden = false;
             var client = $scope.getuserbyid(clientid);
+
             $scope.nowfname = client['fname'];
             $scope.nowlname = client['lname'];
             $scope.nowuname = client['uname'];
@@ -96,6 +97,9 @@ myapp.controller('adminCtrl', function($scope, $http) {
             $scope.nowclient = (client['type'] & 1) ? true : false;
             $scope.nowadvocate = (client['type'] & 4) ? true : false;
             $scope.nowadministrator = (client['type'] & 8) ? true : false;
+
+            console.log($scope.nowlanguage);
+            console.log(document.getElementById('nowlanguage').value);
         }
     };
 

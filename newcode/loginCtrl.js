@@ -8,8 +8,8 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 	    console.log(user);
 	    AuthenticationService.login(user, function(response) {
 	        console.log(response);
-	        $scope.reserror = response;
 	        if (response.status == 200) {
+	        	$scope.reserror = "";
 	          	var j = jQuery.noConflict();
 			    j.ajax({
 			          method: "GET",
@@ -39,6 +39,8 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 					}
 					console.log($state);
 			    });
+		    } else {
+		    	$scope.reserror = response;
 		    }
 	  	});
 	}
