@@ -53,5 +53,55 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
         }
       });
     };
+
+    $scope.changeemail = function() {
+        var j =jQuery.noConflict(); 
+        j('#myModal1').modal('show');
+        $scope.reserror = "";
+    };
+
+    $scope.changepswd = function() {
+        var j =jQuery.noConflict(); 
+        j('#myModal2').modal('show');
+        $scope.reserror = "";
+    };
+
+    $scope.pinfo = function() {
+        return document.getElementById('username').value != "" &&
+               document.getElementById('oldpassword').value != "" &&
+               document.getElementById('newpassword').value != "";
+    };
+
+    $scope.uinfo = function() {
+        return document.getElementById('oldusername').value != "" &&
+               document.getElementById('newusername').value != "" &&
+               document.getElementById('password').value != "";
+    };
+
+    $scope.changeEmail = function(user) {
+        AuthenticationService.changeEmail(user, function(response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                var j =jQuery.noConflict(); 
+                j('#myModal1').modal('hide');
+            } else {
+                $scope.reserror = response;
+            }
+        });
+    };
+
+    $scope.changePassword = function(user) {
+        AuthenticationService.changePassword(user, function(response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                var j =jQuery.noConflict(); 
+                j('#myModal2').modal('hide');
+            } else {
+                $scope.reserror = response;
+            }
+        });
+    };
 }]);
 
