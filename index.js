@@ -15,8 +15,8 @@ app.use(body_parser.urlencoded({ extended: true }));
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-//var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
-var connectionString = 'postgres://postgres:postgres@localhost:5432/GBLS_db';
+var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
+//var connectionString = 'postgres://postgres:postgres@localhost:5432/GBLS_db';
 
 app.set('port', (process.env.PORT || 5000));
 
