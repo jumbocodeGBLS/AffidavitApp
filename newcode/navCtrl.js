@@ -1,5 +1,6 @@
 angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'AuthenticationService', 
   function ($scope, $state, AuthenticationService) {
+    $scope.reserror = "";
     $scope.user = {
         'type' : 0, 
         'viewee': []
@@ -66,16 +67,42 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
         $scope.reserror = "";
     };
 
+    $scope.deleteuser = function() {
+        var j =jQuery.noConflict(); 
+        j('#delete').modal('show');
+        $scope.reserror = "";
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
     $scope.pinfo = function() {
-        return document.getElementById('username').value != "" &&
+        var filledout =
+               document.getElementById('username').value != "" &&
                document.getElementById('oldpassword').value != "" &&
                document.getElementById('newpassword').value != "";
+        var validemail = validateEmail(document.getElementById('username').value);
+        return filledout && validemail;
     };
 
     $scope.uinfo = function() {
-        return document.getElementById('oldusername').value != "" &&
+        var filledout =
+               document.getElementById('oldusername').value != "" &&
                document.getElementById('newusername').value != "" &&
                document.getElementById('password').value != "";
+        var validemail1 = validateEmail(document.getElementById('oldusername').value);
+        var validemail2 = validateEmail(document.getElementById('newusername').value);
+        return filledout && validemail1 && validemail2;
+    };
+
+    $scope.dinfo = function() {
+        var filledout =
+               document.getElementById('username2').value != "" &&
+               document.getElementById('password2').value != "";
+        var validemail = validateEmail(document.getElementById('username2').value);
+        return filledout && validemail;
     };
 
     $scope.changeEmail = function(user) {
@@ -103,5 +130,18 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
             }
         });
     };
+
+    $scope.deleteUser = function(user) {
+        AuthenticationService.deleteuser(user, function(response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                var j =jQuery.noConflict(); 
+                j('#delete').modal('hide');
+            } else {
+                $scope.reserror = response;
+            }
+        });
+    }
 }]);
 
