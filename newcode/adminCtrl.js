@@ -62,6 +62,10 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         };
         console.log(newu);
         var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
+        if (!validateEmail($scope.uname)) {
+            alert("Invalid email address");
+            return;
+        }
         AuthenticationService.register(firebaseu, function(response) {
             console.log(response);
             if (response.status == 200) {
@@ -76,6 +80,11 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             }
         });
     };
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 
 /************************* ADD USER END **********************/
 

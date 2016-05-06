@@ -4,8 +4,17 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 
     $scope.reserror = "";
 
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
 	$scope.login = function(user) {
 	    console.log(user);
+	    if (!validateEmail($scope.user.username)) {
+            alert("Invalid email address");
+            return;
+        }
 	    AuthenticationService.login(user, function(response) {
 	        console.log(response);
 	        if (response.status == 200) {
@@ -46,6 +55,10 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 	};
 
 	$scope.resetPswd = function(user) {
+		if (!validateEmail($scope.user.username)) {
+            alert("Invalid email address");
+            return;
+        }
 		AuthenticationService.resetPassword(user, function(response) {
 			console.log(response);
             if (response.status == 200) {
