@@ -3,7 +3,7 @@
 <div class="page" ng-controller='clientlistCtrl'>
     <div class="row heading">
         <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
-        <span class="pull-right"><span class="big">% </span><span class="medium"> Complete:</span></span>
+        <span class="pull-right"><span class="medium">Progress</span></span>
     </div>
     <button class="btn btn-default" ng-click="selectall()">Select All</button>
     <button class="btn btn-default" ng-click="downloadtranscripts()">Download Transcripts</button>
@@ -14,14 +14,14 @@
                     <span class="pull-left">
                         <input type="checkbox" ng-model="download[$index]" /> &nbsp;
                         <!--<a ng-click="click(client.id)">-->
-                            {{ client.name }}
+                            {{ client.fname }}
                         <!--</a>-->
                     </span>
                     <span class="pull-right">
-                        <!--<a ng-click="click(client.id)">-->
+                        <!--<a ng-click="click(client.id)">
                             {{client.progress}}
-                        <!--</a>-->
-                        &nbsp;&nbsp;&nbsp; <button class="btn btn-default" ng-click="click(client.id)">View Progress</button>
+                        </a>-->
+                        &nbsp;&nbsp;&nbsp; <button class="btn btn-default" ng-click="click(client.user_id)">View Progress</button>
                     </span>
                 </div>
             

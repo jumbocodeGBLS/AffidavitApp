@@ -1,38 +1,46 @@
-myapp.controller('loginCtrl', function($scope, $http, $state) {
-    $scope.login = function() {
-        console.log({
-            'username':$scope.username,
-            'password':$scope.password
-        });
+angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'AuthenticationService', 
+  function ($scope, $state, AuthenticationService) {
+    console.log('in loginCtrl, state: ', $state.current.name);
 
-        /*$scope.user = {
-	        'id': 1,
-	        'fname': 'James',
-	        'lname': 'Smith',
-	        'uname': 'JSmith01',
-	        'language': 'English',
-	        'type' : 14, 
-	        'clients': [2,3,4]
-	    };*/
-	    var j = jQuery.noConflict();
-	    j.ajax({
-	          method: "GET",
-	          url: '/userData',
-	          data: 1
-	    })
-	    .done(function(msg) {
-	    	console.log(msg);
-	        $scope.user = msg;
-	        if ($scope.user['type'] & 8) {
-				$state.go('admin');
-			} else if ($scope.user['clients'].length > 0) {
-				$state.go('clientlist');
-			} else if ($scope.user['type'] & 1) {
-				$state.go('clientview');
-			} else {
-				console.log('error');
-			}
-	    });
-	};
-    
-});
+    $scope.reserror = "";
+
+	$scope.login = function(user) {
+	    console.log(user);
+	    AuthenticationService.login(user, function(response) {
+	        console.log(response);
+	        $scope.reserror = response;
+	        if (response.status == 200) {
+	          	var j = jQuery.noConflict();
+			    j.ajax({
+			          method: "GET",
+			          url: '/userData',
+			          data: {data: $scope.user.username} 
+			    })
+			    .done(function(msg) {
+			        $scope.user = msg[0];
+			        if ($scope.user.type == "client") {
+			        	$scope.user.type = 1;
+			        } else if ($scope.user.type == "lawyer") {
+			        	$scope.user.type = 2;
+			        } else if ($scope.user.type == "admin") {
+			        	$scope.user.type = 8;
+			        } else {
+			        	$scope.user.type = 4;
+			        }
+			        console.log($scope.user);
+			        if ($scope.user['type'] & 8) {
+						$state.go('admin');
+					} else if ($scope.user['viewee'].length > 0) {
+						$state.go('clientlist');
+					} else if ($scope.user['type'] & 1) {
+						$state.go('clientview');
+					} else {
+						console.log('error');
+					}
+					console.log($state);
+			    });
+		    }
+	  	});
+	}
+}]);
+

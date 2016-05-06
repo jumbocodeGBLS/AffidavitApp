@@ -6,18 +6,21 @@
         <!-- JUMBOTRON -->
 
         <div class="jumbotron" id="input-box">
-            <h2 id="title">GBLS Affidavit</h2>
+            <h2 id="title"> GBLS Affidavit Login </h2>
             <br>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Username" ng-model="username" />
+                    <input type="text" class="form-control" placeholder="Username" ng-model="user.username" />
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" ng-model="password"/>
+                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password"/>
                     <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                 </div>
                 <br>
-                <p class="text-center"><button type="submit" class="btn btn-default btn-lg" ng-click="login()"><i class="glyphicon glyphicon-ok"></i></button></p>
+                <p class="text-center"><button type="submit" class="btn btn-default btn-lg" ng-click="login(user)"><i class="glyphicon glyphicon-ok"></i></button></p>
+                <div class="alert alert-danger" ng-show="reserror != '' " >
+                    <strong>Error: </strong> {{reserror.data.code}}
+                </div>
         </div>
 
         <div></div>

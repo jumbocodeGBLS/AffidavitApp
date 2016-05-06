@@ -102,7 +102,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
      // given id, returns user with that id
     $scope.getuserbyid = function(id) {
         for (var i = 0; i < $scope.users.length; i++) {
-            if ($scope.users[i]['id'] == id) {
+            if ($scope.users[i]['user_id'] == id) {
                 return $scope.users[i];
             }
         }
@@ -245,54 +245,6 @@ myapp.controller('adminCtrl', function($scope, $http) {
 
 
 /****************** NEEDED FOR ALL MODULES ********************/
-    // hard-coded for now. Later, get this from the server!!
-    /*$scope.users = [
-        {
-        'id': 1,
-        'fname': 'James',
-        'lname': 'Smith',
-        'uname': 'JSmith01',
-        'language': 'english',
-        'type' : 11, 
-        'clients': [3]
-        },
-        {
-        'id': 2,
-        'fname': 'Rita',
-        'lname': 'Shatz',
-        'uname': 'RShatz01',
-        'language': 'spanish',
-        'type' : 12, 
-        'clients': [1,5]
-        },
-        {
-        'id': 3,
-        'fname': 'Sarah',
-        'lname': 'Best',
-        'uname': 'SBest02',
-        'language': 'english',
-        'type' : 13, 
-        'clients': [5]
-        },
-        {
-        'id': 4,
-        'fname': 'Johnson',
-        'lname': 'Johnson',
-        'uname': 'JJohnson',
-        'language': 'english',
-        'type' : 14, 
-        'clients': [3,5]
-        },
-        {
-        'id': 5,
-        'fname': 'Bianca',
-        'lname': 'Blueberry',
-        'uname': 'BB',
-        'language': 'spanish',
-        'type' : 15, 
-        'clients': [3]
-        }
-    ];*/
     var j = jQuery.noConflict();
     j.ajax({
           method: "GET",
@@ -301,6 +253,19 @@ myapp.controller('adminCtrl', function($scope, $http) {
     .done(function(msg) {
         console.log(msg);
         $scope.users = msg;
+
+        for (var i = 0; i < $scope.users.length; i++) {
+            if ($scope.users[i].type == "client") {
+                $scope.users[i].type = 1;
+            } else if ($scope.users[i].type == "lawyer") {
+                $scope.users[i].type = 2;
+            } else if ($scope.users[i].type == "admin") {
+                $scope.users[i].type = 8;
+            } else {
+                $scope.users[i].type = 4;
+            }
+        }
+
         $scope.users.sort(compare);
         $scope.setClientsAndReps();
     });

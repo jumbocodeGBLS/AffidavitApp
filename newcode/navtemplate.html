@@ -21,14 +21,14 @@
             <li><a ui-sref="history" ng-show="isclient()">History</a></li>
             <li><a ui-sref="clientlist" ng-show="hasclient()">Client List</a></li>
             <li><a ui-sref="admin" ng-show="isadmin()">Admin Home</a></li>
-            <li><a ui-sref="login">Log Out</a></li>
+            <li><a ng-click="logout()">Log Out</a></li>
           </ul>
         </li>
         <!--<li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
         <li><a id="listlink" ui-sref="history"><i class="glyphicon glyphicon-list"></i></a></li>-->
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a ui-sref="login"><div title="Logout/Cerrar Sessión"><i class="glyphicon glyphicon-log-out"></i></div></a></li>
+        <li><a ng-click="logout()"><div title="Logout/Cerrar Sessión"><i class="glyphicon glyphicon-log-out"></i></div></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
