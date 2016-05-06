@@ -36,7 +36,7 @@
                 <input type="text" class="form-control" placeholder="Last Name" ng-model="lname">
             </div>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Username" ng-model="uname">
+                <input type="text" class="form-control" placeholder="Email" ng-model="uname">
             </div>
             <div class="input-group">
                 <input type="password" class="form-control" placeholder="Password" ng-model="password">
@@ -57,7 +57,10 @@
                 </select>
             </div>
             <div class="input-group">
-                <button class="btn btn-default" ng-click="submitNew()" data-dismiss='modal' ng-disabled="!enoughnewinfo()"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                <button class="btn btn-default" ng-click="submitNew()" ng-disabled="!enoughnewinfo()"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                <div class="alert alert-danger" ng-hide="reserror =='' " >
+                    <strong>Error: </strong> {{reserror.data.code}}
+                </div>
             </div>
           </div>
         </div>

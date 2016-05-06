@@ -1,6 +1,7 @@
 .nav{
 	font-size: 1.5em;
 	background-color: #500807;
+	text-align: center;
 }
 .navbar-collapse{
 	background-color: #500807;
@@ -18,4 +19,9 @@
 	background-color: #500807;
 	border-color: #500807;
 	color: #dbdbdb;
+}
+
+.input-group{
+	margin-right: auto;
+	margin-left: auto;
 }

@@ -1,4 +1,5 @@
-myapp.controller('adminCtrl', function($scope, $http) {
+angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'AuthenticationService', 
+  function ($scope, $state, AuthenticationService) {
 
 /************************* ADD USER **************************/
    // initialize values in add user modal
@@ -11,11 +12,13 @@ myapp.controller('adminCtrl', function($scope, $http) {
     $scope.client = false;
     $scope.advocate = false;
     $scope.administrator = false;
+    $scope.reserror = '';
 
     // opens add user modal
     $scope.addUser = function() {
         var j =jQuery.noConflict(); 
-        j('#myModal1').modal('show'); 
+        j('#myModal1').modal('show');
+        $scope.reserror = ''; 
     };
 
     // is there enough info to create a new user?
@@ -47,17 +50,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
         if ($scope.administrator) {
             type += 8;
         }
-        console.log({
-            'fname': $scope.fname,
-            'lname': $scope.lname,
-            'uname': $scope.uname,
-            'password': $scope.password,
-            'id': $scope.users.length + 1,
-            'language': $scope.language,
-            'type': type,
-            'clients': []
-        });
-        $scope.users.push({ // add new user to our array!
+        var newu = { // add new user to our array!
             'id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
             'lname': $scope.lname,
@@ -66,9 +59,22 @@ myapp.controller('adminCtrl', function($scope, $http) {
             'language': $scope.language,
             'type': type,
             'clients': []
+        };
+        console.log(newu);
+        var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
+        AuthenticationService.register(firebaseu, function(response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                var j =jQuery.noConflict(); 
+                j('#myModal1').modal('hide');
+                $scope.users.push(newu);
+                $scope.users.sort(compare);
+                $scope.setClientsAndReps();
+            } else {
+                $scope.reserror = response;
+            }
         });
-        $scope.users.sort(compare);
-        $scope.setClientsAndReps();
     };
 
 /************************* ADD USER END **********************/
@@ -287,7 +293,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
             }
         }
     };
-});
+}]);
 
 
 

@@ -56,13 +56,13 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
 
     $scope.changeemail = function() {
         var j =jQuery.noConflict(); 
-        j('#myModal1').modal('show');
+        j('#email').modal('show');
         $scope.reserror = "";
     };
 
     $scope.changepswd = function() {
         var j =jQuery.noConflict(); 
-        j('#myModal2').modal('show');
+        j('#pswd').modal('show');
         $scope.reserror = "";
     };
 
@@ -84,7 +84,7 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
             if (response.status == 200) {
                 $scope.reserror = "";
                 var j =jQuery.noConflict(); 
-                j('#myModal1').modal('hide');
+                j('#email').modal('hide');
             } else {
                 $scope.reserror = response;
             }
@@ -97,7 +97,7 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
             if (response.status == 200) {
                 $scope.reserror = "";
                 var j =jQuery.noConflict(); 
-                j('#myModal2').modal('hide');
+                j('#pswd').modal('hide');
             } else {
                 $scope.reserror = response;
             }

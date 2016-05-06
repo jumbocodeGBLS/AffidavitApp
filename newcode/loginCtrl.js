@@ -43,6 +43,18 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 		    	$scope.reserror = response;
 		    }
 	  	});
-	}
+	};
+
+	$scope.resetPswd = function(user) {
+		AuthenticationService.resetPassword(user, function(response) {
+			console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                alert("Password reset email sent successfully");
+            } else {
+                $scope.reserror = response;
+            }
+		});
+	};
 }]);
 
