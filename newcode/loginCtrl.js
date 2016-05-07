@@ -27,7 +27,7 @@ angular.module('myapp').controller('loginCtrl', ['$scope', '$state', 'Authentica
 			    })
 			    .done(function(msg) {
 			        $scope.user = msg[0];
-			        console.log($scope.user);
+			        console.log(msg);
 			        if ($scope.user.type == "client") {
 			        	$scope.user.type = 1;
 			        	$state.go('clientview');
