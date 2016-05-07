@@ -271,17 +271,26 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
     })
     .done(function(msg) {
         console.log(msg);
-        $scope.users = msg;
+        $scope.users = [];
 
-        for (var i = 0; i < $scope.users.length; i++) {
-            if ($scope.users[i].type == "client") {
-                $scope.users[i].type = 1;
-            } else if ($scope.users[i].type == "lawyer") {
-                $scope.users[i].type = 2;
-            } else if ($scope.users[i].type == "admin") {
-                $scope.users[i].type = 8;
+        for (var i = 0; i < msg.length; i++) {
+            var alreadyIn = false;
+            if (msg[i].type == "client") {
+                msg[i].type = 1;
+            } else if (msg[i].type == "lawyer") {
+                msg[i].type = 2;
+            } else if (msg[i].type == "admin") {
+                msg[i].type = 8;
             } else {
-                $scope.users[i].type = 4;
+                msg[i].type = 4;
+            }
+            for (var j = 0; j < $scope.users.length; j++) {
+                if (msg[i]['fname'] == $scope.users[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            if (!alreadyIn){
+                $scope.users.push(msg[i]);
             }
         }
 
@@ -293,11 +302,23 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
     $scope.setClientsAndReps = function() {
         $scope.clients = [];
         $scope.reps = [];
+        console.log($scope.users);
         for (var i = 0; i < $scope.users.length; i++) {
-            if (($scope.users[i]['type'] & 1) > 0) {
+            var alreadyIn = false;
+            for (var j = 0; j < $scope.clients.length; j++) {
+                if ($scope.users[i]['fname'] == $scope.clients[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            for (var j = 0; j < $scope.reps.length; j++) {
+                if ($scope.users[i]['fname'] == $scope.reps[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            if ($scope.users[i]['type'] == 1 && !alreadyIn) {
                 $scope.clients.push($scope.users[i]);
             }
-            if (($scope.users[i]['type'] & 2) > 0 || ($scope.users[i]['type'] & 4)  > 0) {
+            if (!alreadyIn && ($scope.users[i]['type'] == 2 || $scope.users[i]['type'] == 4)) {
                 $scope.reps.push($scope.users[i]);
             }
         }
