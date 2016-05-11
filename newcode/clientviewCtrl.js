@@ -1,3 +1,114 @@
+var j = jQuery.noConflict();
+j(document).ready(function(){
+  navigator.getUserMedia = (navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia);
+// var record = document.getElementById('b3');
+// var stop = document.getElementById('b4');
+var audioCtx = new(window.AudioContext || webkitAudioContext)();
+var soundClips = j(".sound-clips");
+console.log("SOUND", soundClips);
+if (navigator.getUserMedia) {
+  console.log('YO WE getUserMedia supported.');
+
+  var constraints = {
+    audio: true
+  };
+  var chunks = [];
+  console.log("WE MIGHT GET SUCCESS");
+  var onSuccess = function(stream) {
+    console.log("WE ARE ABOUT TO CLICK");
+    var mediaRecorder = new MediaRecorder(stream);
+
+    console.log(j("#b3"));
+    // console.log(document.getElementById("b3"));
+
+  j(document).on("click", "#b3", function(){
+      console.log("RECORD WAS CLICKED");
+      mediaRecorder.start();
+      console.log(mediaRecorder.state);
+      console.log("recorder started");
+    });
+
+  j(document).on("click", "#b4", function() {
+      console.log("STOP WAS CLICKED");
+      mediaRecorder.stop();
+      console.log(mediaRecorder.state);
+      console.log("recorder stopped");
+    });
+
+    mediaRecorder.onstop = function(e) {
+      console.log("data available after MediaRecorder.stop() called.");
+
+      var clipName = prompt('Enter a name for your sound clip?', 'My unnamed clip');
+      console.log(clipName);
+      var clipContainer = document.createElement('article');
+      var clipLabel = document.createElement('p');
+      var audio = document.createElement('audio');
+      var deleteButton = document.createElement('button');
+
+      clipContainer.classList.add('clip');
+      audio.setAttribute('controls', '');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'delete';
+
+      if (clipName === null) {
+        clipLabel.textContent = 'My unnamed clip';
+      } else {
+        clipLabel.textContent = clipName;
+      }
+
+      clipContainer.appendChild(audio);
+      clipContainer.appendChild(clipLabel);
+      clipContainer.appendChild(deleteButton);
+      var j = jQuery.noConflict();
+
+      console.log("BEFORE APPEND", soundClips);
+      sounds = document.getElementById("TRY");
+      sounds.appendChild(clipContainer);
+      // console.log("NOW SOUND CLIPS TRY");
+      // soundClips.appendChild(clipContainer);
+
+      audio.controls = true;
+      var blob = new Blob(chunks, {
+        'type': 'audio/ogg; codecs=opus'
+      });
+      chunks = [];
+      var audioURL = window.URL.createObjectURL(blob);
+      audio.src = audioURL;
+      console.log("recorder stopped");
+
+      deleteButton.onclick = function(e) {
+        evtTgt = e.target;
+        evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+      }
+
+      clipLabel.onclick = function() {
+        var existingName = clipLabel.textContent;
+        var newClipName = prompt('Enter a new name for your sound clip?');
+        if (newClipName === null) {
+          clipLabel.textContent = existingName;
+        } else {
+          clipLabel.textContent = newClipName;
+        }
+      }
+    }
+
+    mediaRecorder.ondataavailable = function(e) {
+      chunks.push(e.data);
+    }
+  }
+  var onError = function(err) {
+    console.log('The following error occured: ' + err);
+  }
+  navigator.getUserMedia(constraints, onSuccess, onError);
+} else {
+  console.log('getUserMedia not supported on your browser!');
+}
+
+});
+
 myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
@@ -5,7 +116,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   });
 
   // sets classes of yes/no buttons depending on current click / click history
-  $scope.mediaRecorder;
+  // $scope.mediaRecorder;
   function setrecording() {
       var j = jQuery.noConflict();
       j('#b3').removeClass('unclicked');
@@ -62,35 +173,36 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
         // $scope.mediaRecorder.save();
       }
     }
-    navigator.getUserMedia(
-      {audio: true},
-      function(stream) {
-        $scope.mediaRecorder = new MediaStreamRecorder(stream);
-        $scope.mediaRecorder.mimeType = 'audio/ogg';
-        $scope.mediaRecorder.audioChannels = 1;
-        $scope.mediaRecorder.ondataavailable = function(e) {
-          // POST/PUT "Blob" using FormData/XHR2
-          // console.log("Invoking save");
-          // $scope.mediaRecorder.save();
-          console.log("e", e);
-          var audioURL = URL.createObjectURL(e);
-          // console.log("blob", blob);
-          console.log("URL", audioURL);
-          localStorage.setItem("audio", audioURL);
-          var audio = document.createElement('audio');
-          audio.src = audioURL;
-          console.log("TRY TO SAVE YO");
-          $scope.mediaRecorder.save();
-          // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
-        };
-        $scope.mediaRecorder.start();
-        console.log("starting");
-        console.log("state", $scope.mediaRecorder.state);
-        console.log("recorder started");},
-        function errorCallback(e){
-          console.error('media error', e);
-        }
-      );
+    // navigator.getUserMedia(
+    //   {audio: true},
+    //   function(stream) {
+    //     $scope.mediaRecorder = new MediaStreamRecorder(stream);
+    //     $scope.mediaRecorder.mimeType = 'audio/ogg';
+    //     $scope.mediaRecorder.audioChannels = 1;
+    //     $scope.mediaRecorder.ondataavailable = function(e) {
+    //       // POST/PUT "Blob" using FormData/XHR2
+    //       // console.log("Invoking save");
+    //       // $scope.mediaRecorder.save();
+    //       console.log("e", e);
+    //       var audioURL = URL.createObjectURL(e);
+    //       // console.log("blob", blob);
+    //       console.log("URL", audioURL);
+    //       localStorage.setItem("audio", audioURL);
+    //       var audio = document.createElement('audio');
+    //       audio.src = audioURL;
+    //       console.log("TRY TO SAVE YO");
+    //       $scope.mediaRecorder.save();
+    //       $scope.audioU = localStorage.getItem("audio");
+    //       // document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+    //     };
+    //     $scope.mediaRecorder.start();
+    //     console.log("starting");
+    //     console.log("state", $scope.mediaRecorder.state);
+    //     console.log("recorder started");},
+    //     function errorCallback(e){
+    //       console.error('media error', e);
+    //     }
+    //   );
   };
   // $scope.stopDictation = function() {
   //   $scope.recording = false;
@@ -105,7 +217,7 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.stopDictation = function() {
     $scope.recording = false;
     setpaused();
-    $scope.mediaRecorder.stop();
+    // $scope.mediaRecorder.stop();
   };
 
   $scope.setbuttons = function() {
@@ -170,10 +282,11 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.submit = function() {
       $state.go('history');
   };
-  $scope.getAudioUrl = function(){
-      $audioURL = localStorage.getItem("audio");
-      return $sce.trustAsResourceUrl($audioURL);
-  }
+  // $scope.getAudioUrl = function(){
+  //     $audioURL = localStorage.getItem("audio");
+  //     console.log($audioURL);
+  //     return $sce.trustAsResourceUrl($audioURL);
+  // }
 
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
