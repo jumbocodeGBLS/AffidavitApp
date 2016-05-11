@@ -32,6 +32,18 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
         }
     });
 
+    $scope.home = function() {
+        if ($scope.user.type == "client") {
+            $state.go('clientview');
+        } else if ($scope.user.type == "lawyer") {
+            $state.go('clientlist');
+        } else if ($scope.user.type == "admin") {
+            $state.go('admin');
+        } else {
+            $state.go('clientview');
+        }
+    };
+
     $scope.isclient = function () {
         return ($scope.user['type'] == 1);
     };
