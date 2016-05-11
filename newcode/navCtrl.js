@@ -33,15 +33,15 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
     });
 
     $scope.isclient = function () {
-        return ($scope.user['type'] & 1);
+        return ($scope.user['type'] == 1);
     };
 
     $scope.hasclient = function() {
-        return ($scope.user['viewee'].length > 0);
+        return ($scope.user['type'] != 1);
     };
     
     $scope.isadmin = function() {
-        return ($scope.user['type'] & 8) > 0;
+        return ($scope.user['type'] == 8);
     };
 
 
