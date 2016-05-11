@@ -109,7 +109,8 @@ if (navigator.getUserMedia) {
 
 });
 
-myapp.controller('clientviewCtrl', function($scope, $http, $state) {
+angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'AuthenticationService', 
+  function ($scope, $state, AuthenticationService) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
     j("#myCarousel").carousel({interval: false});
@@ -282,23 +283,41 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.submit = function() {
       $state.go('history');
   };
-  // $scope.getAudioUrl = function(){
-  //     $audioURL = localStorage.getItem("audio");
-  //     console.log($audioURL);
-  //     return $sce.trustAsResourceUrl($audioURL);
-  // }
 
   /********************** SCOPE DATA ****************************/
   $scope.curIndex = 0;
+  
   $scope.user = {
-        'id': 1,
-        'fname': 'James',
-        'lname': 'Smith',
-        'uname': 'JSmith01',
-        'language': 'English',
-        'type' : 14, 
-        'clients': [2,3,4]
+        'type' : 0, 
+        'viewee': []
   };
+
+  AuthenticationService.getUser(function(res){
+    if (res != "") {
+      console.log(res.password.email);
+      var j = jQuery.noConflict();
+      j.ajax({
+        method: "GET",
+        url: '/userData',
+        data: {data: res.password.email} 
+      })
+      .done(function(msg) {
+        $scope.user = msg[0];
+        console.log($scope.user);
+        if ($scope.user.type == "client") {
+            $scope.user.type = 1;
+        } else if ($scope.user.type == "lawyer") {
+            $scope.user.type = 2;
+        } else if ($scope.user.type == "admin") {
+            $scope.user.type = 8;
+        } else {
+            $scope.user.type = 4;
+        }
+        $scope.$apply();
+      });
+    }
+  });
+
   $scope.videos = videos;
   $scope.dependencies = dependencies;
   $scope.curvid = $scope.videos[$scope.curIndex]['url'];
@@ -306,10 +325,32 @@ myapp.controller('clientviewCtrl', function($scope, $http, $state) {
   $scope.progress=0;
   //$scope.saveplace();
   console.log($scope.videos, $scope.dependencies);
-});
+
+}]);
 
 myapp.filter("trustUrl", ['$sce', function($sce){
     return function (recordingUrl) {
         return $sce.trustAsResourceUrl(recordingUrl);
     };
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

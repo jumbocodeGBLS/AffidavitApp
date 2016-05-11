@@ -36,7 +36,7 @@
                 <input type="text" class="form-control" placeholder="Last Name" ng-model="lname">
             </div>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Username" ng-model="uname">
+                <input type="text" class="form-control" placeholder="Email" ng-model="uname">
             </div>
             <div class="input-group">
                 <input type="password" class="form-control" placeholder="Password" ng-model="password">
@@ -51,13 +51,16 @@
             <div class="input-group">
                 <select id="language" ng-model="language">
                   <option value="preference" selected disabled>Language Preference</option>
-                  <option value="english">English</option>
-                  <option value="spanish">Spanish</option>
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
                   <option value="other">Other</option>
                 </select>
             </div>
             <div class="input-group">
-                <button class="btn btn-default" ng-click="submitNew()" data-dismiss='modal' ng-disabled="!enoughnewinfo()"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                <button class="btn btn-default" ng-click="submitNew()" ng-disabled="!enoughnewinfo()"><img src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>
+                <div class="alert alert-danger" ng-hide="reserror =='' " >
+                    <strong>Error: </strong> {{reserror.data.code}}
+                </div>
             </div>
           </div>
         </div>
@@ -74,7 +77,7 @@
                     <div class="input-group">
                         <select id="usertoedit" ng-model="form" ng-change="openEdit()">
                           <option value="" selected disabled>Choose User</option>
-                          <option ng-repeat="user in users" value="{{user.id}}">{{user.lname}}, {{user.fname}}</option>
+                          <option ng-repeat="user in users" value="{{user.user_id}}">{{user.lname}}, {{user.fname}}</option>
                         </select>
                     </div>
                     <div id="editcontent" hidden>
@@ -97,9 +100,9 @@
                         <div class="input-group">
                             <select id="nowlanguage" ng-model="nowlanguage">
                               <option value="preference" selected disabled>Language Preference</option>
-                              <option value="english">English</option>
-                              <option value="spanish">Spanish</option>
-                              <option value="other">Other</option>
+                              <option value="English">English</option>
+                              <option value="Spanish">Spanish</option>
+                              <option value="">Other</option>
                             </select>
                         </div>
                     </div>

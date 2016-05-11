@@ -1,15 +1,54 @@
-myapp.controller('clientlistCtrl', function($scope, $http, $state) {
-  $scope.data = [
-        {'name': 'Isaiah', 'progress': 96, 'id':6},
-        {'name': 'Rachael', 'progress': 72, 'id':2},
-        {'name': 'Shanshan', 'progress': 89, 'id':3},
-        {'name': 'Eric', 'progress': 57, 'id':4},
-        {'name': 'Erica', 'progress': 48, 'id':5}
-    ];
-    $scope.download = [];
-    for (var i = 0; i < $scope.data.length; i++) {
-        $scope.download.push(false);
-    }
+angular.module('myapp').controller('clientlistCtrl', ['$scope', '$state', 'AuthenticationService', 
+  function ($scope, $state, AuthenticationService) {
+    $scope.user = {
+        'type' : 0, 
+        'viewee': []
+    };
+    AuthenticationService.getUser(function(res){
+        if (res != "") {
+            console.log(res.password.email);
+            var j = jQuery.noConflict();
+            j.ajax({
+                  method: "GET",
+                  url: '/userData',
+                  data: {data: res.password.email} 
+            })
+            .done(function(msg) {
+                $scope.user = msg[0];
+                console.log($scope.user);
+                if ($scope.user.type == "client") {
+                    $scope.user.type = 1;
+                } else if ($scope.user.type == "lawyer") {
+                    $scope.user.type = 2;
+                } else if ($scope.user.type == "admin") {
+                    $scope.user.type = 8;
+                } else {
+                    $scope.user.type = 4;
+                }
+                $scope.getclients();
+            });
+        }
+    });
+
+    $scope.getclients = function() {
+        $scope.download = [];
+        var lid = parseInt($scope.user.user_id);
+        var j = jQuery.noConflict();
+        j.ajax({
+              method: "GET",
+              url: '/clientlistData',
+              data: {lawyerID: lid}
+        })
+        .done(function(msg) {
+            $scope.data = msg;
+            console.log($scope.data);
+            for (var i = 0; i < $scope.data.length; i++) {
+                $scope.download.push(false);
+            }
+            $scope.$apply();
+        });
+    };
+    
     $scope.click = function(id) {
         localStorage.setItem('viewhistoryof', id);
         $state.go('history');
@@ -26,4 +65,4 @@ myapp.controller('clientlistCtrl', function($scope, $http, $state) {
             }
         }
     };
-});
+}]);

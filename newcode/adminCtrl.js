@@ -1,4 +1,5 @@
-myapp.controller('adminCtrl', function($scope, $http) {
+angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'AuthenticationService', 
+  function ($scope, $state, AuthenticationService) {
 
 /************************* ADD USER **************************/
    // initialize values in add user modal
@@ -11,11 +12,13 @@ myapp.controller('adminCtrl', function($scope, $http) {
     $scope.client = false;
     $scope.advocate = false;
     $scope.administrator = false;
+    $scope.reserror = '';
 
     // opens add user modal
     $scope.addUser = function() {
         var j =jQuery.noConflict(); 
-        j('#myModal1').modal('show'); 
+        j('#myModal1').modal('show');
+        $scope.reserror = ''; 
     };
 
     // is there enough info to create a new user?
@@ -47,17 +50,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
         if ($scope.administrator) {
             type += 8;
         }
-        console.log({
-            'fname': $scope.fname,
-            'lname': $scope.lname,
-            'uname': $scope.uname,
-            'password': $scope.password,
-            'id': $scope.users.length + 1,
-            'language': $scope.language,
-            'type': type,
-            'clients': []
-        });
-        $scope.users.push({ // add new user to our array!
+        var newu = { // add new user to our array!
             'id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
             'lname': $scope.lname,
@@ -66,10 +59,32 @@ myapp.controller('adminCtrl', function($scope, $http) {
             'language': $scope.language,
             'type': type,
             'clients': []
+        };
+        console.log(newu);
+        var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
+        if (!validateEmail($scope.uname)) {
+            alert("Invalid email address");
+            return;
+        }
+        AuthenticationService.register(firebaseu, function(response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.reserror = "";
+                var j =jQuery.noConflict(); 
+                j('#myModal1').modal('hide');
+                $scope.users.push(newu);
+                $scope.users.sort(compare);
+                $scope.setClientsAndReps();
+            } else {
+                $scope.reserror = response;
+            }
         });
-        $scope.users.sort(compare);
-        $scope.setClientsAndReps();
     };
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 
 /************************* ADD USER END **********************/
 
@@ -88,6 +103,7 @@ myapp.controller('adminCtrl', function($scope, $http) {
         if (clientid != "") {
             document.getElementById('editcontent').hidden = false;
             var client = $scope.getuserbyid(clientid);
+
             $scope.nowfname = client['fname'];
             $scope.nowlname = client['lname'];
             $scope.nowuname = client['uname'];
@@ -96,13 +112,16 @@ myapp.controller('adminCtrl', function($scope, $http) {
             $scope.nowclient = (client['type'] & 1) ? true : false;
             $scope.nowadvocate = (client['type'] & 4) ? true : false;
             $scope.nowadministrator = (client['type'] & 8) ? true : false;
+
+            console.log($scope.nowlanguage);
+            console.log(document.getElementById('nowlanguage').value);
         }
     };
 
      // given id, returns user with that id
     $scope.getuserbyid = function(id) {
         for (var i = 0; i < $scope.users.length; i++) {
-            if ($scope.users[i]['id'] == id) {
+            if ($scope.users[i]['user_id'] == id) {
                 return $scope.users[i];
             }
         }
@@ -245,69 +264,74 @@ myapp.controller('adminCtrl', function($scope, $http) {
 
 
 /****************** NEEDED FOR ALL MODULES ********************/
-    // hard-coded for now. Later, get this from the server!!
-    $scope.users = [
-        {
-        'id': 1,
-        'fname': 'James',
-        'lname': 'Smith',
-        'uname': 'JSmith01',
-        'language': 'english',
-        'type' : 11, 
-        'clients': [3]
-        },
-        {
-        'id': 2,
-        'fname': 'Rita',
-        'lname': 'Shatz',
-        'uname': 'RShatz01',
-        'language': 'spanish',
-        'type' : 12, 
-        'clients': [1,5]
-        },
-        {
-        'id': 3,
-        'fname': 'Sarah',
-        'lname': 'Best',
-        'uname': 'SBest02',
-        'language': 'english',
-        'type' : 13, 
-        'clients': [5]
-        },
-        {
-        'id': 4,
-        'fname': 'Johnson',
-        'lname': 'Johnson',
-        'uname': 'JJohnson',
-        'language': 'english',
-        'type' : 14, 
-        'clients': [3,5]
-        },
-        {
-        'id': 5,
-        'fname': 'Bianca',
-        'lname': 'Blueberry',
-        'uname': 'BB',
-        'language': 'spanish',
-        'type' : 15, 
-        'clients': [3]
+    var j = jQuery.noConflict();
+    j.ajax({
+          method: "GET",
+          url: '/allUserData'
+    })
+    .done(function(msg) {
+        console.log(msg);
+        $scope.users = [];
+
+        for (var i = 0; i < msg.length; i++) {
+            var alreadyIn = false;
+            if (msg[i].type == "client") {
+                msg[i].type = 1;
+            } else if (msg[i].type == "lawyer") {
+                msg[i].type = 2;
+            } else if (msg[i].type == "admin") {
+                msg[i].type = 8;
+            } else {
+                msg[i].type = 4;
+            }
+            for (var j = 0; j < $scope.users.length; j++) {
+                if (msg[i]['fname'] == $scope.users[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            if (!alreadyIn){
+                $scope.users.push(msg[i]);
+            }
         }
-    ];
-    $scope.users.sort(compare);
+
+        $scope.users.sort(compare);
+        $scope.setClientsAndReps();
+    });
         
     // sets arrays of clients and reps based on array of overall users
     $scope.setClientsAndReps = function() {
         $scope.clients = [];
         $scope.reps = [];
+        console.log($scope.users);
         for (var i = 0; i < $scope.users.length; i++) {
-            if (($scope.users[i]['type'] & 1) > 0) {
+            var alreadyIn = false;
+            for (var j = 0; j < $scope.clients.length; j++) {
+                if ($scope.users[i]['fname'] == $scope.clients[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            for (var j = 0; j < $scope.reps.length; j++) {
+                if ($scope.users[i]['fname'] == $scope.reps[j]['fname']) {
+                    alreadyIn = true;
+                }
+            }
+            if ($scope.users[i]['type'] == 1 && !alreadyIn) {
                 $scope.clients.push($scope.users[i]);
             }
-            if (($scope.users[i]['type'] & 2) > 0 || ($scope.users[i]['type'] & 4)  > 0) {
+            if (!alreadyIn && ($scope.users[i]['type'] == 2 || $scope.users[i]['type'] == 4)) {
                 $scope.reps.push($scope.users[i]);
             }
         }
     };
+}]);
 
-    $scope.setClientsAndReps();
-});
+
+
+
+
+
+
+
+
+
+
