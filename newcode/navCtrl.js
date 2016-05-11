@@ -33,11 +33,11 @@ angular.module('myapp').controller('navCtrl', ['$scope', '$state', 'Authenticati
     });
 
     $scope.home = function() {
-        if ($scope.user.type == "client") {
+        if ($scope.user.type == 1) {
             $state.go('clientview');
-        } else if ($scope.user.type == "lawyer") {
+        } else if ($scope.user.type == 2) {
             $state.go('clientlist');
-        } else if ($scope.user.type == "admin") {
+        } else if ($scope.user.type == 8) {
             $state.go('admin');
         } else {
             $state.go('clientview');
