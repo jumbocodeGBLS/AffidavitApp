@@ -13,7 +13,7 @@ angular.module('myapp').controller('historyCtrl', ['$scope', '$state', 'Authenti
                 console.log(msg);
                 $scope.user = msg[0];
                 var id = '';
-                if ($scope.user.type != 1) {
+                if ($scope.user.type != 1 && $scope.user.type != "client") {
                     var client = JSON.parse(localStorage.getItem('viewhistoryof'));
                     id = client.user_id;
                 } else {
