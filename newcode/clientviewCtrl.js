@@ -118,27 +118,6 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
 
   // sets classes of yes/no buttons depending on current click / click history
   // $scope.mediaRecorder;
-  function setyes() {
-      var j = jQuery.noConflict();
-      j('#b1').removeClass('unclicked');
-      j('#b1').addClass('clicked');
-      j('#b2').removeClass('clicked');
-      j('#b2').addClass('unclicked');
-  }
-  function setno() {
-      var j = jQuery.noConflict();
-      j('#b2').removeClass('unclicked');
-      j('#b2').addClass('clicked');
-      j('#b1').removeClass('clicked');
-      j('#b1').addClass('unclicked');
-  }
-  function setunclicked() {
-      var j = jQuery.noConflict();
-      j('#b2').removeClass('clicked');
-      j('#b2').addClass('unclicked');
-      j('#b1').removeClass('clicked');
-      j('#b1').addClass('unclicked');
-  }
   function setrecording() {
       var j = jQuery.noConflict();
       j('#b3').removeClass('unclicked');
@@ -167,7 +146,6 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
     $scope.startDictation();
   };
   $scope.startDictation = function() {
-    setrecording();
     if (!$scope.recording) {
       return;
     }
