@@ -315,10 +315,13 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                     alreadyIn = true;
                 }
             }
-            if ($scope.users[i]['type'] == 1 && !alreadyIn) {
+            if (alreadyIn) {
+                continue;
+            }
+            else if ($scope.users[i]['type'] == 1) {
                 $scope.clients.push($scope.users[i]);
             }
-            if (!alreadyIn && ($scope.users[i]['type'] == 2 || $scope.users[i]['type'] == 4)) {
+            else {
                 $scope.reps.push($scope.users[i]);
             }
         }
