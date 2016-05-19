@@ -125,13 +125,13 @@
                         Assign:<br>
                         <select id="usertopair" ng-model="form2" ng-change="openPair()">
                           <option value="" selected disabled>Choose Client</option>
-                          <option ng-repeat="client in clients" value="{{client.id}}">{{client.lname}}, {{client.fname}}</option>
+                          <option ng-repeat="client in clients" value="{{client.user_id}}">{{client.lname}}, {{client.fname}}</option>
                         </select>
                         <br><br>
                         <div id="paircontent" hidden>
                             To:<br>
                             <div ng-repeat="rep in reps">
-                            <input type="checkbox" name="representative" id="{{rep.id}}">&nbsp;&nbsp;{{rep.lname}}, {{rep.fname}}</div>
+                            <input type="checkbox" name="representative" id="{{rep.user_id}}">&nbsp;&nbsp;{{rep.lname}}, {{rep.fname}}</div>
                         </div>
                         <br><br>
                         <button class="btn btn-default" ng-click="submitPair()" data-dismiss='modal' ng-disabled="!enoughassigninfo()"><img  src="images/check.png" alt="check" width="20px"/>&nbsp;&nbsp;SUBMIT</button>

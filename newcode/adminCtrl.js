@@ -51,14 +51,14 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             type += 8;
         }
         var newu = { // add new user to our array!
-            'id': document.getElementById('usertoedit').value,
+            'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
             'lname': $scope.lname,
             'uname': $scope.uname,
-            'id': $scope.users.length + 1,
+            //'id': $scope.users.length + 1,
             'language': $scope.language,
             'type': type,
-            'clients': []
+            'viewee': []
         };
         console.log(newu);
         var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
@@ -156,24 +156,24 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             type += 8;
         }
         console.log({
-            'id': document.getElementById('usertoedit').value,
+            'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.nowfname,
             'lname': $scope.nowlname,
             'uname': $scope.nowuname,
             'language': $scope.nowlanguage,
             'type': type,
-            'clients': []
+            'viewee': []
         });
         for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
-                if ($scope.users[i]['id'] == document.getElementById('usertoedit').value) {
+                if ($scope.users[i]['user_id'] == document.getElementById('usertoedit').value) {
                     $scope.users[i] = {
-                        'id': document.getElementById('usertoedit').value,
+                        'user_id': document.getElementById('usertoedit').value,
                         'fname': $scope.nowfname,
                         'lname': $scope.nowlname,
                         'uname': $scope.nowuname,
                         'language': $scope.nowlanguage,
                         'type': type,
-                        'clients': []
+                        'viewee': []
                     };
                 }
             }
@@ -195,13 +195,15 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
     // open hidden section of client assignment modal if user selected; initialize values
     $scope.openPair = function() {
         var clientid = document.getElementById('usertopair').value;
+        console.log(clientid);
         if (clientid != "") {
             document.getElementById('paircontent').hidden = false;
             for (var i = 0; i < $scope.reps.length; i++) {
-                document.getElementById($scope.reps[i]['id']).checked = false;
-                for (var j = 0; j < $scope.reps[i]['clients'].length; j++) {
-                    if ($scope.reps[i]['clients'][j] == clientid) {
-                        document.getElementById($scope.reps[i]['id']).checked = true;
+                document.getElementById($scope.reps[i]['user_id']).checked = false;
+                console.log($scope.reps[i]);
+                for (var j = 0; j < $scope.reps[i]['viewee'].length; j++) {
+                    if ($scope.reps[i]['viewee'][j] == clientid) {
+                        document.getElementById($scope.reps[i]['user_id']).checked = true;
                     }
                 }
             }
@@ -231,28 +233,28 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             }
 
             // if they're checked off as one of the client's reps
-            if (document.getElementById($scope.users[i]['id']).checked) {
-                clientreps.push($scope.users[i]['id']);
+            if (document.getElementById($scope.users[i]['user_id']).checked) {
+                clientreps.push($scope.users[i]['user_id']);
                 var alreadythere = false;
-                for (var j = 0; j < $scope.users[i]['clients'].length; j++) {
-                    if ($scope.users[i]['clients'][j] == clientid) {
+                for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
+                    if ($scope.users[i]['viewee'][j] == clientid) {
                         alreadythere = true;
                         break;
                     }
                 }
                 if (!alreadythere) {
-                    $scope.users[i]['clients'].push(clientid);
+                    $scope.users[i]['viewee'].push(clientid);
                 }
             }
 
             else { // remove client from unchecked reps' client lists
                 var newclients = []; // rep's new client array, without current client
-                for (var j = 0; j < $scope.users[i]['clients'].length; j++) {
-                    if ($scope.users[i]['clients'][j] != clientid) {
-                        newclients.push($scope.users[i]['clients'][j]);
+                for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
+                    if ($scope.users[i]['viewee'][j] != clientid) {
+                        newclients.push($scope.users[i]['viewee'][j]);
                     }
                 }
-                $scope.users[i]['clients'] = newclients;
+                $scope.users[i]['viewee'] = newclients;
             }
         }
         console.log({'reps':clientreps,'client':clientid});
@@ -325,6 +327,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                 $scope.reps.push($scope.users[i]);
             }
         }
+        console.log($scope.clients, $scope.reps);
     };
 }]);
 
