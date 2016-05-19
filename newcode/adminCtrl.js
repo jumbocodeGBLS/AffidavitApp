@@ -286,12 +286,17 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                 msg[i].type = 4;
             }
             for (var j = 0; j < $scope.users.length; j++) {
-                if (msg[i]['fname'] == $scope.users[j]['fname']) {
+                if (msg[i]['uname'] == $scope.users[j]['uname']) {
+                    $scope.users[j]['viewee'].push(msg[i]['viewee']);
                     alreadyIn = true;
                 }
             }
             if (!alreadyIn){
-                $scope.users.push(msg[i]);
+                var newperson = msg[i];
+                var viewee = msg[i]['viewee'];
+                newperson.viewee = [];
+                newperson.viewee.push(viewee);
+                $scope.users.push(newperson);
             }
         }
 
