@@ -50,7 +50,13 @@ angular.module('myapp').controller('clientlistCtrl', ['$scope', '$state', 'Authe
     };
     
     $scope.click = function(id) {
-        localStorage.setItem('viewhistoryof', id);
+        for (var i = 0; i < $scope.data.length; i++) {
+            if ($scope.data[i]['user_id'] == id) {
+                console.log("found", $scope.download);
+                localStorage.setItem('viewhistoryof', JSON.stringify($scope.data[i]));
+                break;
+            }
+        }
         $state.go('history');
     };
     $scope.selectall = function() {

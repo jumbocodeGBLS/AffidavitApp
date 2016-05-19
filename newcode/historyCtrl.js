@@ -1,5 +1,5 @@
 angular.module('myapp').controller('historyCtrl', ['$scope', '$state', 'AuthenticationService', 
-  function ($scope, $state, AuthenticationService) {              
+  function ($scope, $state, AuthenticationService) {            
     AuthenticationService.getUser(function(res){
         if (res != "") {
             console.log(res.password.email);
@@ -10,11 +10,19 @@ angular.module('myapp').controller('historyCtrl', ['$scope', '$state', 'Authenti
                   data: {data: res.password.email} 
             })
             .done(function(msg) {
+                console.log(msg);
                 $scope.user = msg[0];
+                var id = '';
+                if ($scope.user.type != 1) {
+                    var client = JSON.parse(localStorage.getItem('viewhistoryof'));
+                    id = client.user_id;
+                } else {
+                    id = $scope.user.user_id;
+                }
                 j.ajax({
                     method: "GET",
                     url:'/historyData',
-                    data: {clientID: $scope.user.user_id}
+                    data: {clientID: id}
                 })
                 .done(function(msg) {
                     console.log(msg);

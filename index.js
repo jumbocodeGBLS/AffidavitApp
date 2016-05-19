@@ -184,7 +184,7 @@ app.get('/clientlistData', function(request, response) {
 	});
 
 	// clients for a specific lawyer, lawyer ID hardcoded for now, expecting it from frontend
-	var queryStr = "SELECT fname, progress, user_id FROM App_User WHERE user_id in \
+	var queryStr = "SELECT * FROM App_User WHERE user_id in \
 					(SELECT viewee FROM Client_Access WHERE viewer = " + request.query.lawyerID + ")";
 	var query = client.query(queryStr, function(err, res) {
 		if (err) {

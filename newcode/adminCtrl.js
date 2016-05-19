@@ -108,10 +108,10 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             $scope.nowlname = client['lname'];
             $scope.nowuname = client['uname'];
             $scope.nowlanguage = client['language'];
-            $scope.nowlawyer = (client['type'] & 2) ? true : false;
-            $scope.nowclient = (client['type'] & 1) ? true : false;
-            $scope.nowadvocate = (client['type'] & 4) ? true : false;
-            $scope.nowadministrator = (client['type'] & 8) ? true : false;
+            $scope.nowlawyer = (client['type'] == 2) ? true : false;
+            $scope.nowclient = (client['type'] == 1) ? true : false;
+            $scope.nowadvocate = (client['type'] == 4) ? true : false;
+            $scope.nowadministrator = (client['type'] == 8) ? true : false;
 
             console.log($scope.nowlanguage);
             console.log(document.getElementById('nowlanguage').value);
@@ -227,8 +227,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         for (var i = 0; i < $scope.users.length; i++) {
 
             // if this is true, they're not a representative
-            if (($scope.users[i]['type'] & 2) == 0 && 
-                ($scope.users[i]['type'] & 4) == 0) {
+            if ($scope.users[i]['type'] == 1) {
                 continue;
             }
 
