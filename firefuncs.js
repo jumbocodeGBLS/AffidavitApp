@@ -1,7 +1,7 @@
 /* This file was made possible due to the DREAM team's app! */
 
 var Firebase = require('firebase');
-var firebase = new Firebase('https://affadavitapp.firebaseio.com/');
+var firebase = new Firebase('https://affidavitapp.firebaseio.com/');
 
 this.register = function(username, password, password2, callback) {
     console.log("in register");
