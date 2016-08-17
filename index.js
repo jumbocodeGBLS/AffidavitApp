@@ -45,7 +45,6 @@ app.set('view engine', 'ejs');
   // log the user into firebase
   app.post('/login', function(req, res) {
   	console.log('post /login');
-    // TODO: escape user input - should this happen on the front end?
     firefuncs.login(req.body.username,
                     req.body.password,
                     function(status, auth) {
@@ -59,7 +58,7 @@ app.set('view engine', 'ejs');
     res.sendFile(path.join(__dirname, '/index.html'));
   });
   // log the user out of firebase
-  app.post('/logout', function(req, res) { // TODO: figure this out
+  app.post('/logout', function(req, res) {
     firefuncs.logout(function(un) {
       res.send(un);
     });
@@ -145,7 +144,6 @@ app.set('view engine', 'ejs');
   })
 
   // require authentication for all other routes
-  // TODO: DOESN'T WORK...i don't know why
   app.use(function(req, res, next) {
     var authData = firefuncs.getUser();
     if (!authData) {
@@ -250,8 +248,7 @@ app.get('/userData', function(request,response) {
 });
 
 // Given a userID, return response history
-// TODO: also call from clientview page to get past recordings?
-// TODO: how to also get recording and transcription URLs from here?
+// TODO2: also call from clientview page to get past recordings
 app.get('/historyData', function(request,response) {
 	var client = new pg.Client(connectionString);
 	client.connect(function(err) {
@@ -262,6 +259,8 @@ app.get('/historyData', function(request,response) {
 	});
   var queryStr = "SELECT q_id, \
                          txt, \
+                         ARRAY_AGG(recording_url) as rurl, \
+                         ARRAY_AGG(transcription_url) as turl, \
                          ARRAY_AGG(time) as date, \
                          ARRAY_AGG(recording_url) as link \
                   FROM response \
@@ -303,7 +302,7 @@ app.listen(app.get('port'), function() {
 
 // TODO: currently all logged-in users can make a request
 
-// called from admin page
+// TODO2: called from admin page
 app.post('/createUser', function(request,response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -345,7 +344,7 @@ app.post('/createUser', function(request,response) {
 });
 
 
-// called from admin page
+// TODO2: called from admin page
 app.post('/updateUser', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -380,7 +379,7 @@ app.post('/updateUser', function(request, response) {
     query.on('end', function() { client.end(); });
 });
 
-// called from admin page
+// TODO2: called from admin page
 app.post('/createAssignment', function(request,response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -406,7 +405,7 @@ app.post('/createAssignment', function(request,response) {
     query.on('end', function() { client.end(); });
 });
 
-// called from admin page
+// TODO2: called from admin page
 app.post('/deleteAssignment', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -431,8 +430,7 @@ app.post('/deleteAssignment', function(request, response) {
     query.on('end', function() { client.end(); });
 });
 
-// ? how are we going to do this?
-// called when client created
+// TODO2: called when client created
 app.post('/createAffidavit', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -459,8 +457,8 @@ app.post('/createAffidavit', function(request, response) {
     query.on('end', function() { client.end(); });
 });
 
-// ? how are we going to do this?
-// called when client records new response
+// TODO: ? how are we going to do this?
+// TODO2: called when client records new response
 app.post('/addResponse', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
