@@ -51,7 +51,7 @@ app.set('view engine', 'ejs');
                     function(status, auth) {
       res.status(status);
       res.send(auth);
-    }); 
+    });
   });
   
   // display the page to the user
@@ -173,7 +173,7 @@ app.get('/allUserData', function(request,response) {
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		}
 	});
 	var queryStr = "SELECT App_User.*, Client_Access.viewee FROM App_User \
@@ -182,7 +182,7 @@ app.get('/allUserData', function(request,response) {
 	var query = client.query(queryStr, function(err, res) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		} else {
 			response.send(res.rows);
 		}
@@ -196,7 +196,7 @@ app.get('/clientlistData', function(request, response) {
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		}
 	});
 
@@ -211,7 +211,7 @@ app.get('/clientlistData', function(request, response) {
                            function(err, res) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		} else {
 			response.send(res.rows);
 		}
@@ -227,7 +227,7 @@ app.get('/userData', function(request,response) {
 		if (err) {
       console.log("couldn't connect");
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		}
 	});
   var queryStr = "SELECT App_User.*, \
@@ -240,7 +240,7 @@ app.get('/userData', function(request,response) {
 	var query = client.query(queryStr, [request.query.data], function(err, res) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		} else {
 			response.send(res.rows);
 		}
@@ -250,12 +250,14 @@ app.get('/userData', function(request,response) {
 });
 
 // Given a userID, return response history
+// TODO: also call from clientview page to get past recordings?
+// TODO: how to also get recording and transcription URLs from here?
 app.get('/historyData', function(request,response) {
 	var client = new pg.Client(connectionString);
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		}
 	});
   var queryStr = "SELECT q_id, \
@@ -270,7 +272,7 @@ app.get('/historyData', function(request,response) {
   var query = client.query(queryStr, [request.query.clientID], function(err, res) {
 		if (err) {
 			console.log(err);
-			// TODO: handle error
+			// TODO1: handle error
 		} else {
 			response.send(res.rows);
 		}
@@ -307,7 +309,7 @@ app.post('/createUser', function(request,response) {
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "INSERT into app_user (user_id, \
@@ -334,7 +336,7 @@ app.post('/createUser', function(request,response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
@@ -349,7 +351,7 @@ app.post('/updateUser', function(request, response) {
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "UPDATE app_user SET fname=$1::text, \
@@ -370,7 +372,7 @@ app.post('/updateUser', function(request, response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
@@ -384,7 +386,7 @@ app.post('/createAssignment', function(request,response) {
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "INSERT into client_access (viewer, viewee) \
@@ -396,7 +398,7 @@ app.post('/createAssignment', function(request,response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
@@ -410,7 +412,7 @@ app.post('/deleteAssignment', function(request, response) {
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "DELETE FROM client_access \
@@ -421,7 +423,7 @@ app.post('/deleteAssignment', function(request, response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
@@ -430,13 +432,13 @@ app.post('/deleteAssignment', function(request, response) {
 });
 
 // ? how are we going to do this?
-// called when client loads clientview and page tries to get aff info and can't
+// called when client created
 app.post('/createAffidavit', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "INSERT INTO affidavit (aff_id, client, a_date) \
@@ -449,7 +451,7 @@ app.post('/createAffidavit', function(request, response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
@@ -458,13 +460,13 @@ app.post('/createAffidavit', function(request, response) {
 });
 
 // ? how are we going to do this?
-// called when 
+// called when client records new response
 app.post('/addResponse', function(request, response) {
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       }
     });
     var queryStr = "INSERT INTO response (affidavit, \
@@ -489,7 +491,7 @@ app.post('/addResponse', function(request, response) {
                              function(err, res) {
       if (err) {
         console.log(err);
-        // TODO: handle error
+        // TODO1: handle error
       } else {
         response.send(res.rows);
       }
