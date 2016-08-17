@@ -259,8 +259,7 @@ app.get('/historyData', function(request,response) {
 	});
   var queryStr = "SELECT q_id, \
                          txt, \
-                         ARRAY_AGG(recording_url) as rurl, \
-                         ARRAY_AGG(transcription_url) as turl, \
+                         ARRAY_AGG(transcription_url) as transcript_link, \
                          ARRAY_AGG(time) as date, \
                          ARRAY_AGG(recording_url) as link \
                   FROM response \
