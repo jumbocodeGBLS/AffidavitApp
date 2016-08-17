@@ -200,10 +200,12 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             document.getElementById('paircontent').hidden = false;
             for (var i = 0; i < $scope.reps.length; i++) {
                 document.getElementById($scope.reps[i]['user_id']).checked = false;
+                document.getElementById($scope.reps[i]['user_id']).disabled = false;
                 console.log($scope.reps[i]);
                 for (var j = 0; j < $scope.reps[i]['viewee'].length; j++) {
                     if ($scope.reps[i]['viewee'][j] == clientid) {
                         document.getElementById($scope.reps[i]['user_id']).checked = true;
+                        document.getElementById($scope.reps[i]['user_id']).disabled = true;
                     }
                 }
             }

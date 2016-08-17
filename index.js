@@ -12,11 +12,11 @@ app.use(body_parser.json());
 app.use(body_parser.json({ type: 'application/vnd.api+json' }));
 // // parse application/x-www-form-urlencoded
 app.use(body_parser.urlencoded({ extended: true }));
-// override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
+// override with the X-HTTP-Method-Override header in the request.
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-var connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/GBLS_db';
-//var connectionString = 'postgres://postgres:postgres@localhost:5432/GBLS_db';
+var connectionString = process.env.DATABASE_URL ||
+                       'postgres://postgres:postgres@localhost:5432/GBLS_db';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -27,7 +27,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
-/*************************************** FIREBASE ***************************************/
+/*************************************** FIREBASE ****************************/
 // The following code was made possible due to the DREAM team's app!
   HttpStatusCodes = {
     success:      { code: 200, description: "Success" },
@@ -46,10 +46,12 @@ app.set('view engine', 'ejs');
   app.post('/login', function(req, res) {
   	console.log('post /login');
     // TODO: escape user input - should this happen on the front end?
-    firefuncs.login(req.body.username, req.body.password, function(status, auth) {
+    firefuncs.login(req.body.username,
+                    req.body.password,
+                    function(status, auth) {
       res.status(status);
       res.send(auth);
-    });
+    }); 
   });
   
   // display the page to the user
@@ -69,7 +71,10 @@ app.set('view engine', 'ejs');
   });
   // register the user with firebase
   app.post('/register', function(req, res) {
-    firefuncs.register(req.body.username, req.body.password, req.body.password2, function(status, info) {
+    firefuncs.register(req.body.username,
+                       req.body.password,
+                       req.body.password2,
+                       function(status, info) {
       res.status(status);
       res.send(info);
     });
@@ -80,8 +85,12 @@ app.set('view engine', 'ejs');
     res.sendFile(path.join(__dirname, '/index.html'));
   });
   // delete the user from firebase
+  // user is never actually deleted from the postgres database, as that would
+  // interfere with other tables etc.
   app.post('/deleteuser', function(req, res) {
-    firefuncs.deleteuser(req.body.username, req.body.password, function(status, info) {
+    firefuncs.deleteuser(req.body.username,
+                         req.body.password,
+                         function(status, info) {
       res.status(status);
       res.send(info);
     });
@@ -93,7 +102,10 @@ app.set('view engine', 'ejs');
   });
   // delete the user from firebase
   app.post('/changePassword', function(req, res) {
-    firefuncs.changePassword(req.body.username, req.body.oldpassword, req.body.newpassword, function(status, info) {
+    firefuncs.changePassword(req.body.username,
+                             req.body.oldpassword,
+                             req.body.newpassword,
+                             function(status, info) {
       res.status(status);
       res.send(info);
     });
@@ -105,7 +117,10 @@ app.set('view engine', 'ejs');
   });
   // delete the user from firebase
   app.post('/changeEmail', function(req, res) {
-    firefuncs.changeEmail(req.body.oldusername, req.body.newusername, req.body.password, function(status, info) {
+    firefuncs.changeEmail(req.body.oldusername,
+                          req.body.newusername,
+                          req.body.password,
+                          function(status, info) {
       res.status(status);
       res.send(info);
     });
@@ -129,7 +144,8 @@ app.set('view engine', 'ejs');
     res.send(authData);
   })
 
-  // require authentication for all other routes - DOESN'T WORK...i don't know why
+  // require authentication for all other routes
+  // TODO: DOESN'T WORK...i don't know why
   app.use(function(req, res, next) {
     var authData = firefuncs.getUser();
     if (!authData) {
@@ -160,8 +176,9 @@ app.get('/allUserData', function(request,response) {
 			// TODO: handle error
 		}
 	});
-	var queryStr = 'SELECT App_User.*, Client_Access.viewee FROM App_User LEFT JOIN \
-					Client_Access ON App_User.user_id = Client_Access.viewer';
+	var queryStr = "SELECT App_User.*, Client_Access.viewee FROM App_User \
+                  LEFT JOIN Client_Access \
+                  ON App_User.user_id = Client_Access.viewer;";
 	var query = client.query(queryStr, function(err, res) {
 		if (err) {
 			console.log(err);
@@ -183,10 +200,15 @@ app.get('/clientlistData', function(request, response) {
 		}
 	});
 
-	// clients for a specific lawyer, lawyer ID hardcoded for now, expecting it from frontend
-	var queryStr = "SELECT * FROM App_User WHERE user_id in \
-					(SELECT viewee FROM Client_Access WHERE viewer = " + request.query.lawyerID + ")";
-	var query = client.query(queryStr, function(err, res) {
+	// clients for a specific lawyer
+  // lawyer ID hardcoded for now, expecting it from frontend
+	var queryStr = "SELECT * FROM App_User \
+                  WHERE user_id in \
+                      (SELECT viewee FROM Client_Access \
+                       WHERE viewer = $1::text);";
+	var query = client.query(queryStr,
+                           [request.query.lawyerID],
+                           function(err, res) {
 		if (err) {
 			console.log(err);
 			// TODO: handle error
@@ -208,12 +230,14 @@ app.get('/userData', function(request,response) {
 			// TODO: handle error
 		}
 	});
-  var queryStr = "SELECT App_User.*, ARRAY_AGG(Client_Access.viewee) AS viewee FROM App_User \
-        LEFT JOIN Client_Access \
-        ON App_User.user_id = Client_Access.viewer \
-        WHERE App_User.uname = '" + request.query.data +
-        "'GROUP BY App_User.user_id;"
-	var query = client.query(queryStr, function(err, res) {
+  var queryStr = "SELECT App_User.*, \
+                         ARRAY_AGG(Client_Access.viewee) AS viewee \
+                  FROM App_User \
+                  LEFT JOIN Client_Access \
+                      ON App_User.user_id = Client_Access.viewer \
+                  WHERE App_User.uname = $1::text \
+                  GROUP BY App_User.user_id;";
+	var query = client.query(queryStr, [request.query.data], function(err, res) {
 		if (err) {
 			console.log(err);
 			// TODO: handle error
@@ -234,12 +258,16 @@ app.get('/historyData', function(request,response) {
 			// TODO: handle error
 		}
 	});
-  var queryStr = "SELECT q_id, txt, ARRAY_AGG(time) as date, ARRAY_AGG(recording_url) as link \
-                  FROM response LEFT JOIN question ON question.q_id=response.q_num \
-                  WHERE response.affidavit = (SELECT aff_id FROM affidavit WHERE client ="
-                  + request.query.clientID + ") \
-                  GROUP BY q_id;"
-  var query = client.query(queryStr, function(err, res) {
+  var queryStr = "SELECT q_id, \
+                         txt, \
+                         ARRAY_AGG(time) as date, \
+                         ARRAY_AGG(recording_url) as link \
+                  FROM response \
+                  LEFT JOIN question ON question.q_id=response.q_num \
+                  WHERE response.affidavit = \
+                      (SELECT aff_id FROM affidavit WHERE client = $1::int) \
+                  GROUP BY q_id;";
+  var query = client.query(queryStr, [request.query.clientID], function(err, res) {
 		if (err) {
 			console.log(err);
 			// TODO: handle error
@@ -271,6 +299,204 @@ app.listen(app.get('port'), function() {
 });
 
 
+// TODO: currently all logged-in users can make a request
 
-// TODO: post request to save new user, post request to edit user, post request to save
-// recording, currently all logged-in users can make a request
+// called from admin page
+app.post('/createUser', function(request,response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "INSERT into app_user (user_id, \
+                                          fname, \
+                                          lname, \
+                                          uname, \
+                                          language, \
+                                          progress, \
+                                          type) \
+                    VALUES ((SELECT max(user_id) from app_user) + 1, \
+                            $1::text, \
+                            $2::text, \
+                            $3::text, \
+                            $4::text, \
+                            $5::int, \
+                            $6::text);";
+    var query = client.query(queryStr,
+                             [request.query.fname,
+                              request.query.lname,
+                              request.query.uname,
+                              request.query.cli_lang,
+                              request.query.progress,
+                              request.query.cli_type],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+
+// called from admin page
+app.post('/updateUser', function(request, response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "UPDATE app_user SET fname=$1::text, \
+                                        lname=$2::text, \
+                                        uname=$3::text, \
+                                        language=$4::text, \
+                                        progress=$5::int, \
+                                        type=$6::text \
+                    WHERE user_id=$7::int;";
+    var query = client.query(queryStr,
+                             [request.query.fname,
+                              request.query.lname,
+                              request.query.uname,
+                              request.query.cli_lang,
+                              request.query.progress,
+                              request.query.cli_type,
+                              request.query.user_id],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+// called from admin page
+app.post('/createAssignment', function(request,response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "INSERT into client_access (viewer, viewee) \
+                    VALUES ($1::int, \
+                            $2::int);";
+    var query = client.query(queryStr,
+                             [request.query.viewer,
+                              request.query.viewee],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+// called from admin page
+app.post('/deleteAssignment', function(request, response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "DELETE FROM client_access \
+                    WHERE viewer=$1::int AND viewee=$2::int;";
+    var query = client.query(queryStr,
+                             [request.query.viewer,
+                              request.query.viewee],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+// ? how are we going to do this?
+// called when client loads clientview and page tries to get aff info and can't
+app.post('/createAffidavit', function(request, response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "INSERT INTO affidavit (aff_id, client, a_date) \
+                    VALUES ((SELECT max(aff_id) from affidavit) + 1, \
+                            $1::int, \
+                            $2::text);";
+    var query = client.query(queryStr,
+                             [request.query.user_id,
+                              request.query.datetime],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+// ? how are we going to do this?
+// called when 
+app.post('/addResponse', function(request, response) {
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      }
+    });
+    var queryStr = "INSERT INTO response (affidavit, \
+                                          q_num, \
+                                          rec_num, \
+                                          transcription_url, \
+                                          recording_url, \
+                                          time) \
+                    VALUES ($1::int, \
+                            $2::int, \
+                            $3::int, \
+                            $4::text, \
+                            $5::text, \
+                            $6::text);";
+    var query = client.query(queryStr,
+                             [request.query.affidavit,
+                              request.query.q_num,
+                              request.query.rec_num,
+                              request.query.transcription_url,
+                              request.query.recording_url,
+                              request.query.datetime],
+                             function(err, res) {
+      if (err) {
+        console.log(err);
+        // TODO: handle error
+      } else {
+        response.send(res.rows);
+      }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+
+// TODO: are we pulling video URLs and dependencies from the database, or can this
+// info remain on the frontend?
