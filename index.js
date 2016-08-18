@@ -267,7 +267,9 @@ app.get('/historyData', function(request,response) {
                   WHERE response.affidavit = \
                       (SELECT aff_id FROM affidavit WHERE client = $1::int) \
                   GROUP BY q_id;";
-  var query = client.query(queryStr, [request.query.clientID], function(err, res) {
+  var query = client.query(queryStr,
+                           [request.query.clientID],
+                           function(err, res) {
 		if (err) {
 			console.log(err);
 			// TODO1: handle error
@@ -323,14 +325,14 @@ app.post('/createUser', function(request,response) {
                             $3::text, \
                             $4::text, \
                             $5::int, \
-                            $6::text);";
+                            $6::user_type);";
     var query = client.query(queryStr,
-                             [request.query.fname,
-                              request.query.lname,
-                              request.query.uname,
-                              request.query.cli_lang,
-                              request.query.progress,
-                              request.query.cli_type],
+                             [request.body.fname,
+                              request.body.lname,
+                              request.body.uname,
+                              request.body.language,
+                              request.body.progress,
+                              request.body.typestr],
                              function(err, res) {
       if (err) {
         console.log(err);
@@ -360,13 +362,13 @@ app.post('/updateUser', function(request, response) {
                                         type=$6::text \
                     WHERE user_id=$7::int;";
     var query = client.query(queryStr,
-                             [request.query.fname,
-                              request.query.lname,
-                              request.query.uname,
-                              request.query.cli_lang,
-                              request.query.progress,
-                              request.query.cli_type,
-                              request.query.user_id],
+                             [request.body.fname,
+                              request.body.lname,
+                              request.body.uname,
+                              request.body.cli_lang,
+                              request.body.progress,
+                              request.body.cli_type,
+                              request.body.user_id],
                              function(err, res) {
       if (err) {
         console.log(err);
@@ -391,8 +393,8 @@ app.post('/createAssignment', function(request,response) {
                     VALUES ($1::int, \
                             $2::int);";
     var query = client.query(queryStr,
-                             [request.query.viewer,
-                              request.query.viewee],
+                             [request.body.viewer,
+                              request.body.viewee],
                              function(err, res) {
       if (err) {
         console.log(err);
@@ -416,8 +418,8 @@ app.post('/deleteAssignment', function(request, response) {
     var queryStr = "DELETE FROM client_access \
                     WHERE viewer=$1::int AND viewee=$2::int;";
     var query = client.query(queryStr,
-                             [request.query.viewer,
-                              request.query.viewee],
+                             [request.body.viewer,
+                              request.body.viewee],
                              function(err, res) {
       if (err) {
         console.log(err);
@@ -443,8 +445,8 @@ app.post('/createAffidavit', function(request, response) {
                             $1::int, \
                             $2::text);";
     var query = client.query(queryStr,
-                             [request.query.user_id,
-                              request.query.datetime],
+                             [request.body.user_id,
+                              request.body.datetime],
                              function(err, res) {
       if (err) {
         console.log(err);
@@ -479,12 +481,12 @@ app.post('/addResponse', function(request, response) {
                             $5::text, \
                             $6::text);";
     var query = client.query(queryStr,
-                             [request.query.affidavit,
-                              request.query.q_num,
-                              request.query.rec_num,
-                              request.query.transcription_url,
-                              request.query.recording_url,
-                              request.query.datetime],
+                             [request.body.affidavit,
+                              request.body.q_num,
+                              request.body.rec_num,
+                              request.body.transcription_url,
+                              request.body.recording_url,
+                              request.body.datetime],
                              function(err, res) {
       if (err) {
         console.log(err);

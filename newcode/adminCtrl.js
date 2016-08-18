@@ -35,33 +35,51 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             return false;
     };
 
-    // create a new user
-    $scope.submitNew = function() {
+    // returns user's type as an int and a string
+    $scope.getType = function() {
         var type = 0;
+        var typestr = "";
         if ($scope.client) {
             type += 1;
+            typestr = "client";
         }
         if ($scope.lawyer) {
             type += 2;
+            typestr = "lawyer";
         }
         if ($scope.advocate) {
             type += 4;
+            typestr = "other";
         }
         if ($scope.administrator) {
             type += 8;
+            typestr = "admin"
         }
+        return {
+            'type': type,
+            'typestr': typestr
+        }
+    }
+
+    // create a new user
+    $scope.submitNew = function() {
+        var type = $scope.getType();
         var newu = { // add new user to our array!
             'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
             'lname': $scope.lname,
             'uname': $scope.uname,
-            //'id': $scope.users.length + 1,
             'language': $scope.language,
-            'type': type,
-            'viewee': []
+            'type': type['type'],
+            'typestr': type['typestr'],
+            'viewee': [],
+            'progress': 0
         };
-        console.log(newu);
-        var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
+        var firebaseu = {
+            'username': $scope.uname,
+            'password': $scope.password,
+            'password2': $scope.password
+        };
         if (!validateEmail($scope.uname)) {
             alert("Invalid email address");
             return;
@@ -69,12 +87,16 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         AuthenticationService.register(firebaseu, function(response) {
             console.log(response);
             if (response.status == 200) {
-                $scope.reserror = "";
-                var j =jQuery.noConflict(); 
-                j('#myModal1').modal('hide');
-                $scope.users.push(newu);
-                $scope.users.sort(compare);
-                $scope.setClientsAndReps();
+                var j = jQuery.noConflict();
+                j.post('/createUser', newu, function(response, status) {
+                    console.log(response, status);
+                    $scope.reserror = "";
+                    j('#myModal1').modal('hide');
+                    $scope.users.push(newu);
+                    $scope.users.sort(compare);
+                    $scope.setClientsAndReps();
+                });
+                console.log("no error?")
             } else {
                 $scope.reserror = response;
             }
