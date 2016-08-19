@@ -304,7 +304,7 @@ app.listen(app.get('port'), function() {
 // TODO: currently all logged-in users can make a request
 
 // called from admin page
-app.post('/createUser', function(request,response) {
+app.post('/createUser', function(request, response) {
     client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
@@ -334,12 +334,20 @@ app.post('/createUser', function(request,response) {
                               request.body.progress,
                               request.body.typestr],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          var get_user_id = function(err, res) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  response.send(res.rows[0]);
+              }
+          };
+          next_query = client.query("SELECT max(user_id) from app_user;",
+                                    get_user_id)
+        }
     });
     query.on('end', function() { client.end(); });
 });
@@ -370,12 +378,12 @@ app.post('/updateUser', function(request, response) {
                               request.body.typestr,
                               request.body.user_id],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          response.send(res.rows);
+        }
     });
     query.on('end', function() { client.end(); });
 });
@@ -396,12 +404,12 @@ app.post('/createAssignment', function(request,response) {
                              [request.body.viewer,
                               request.body.viewee],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          response.send(res.rows);
+        }
     });
     query.on('end', function() { client.end(); });
 });
@@ -421,17 +429,17 @@ app.post('/deleteAssignment', function(request, response) {
                              [request.body.viewer,
                               request.body.viewee],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          response.send(res.rows);
+        }
     });
     query.on('end', function() { client.end(); });
 });
 
-// TODO2: called when client created
+// called when client created
 app.post('/createAffidavit', function(request, response) {
     client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -443,17 +451,17 @@ app.post('/createAffidavit', function(request, response) {
     var queryStr = "INSERT INTO affidavit (aff_id, client, a_date) \
                     VALUES ((SELECT max(aff_id) from affidavit) + 1, \
                             $1::int, \
-                            $2::text);";
+                            $2::date);";
     var query = client.query(queryStr,
                              [request.body.user_id,
                               request.body.datetime],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          response.sendStatus(200);
+        }
     });
     query.on('end', function() { client.end(); });
 });
@@ -488,12 +496,12 @@ app.post('/addResponse', function(request, response) {
                               request.body.recording_url,
                               request.body.datetime],
                              function(err, res) {
-      if (err) {
-        console.log(err);
-        // TODO1: handle error
-      } else {
-        response.send(res.rows);
-      }
+        if (err) {
+          console.log(err);
+          // TODO1: handle error
+        } else {
+          response.send(res.rows);
+        }
     });
     query.on('end', function() { client.end(); });
 });

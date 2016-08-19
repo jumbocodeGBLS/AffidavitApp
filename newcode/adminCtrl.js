@@ -68,7 +68,6 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                                   $scope.advocate,
                                   $scope.administrator);
         var newu = { // add new user to our array!
-            'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
             'lname': $scope.lname,
             'uname': $scope.uname,
@@ -92,8 +91,23 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             if (response.status == 200) {
                 var j = jQuery.noConflict();
                 j.post('/createUser', newu, function(response, status) {
-                    console.log(response, status);
+                    console.log(response);
                     $scope.reserror = "";
+                    if (type['typestr'] == 'client') {
+                        d =  new Date()
+                        user_data  = {
+                            'user_id': response.max,
+                            'datetime': (new Date()).toISOString()
+                        }
+                        j.post('/createAffidavit', user_data, function(response, status) {
+                            console.log(response, status);
+                            if (response.status == 200) {
+                                console.log(response)
+                            } else {
+                                $scope.reserror = response;
+                            }
+                        });
+                    }
                     j('#myModal1').modal('hide');
                     $scope.users.push(newu);
                     $scope.users.sort(compare);
