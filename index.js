@@ -167,7 +167,7 @@ app.get('/', function(request, response) {
 
 // Assuming we need data for all types of users
 app.get('/allUserData', function(request,response) {
-	var client = new pg.Client(connectionString);
+	client = new pg.Client(connectionString);
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
@@ -189,7 +189,7 @@ app.get('/allUserData', function(request,response) {
 });
 
 app.get('/clientlistData', function(request, response) {
-	var client = new pg.Client(connectionString);
+	client = new pg.Client(connectionString);
 	console.log(request.query.lawyerID);
 	client.connect(function(err) {
 		if (err) {
@@ -220,7 +220,7 @@ app.get('/clientlistData', function(request, response) {
 
 // should actually be the same as /admin
 app.get('/userData', function(request,response) {
-	var client = new pg.Client(connectionString);
+	client = new pg.Client(connectionString);
 	client.connect(function(err) {
 		if (err) {
       console.log("couldn't connect");
@@ -250,7 +250,7 @@ app.get('/userData', function(request,response) {
 // Given a userID, return response history
 // TODO2: also call from clientview page to get past recordings
 app.get('/historyData', function(request,response) {
-	var client = new pg.Client(connectionString);
+	client = new pg.Client(connectionString);
 	client.connect(function(err) {
 		if (err) {
 			console.log(err);
@@ -303,9 +303,9 @@ app.listen(app.get('port'), function() {
 
 // TODO: currently all logged-in users can make a request
 
-// TODO2: called from admin page
+// called from admin page
 app.post('/createUser', function(request,response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
@@ -345,9 +345,9 @@ app.post('/createUser', function(request,response) {
 });
 
 
-// TODO2: called from admin page
+// called from admin page
 app.post('/updateUser', function(request, response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
@@ -359,15 +359,15 @@ app.post('/updateUser', function(request, response) {
                                         uname=$3::text, \
                                         language=$4::text, \
                                         progress=$5::int, \
-                                        type=$6::text \
+                                        type=$6::user_type \
                     WHERE user_id=$7::int;";
     var query = client.query(queryStr,
                              [request.body.fname,
                               request.body.lname,
                               request.body.uname,
-                              request.body.cli_lang,
+                              request.body.language,
                               request.body.progress,
-                              request.body.cli_type,
+                              request.body.typestr,
                               request.body.user_id],
                              function(err, res) {
       if (err) {
@@ -382,7 +382,7 @@ app.post('/updateUser', function(request, response) {
 
 // TODO2: called from admin page
 app.post('/createAssignment', function(request,response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
@@ -408,7 +408,7 @@ app.post('/createAssignment', function(request,response) {
 
 // TODO2: called from admin page
 app.post('/deleteAssignment', function(request, response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
@@ -433,7 +433,7 @@ app.post('/deleteAssignment', function(request, response) {
 
 // TODO2: called when client created
 app.post('/createAffidavit', function(request, response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);
@@ -461,7 +461,7 @@ app.post('/createAffidavit', function(request, response) {
 // TODO: ? how are we going to do this?
 // TODO2: called when client records new response
 app.post('/addResponse', function(request, response) {
-    var client = new pg.Client(connectionString);
+    client = new pg.Client(connectionString);
     client.connect(function(err) {
       if (err) {
         console.log(err);

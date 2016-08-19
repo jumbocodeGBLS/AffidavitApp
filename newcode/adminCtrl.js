@@ -36,22 +36,22 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
     };
 
     // returns user's type as an int and a string
-    $scope.getType = function() {
+    $scope.getType = function(client, lawyer, advocate, administrator) {
         var type = 0;
         var typestr = "";
-        if ($scope.client) {
+        if (client) {
             type += 1;
             typestr = "client";
         }
-        if ($scope.lawyer) {
+        if (lawyer) {
             type += 2;
             typestr = "lawyer";
         }
-        if ($scope.advocate) {
+        if (advocate) {
             type += 4;
             typestr = "other";
         }
-        if ($scope.administrator) {
+        if (administrator) {
             type += 8;
             typestr = "admin"
         }
@@ -63,7 +63,10 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
 
     // create a new user
     $scope.submitNew = function() {
-        var type = $scope.getType();
+        var type = $scope.getType($scope.client,
+                                  $scope.lawyer,
+                                  $scope.advocate,
+                                  $scope.administrator);
         var newu = { // add new user to our array!
             'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.fname,
@@ -134,9 +137,6 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             $scope.nowclient = (client['type'] == 1) ? true : false;
             $scope.nowadvocate = (client['type'] == 4) ? true : false;
             $scope.nowadministrator = (client['type'] == 8) ? true : false;
-
-            console.log($scope.nowlanguage);
-            console.log(document.getElementById('nowlanguage').value);
         }
     };
 
@@ -164,29 +164,25 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
 
     // edit a given user
     $scope.submitEdit = function() {
-        var type = 0;
-        if ($scope.nowclient) {
-            type += 1;
-        }
-        if ($scope.nowlawyer) {
-            type += 2;
-        }
-        if ($scope.nowadvocate) {
-            type += 4;
-        }
-        if ($scope.nowadministrator) {
-            type += 8;
-        }
-        console.log({
+        var type = $scope.getType($scope.nowclient,
+                                  $scope.nowlawyer,
+                                  $scope.nowadvocate,
+                                  $scope.nowadministrator)
+        newu = {
             'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.nowfname,
             'lname': $scope.nowlname,
             'uname': $scope.nowuname,
             'language': $scope.nowlanguage,
-            'type': type,
-            'viewee': []
-        });
-        for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
+            'type': type['type'],
+            'typestr': type['typestr'],
+            'viewee': [],
+            'progress': 0
+        };
+        var j = jQuery.noConflict();
+        j.post('/updateUser', newu, function(response, status) {
+            console.log(response, status);
+            for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
                 if ($scope.users[i]['user_id'] == document.getElementById('usertoedit').value) {
                     $scope.users[i] = {
                         'user_id': document.getElementById('usertoedit').value,
@@ -194,13 +190,14 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                         'lname': $scope.nowlname,
                         'uname': $scope.nowuname,
                         'language': $scope.nowlanguage,
-                        'type': type,
+                        'type': type['type'],
                         'viewee': []
                     };
                 }
             }
             $scope.users.sort(compare);
             $scope.setClientsAndReps();
+        });
     };
 
 /************************* EDIT USER END **********************/
