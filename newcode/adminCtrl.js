@@ -92,6 +92,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                 var j = jQuery.noConflict();
                 j.post('/createUser', newu, function(response, status) {
                     console.log(response);
+                    newu['user_id'] = response.max
                     $scope.reserror = "";
                     if (type['typestr'] == 'client') {
                         d =  new Date()
@@ -347,12 +348,12 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         for (var i = 0; i < $scope.users.length; i++) {
             var alreadyIn = false;
             for (var j = 0; j < $scope.clients.length; j++) {
-                if ($scope.users[i]['fname'] == $scope.clients[j]['fname']) {
+                if ($scope.users[i]['uname'] == $scope.clients[j]['uname']) {
                     alreadyIn = true;
                 }
             }
             for (var j = 0; j < $scope.reps.length; j++) {
-                if ($scope.users[i]['fname'] == $scope.reps[j]['fname']) {
+                if ($scope.users[i]['uname'] == $scope.reps[j]['uname']) {
                     alreadyIn = true;
                 }
             }
