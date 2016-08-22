@@ -61,13 +61,41 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         }
     }
 
+    // adds a user to postres DB and scope vars once registered with firebase
+    $scope.createUser = function(user, type) {
+        var j = jQuery.noConflict();
+        j.post('/createUser', user, function(response, status) {
+            console.log(response);
+            user['user_id'] = response.max
+            $scope.reserror = "";
+            if (type['typestr'] == 'client') {
+                user_info  = {
+                    'user_id': response.max,
+                    'datetime': (new Date()).toISOString()
+                }
+                j.post('/createAffidavit', user_info, function(response, status) {
+                    console.log(response, status);
+                    if (response.status == 200) {
+                        console.log(response)
+                    } else {
+                        $scope.reserror = response;
+                    }
+                });
+            }
+            j('#myModal1').modal('hide');
+            $scope.users.push(user);
+            $scope.users.sort(compare);
+            $scope.setClientsAndReps();
+        });
+    };
+
     // create a new user
     $scope.submitNew = function() {
         var type = $scope.getType($scope.client,
                                   $scope.lawyer,
                                   $scope.advocate,
                                   $scope.administrator);
-        var newu = { // add new user to our array!
+        var user = { // add new user to our array!
             'fname': $scope.fname,
             'lname': $scope.lname,
             'uname': $scope.uname,
@@ -77,7 +105,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             'viewee': [],
             'progress': 0
         };
-        var firebaseu = {
+        var firebase_info = {
             'username': $scope.uname,
             'password': $scope.password,
             'password2': $scope.password
@@ -86,41 +114,17 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             alert("Invalid email address");
             return;
         }
-        AuthenticationService.register(firebaseu, function(response) {
+        AuthenticationService.register(firebase_info, function(response) {
             console.log(response);
             if (response.status == 200) {
-                var j = jQuery.noConflict();
-                j.post('/createUser', newu, function(response, status) {
-                    console.log(response);
-                    newu['user_id'] = response.max
-                    $scope.reserror = "";
-                    if (type['typestr'] == 'client') {
-                        d =  new Date()
-                        user_data  = {
-                            'user_id': response.max,
-                            'datetime': (new Date()).toISOString()
-                        }
-                        j.post('/createAffidavit', user_data, function(response, status) {
-                            console.log(response, status);
-                            if (response.status == 200) {
-                                console.log(response)
-                            } else {
-                                $scope.reserror = response;
-                            }
-                        });
-                    }
-                    j('#myModal1').modal('hide');
-                    $scope.users.push(newu);
-                    $scope.users.sort(compare);
-                    $scope.setClientsAndReps();
-                });
-                console.log("no error?")
+                $scope.createUser(user, type)
             } else {
                 $scope.reserror = response;
             }
         });
     };
 
+    // from stackoverflow, checks if email looks valid
     function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
@@ -226,7 +230,8 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         j('#myModal3').modal('show'); 
     };
 
-    // open hidden section of client assignment modal if user selected; initialize values
+    // open hidden section of client assignment modal if user selected, and
+    // initialize values
     $scope.openPair = function() {
         var clientid = document.getElementById('usertopair').value;
         console.log(clientid);
@@ -234,12 +239,10 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             document.getElementById('paircontent').hidden = false;
             for (var i = 0; i < $scope.reps.length; i++) {
                 document.getElementById($scope.reps[i]['user_id']).checked = false;
-                document.getElementById($scope.reps[i]['user_id']).disabled = false;
                 console.log($scope.reps[i]);
                 for (var j = 0; j < $scope.reps[i]['viewee'].length; j++) {
                     if ($scope.reps[i]['viewee'][j] == clientid) {
                         document.getElementById($scope.reps[i]['user_id']).checked = true;
-                        document.getElementById($scope.reps[i]['user_id']).disabled = true;
                     }
                 }
             }
@@ -255,21 +258,42 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             return false;
     };
 
+    // create assignment of client (viewee) to a rep (viewer)
+    $scope.createPair = function(viewer, viewee) {
+        var j = jQuery.noConflict();
+        var info = {
+            viewer: viewer,
+            viewee: viewee
+        }
+        j.post('/createAssignment', info, function(response, status) {
+            console.log(response, status)
+        });
+    };
+
+    // delete assignment of client (viewee) to a rep (viewer)
+    $scope.deletePair = function(viewer, viewee) {
+        var j = jQuery.noConflict();
+        var info = {
+            viewer: viewer,
+            viewee: viewee
+        }
+        j.post('/deleteAssignment', info, function(response, status) {
+            console.log(response, status)
+        });
+    };
+
     // submits an assignment of a client to a group of lawyers
     $scope.submitPair = function() {
         var clientid = document.getElementById('usertopair').value;
-        var clientreps = []; // array of client's reps
 
         for (var i = 0; i < $scope.users.length; i++) {
 
-            // if this is true, they're not a representative
-            if ($scope.users[i]['type'] == 1) {
+            if ($scope.users[i]['type'] == 1) { // client, not a rep
                 continue;
             }
 
             // if they're checked off as one of the client's reps
             if (document.getElementById($scope.users[i]['user_id']).checked) {
-                clientreps.push($scope.users[i]['user_id']);
                 var alreadythere = false;
                 for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
                     if ($scope.users[i]['viewee'][j] == clientid) {
@@ -278,21 +302,22 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                     }
                 }
                 if (!alreadythere) {
+                    $scope.createPair($scope.users[i]['user_id'], clientid);
                     $scope.users[i]['viewee'].push(clientid);
                 }
             }
-
             else { // remove client from unchecked reps' client lists
-                var newclients = []; // rep's new client array, without current client
+                var newclients = []; // rep's new client array w/o curr client
                 for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
                     if ($scope.users[i]['viewee'][j] != clientid) {
                         newclients.push($scope.users[i]['viewee'][j]);
+                    } else {
+                        $scope.deletePair($scope.users[i]['user_id'], clientid);
                     }
                 }
                 $scope.users[i]['viewee'] = newclients;
             }
         }
-        console.log({'reps':clientreps,'client':clientid});
         $scope.setClientsAndReps();
     };
 
@@ -335,7 +360,6 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                 $scope.users.push(newperson);
             }
         }
-
         $scope.users.sort(compare);
         $scope.setClientsAndReps();
     });

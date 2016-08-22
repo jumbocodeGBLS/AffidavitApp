@@ -388,7 +388,7 @@ app.post('/updateUser', function(request, response) {
     query.on('end', function() { client.end(); });
 });
 
-// TODO2: called from admin page
+// called from admin page
 app.post('/createAssignment', function(request,response) {
     client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -414,7 +414,7 @@ app.post('/createAssignment', function(request,response) {
     query.on('end', function() { client.end(); });
 });
 
-// TODO2: called from admin page
+// called from admin page
 app.post('/deleteAssignment', function(request, response) {
     client = new pg.Client(connectionString);
     client.connect(function(err) {
