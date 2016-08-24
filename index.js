@@ -234,7 +234,7 @@ app.get('/userData', function(request,response) {
                         ON App_User.user_id = Client_Access.viewer \
                     WHERE App_User.uname = $1::text \
                     GROUP BY App_User.user_id;";
-    var query = cl  ient.query(queryStr, [request.query.data], function(err, res) {
+    var query = client.query(queryStr, [request.query.data], function(err, res) {
         if (err) {
             console.log(err);
             // TODO1: handle error
@@ -506,5 +506,4 @@ app.post('/addResponse', function(request, response) {
 });
 
 
-// TODO: are we pulling video URLs and dependencies from the database, or can this
-// info remain on the frontend?
+// TODO: are we pulling video URLs and dependencies from the database?
