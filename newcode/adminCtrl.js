@@ -35,52 +35,96 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             return false;
     };
 
+    // returns user's type as an int and a string
+    $scope.getType = function(client, lawyer, advocate, administrator) {
+        var type = 0;
+        var typestr = "";
+        if (client) {
+            type += 1;
+            typestr = "client";
+        }
+        if (lawyer) {
+            type += 2;
+            typestr = "lawyer";
+        }
+        if (advocate) {
+            type += 4;
+            typestr = "other";
+        }
+        if (administrator) {
+            type += 8;
+            typestr = "admin"
+        }
+        return {
+            'type': type,
+            'typestr': typestr
+        }
+    }
+
+    // adds a user to postres DB and scope vars once registered with firebase
+    $scope.createUser = function(user, type) {
+        var j = jQuery.noConflict();
+        j.post('/createUser', user, function(response, status) {
+            console.log(response);
+            user['user_id'] = response.max
+            $scope.reserror = "";
+            if (type['typestr'] == 'client') {
+                user_info  = {
+                    'user_id': response.max,
+                    'datetime': (new Date()).toISOString()
+                }
+                j.post('/createAffidavit', user_info, function(response, status) {
+                    console.log(response, status);
+                    if (response.status == 200) {
+                        console.log(response)
+                    } else {
+                        $scope.reserror = response;
+                    }
+                });
+            }
+            j('#myModal1').modal('hide');
+            $scope.users.push(user);
+            $scope.users.sort(compare);
+            $scope.setClientsAndReps();
+        });
+    };
+
     // create a new user
     $scope.submitNew = function() {
-        var type = 0;
-        if ($scope.client) {
-            type += 1;
-        }
-        if ($scope.lawyer) {
-            type += 2;
-        }
-        if ($scope.advocate) {
-            type += 4;
-        }
-        if ($scope.administrator) {
-            type += 8;
-        }
-        var newu = { // add new user to our array!
-            'user_id': document.getElementById('usertoedit').value,
+        var type = $scope.getType($scope.client,
+                                  $scope.lawyer,
+                                  $scope.advocate,
+                                  $scope.administrator);
+        var user = { // add new user to our array!
             'fname': $scope.fname,
             'lname': $scope.lname,
             'uname': $scope.uname,
-            //'id': $scope.users.length + 1,
             'language': $scope.language,
-            'type': type,
-            'viewee': []
+            'type': type['type'],
+            'typestr': type['typestr'],
+            'viewee': [],
+            'progress': 0
         };
-        console.log(newu);
-        var firebaseu = {'username': $scope.uname, 'password': $scope.password, 'password2': $scope.password};
+        var firebase_info = {
+            'username': $scope.uname,
+            'password': $scope.password,
+            'password2': $scope.password
+        };
         if (!validateEmail($scope.uname)) {
             alert("Invalid email address");
             return;
         }
-        AuthenticationService.register(firebaseu, function(response) {
+        AuthenticationService.register(firebase_info, function(response) {
             console.log(response);
             if (response.status == 200) {
-                $scope.reserror = "";
-                var j =jQuery.noConflict(); 
-                j('#myModal1').modal('hide');
-                $scope.users.push(newu);
-                $scope.users.sort(compare);
-                $scope.setClientsAndReps();
+                $scope.createUser(user, type)
             } else {
                 $scope.reserror = response;
             }
         });
     };
 
+    // from stackoverflow, checks if email looks valid
     function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
@@ -112,9 +156,6 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             $scope.nowclient = (client['type'] == 1) ? true : false;
             $scope.nowadvocate = (client['type'] == 4) ? true : false;
             $scope.nowadministrator = (client['type'] == 8) ? true : false;
-
-            console.log($scope.nowlanguage);
-            console.log(document.getElementById('nowlanguage').value);
         }
     };
 
@@ -142,29 +183,25 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
 
     // edit a given user
     $scope.submitEdit = function() {
-        var type = 0;
-        if ($scope.nowclient) {
-            type += 1;
-        }
-        if ($scope.nowlawyer) {
-            type += 2;
-        }
-        if ($scope.nowadvocate) {
-            type += 4;
-        }
-        if ($scope.nowadministrator) {
-            type += 8;
-        }
-        console.log({
+        var type = $scope.getType($scope.nowclient,
+                                  $scope.nowlawyer,
+                                  $scope.nowadvocate,
+                                  $scope.nowadministrator)
+        newu = {
             'user_id': document.getElementById('usertoedit').value,
             'fname': $scope.nowfname,
             'lname': $scope.nowlname,
             'uname': $scope.nowuname,
             'language': $scope.nowlanguage,
-            'type': type,
-            'viewee': []
-        });
-        for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
+            'type': type['type'],
+            'typestr': type['typestr'],
+            'viewee': [],
+            'progress': 0
+        };
+        var j = jQuery.noConflict();
+        j.post('/updateUser', newu, function(response, status) {
+            console.log(response, status);
+            for (var i = 0; i < $scope.users.length; i++) { // reflect changes in our array!
                 if ($scope.users[i]['user_id'] == document.getElementById('usertoedit').value) {
                     $scope.users[i] = {
                         'user_id': document.getElementById('usertoedit').value,
@@ -172,13 +209,14 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                         'lname': $scope.nowlname,
                         'uname': $scope.nowuname,
                         'language': $scope.nowlanguage,
-                        'type': type,
+                        'type': type['type'],
                         'viewee': []
                     };
                 }
             }
             $scope.users.sort(compare);
             $scope.setClientsAndReps();
+        });
     };
 
 /************************* EDIT USER END **********************/
@@ -192,7 +230,8 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         j('#myModal3').modal('show'); 
     };
 
-    // open hidden section of client assignment modal if user selected; initialize values
+    // open hidden section of client assignment modal if user selected, and
+    // initialize values
     $scope.openPair = function() {
         var clientid = document.getElementById('usertopair').value;
         console.log(clientid);
@@ -219,21 +258,42 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             return false;
     };
 
+    // create assignment of client (viewee) to a rep (viewer)
+    $scope.createPair = function(viewer, viewee) {
+        var j = jQuery.noConflict();
+        var info = {
+            viewer: viewer,
+            viewee: viewee
+        }
+        j.post('/createAssignment', info, function(response, status) {
+            console.log(response, status)
+        });
+    };
+
+    // delete assignment of client (viewee) to a rep (viewer)
+    $scope.deletePair = function(viewer, viewee) {
+        var j = jQuery.noConflict();
+        var info = {
+            viewer: viewer,
+            viewee: viewee
+        }
+        j.post('/deleteAssignment', info, function(response, status) {
+            console.log(response, status)
+        });
+    };
+
     // submits an assignment of a client to a group of lawyers
     $scope.submitPair = function() {
         var clientid = document.getElementById('usertopair').value;
-        var clientreps = []; // array of client's reps
 
         for (var i = 0; i < $scope.users.length; i++) {
 
-            // if this is true, they're not a representative
-            if ($scope.users[i]['type'] == 1) {
+            if ($scope.users[i]['type'] == 1) { // client, not a rep
                 continue;
             }
 
             // if they're checked off as one of the client's reps
             if (document.getElementById($scope.users[i]['user_id']).checked) {
-                clientreps.push($scope.users[i]['user_id']);
                 var alreadythere = false;
                 for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
                     if ($scope.users[i]['viewee'][j] == clientid) {
@@ -242,21 +302,22 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                     }
                 }
                 if (!alreadythere) {
+                    $scope.createPair($scope.users[i]['user_id'], clientid);
                     $scope.users[i]['viewee'].push(clientid);
                 }
             }
-
             else { // remove client from unchecked reps' client lists
-                var newclients = []; // rep's new client array, without current client
+                var newclients = []; // rep's new client array w/o curr client
                 for (var j = 0; j < $scope.users[i]['viewee'].length; j++) {
                     if ($scope.users[i]['viewee'][j] != clientid) {
                         newclients.push($scope.users[i]['viewee'][j]);
+                    } else {
+                        $scope.deletePair($scope.users[i]['user_id'], clientid);
                     }
                 }
                 $scope.users[i]['viewee'] = newclients;
             }
         }
-        console.log({'reps':clientreps,'client':clientid});
         $scope.setClientsAndReps();
     };
 
@@ -299,7 +360,6 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
                 $scope.users.push(newperson);
             }
         }
-
         $scope.users.sort(compare);
         $scope.setClientsAndReps();
     });
@@ -312,12 +372,12 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
         for (var i = 0; i < $scope.users.length; i++) {
             var alreadyIn = false;
             for (var j = 0; j < $scope.clients.length; j++) {
-                if ($scope.users[i]['fname'] == $scope.clients[j]['fname']) {
+                if ($scope.users[i]['uname'] == $scope.clients[j]['uname']) {
                     alreadyIn = true;
                 }
             }
             for (var j = 0; j < $scope.reps.length; j++) {
-                if ($scope.users[i]['fname'] == $scope.reps[j]['fname']) {
+                if ($scope.users[i]['uname'] == $scope.reps[j]['uname']) {
                     alreadyIn = true;
                 }
             }
