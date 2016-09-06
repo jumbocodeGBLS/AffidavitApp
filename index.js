@@ -203,10 +203,10 @@ app.get('/clientlistData', function(request, response) {
     var queryStr = "SELECT * FROM App_User \
                     WHERE user_id in \
                         (SELECT viewee FROM Client_Access \
-                         WHERE viewer = $1::text);";
+                         WHERE viewer = $1::int);";
     var query = client.query(queryStr,
-                           [request.query.lawyerID],
-                           function(err, res) {
+                             [request.query.lawyerID],
+                             function(err, res) {
         if (err) {
             console.log(err);
             // TODO1: handle error
