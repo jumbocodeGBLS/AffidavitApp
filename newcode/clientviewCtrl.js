@@ -111,32 +111,35 @@ if (navigator.getUserMedia) {
 
 });
 
-angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'AuthenticationService', 
-  function ($scope, $state, AuthenticationService) {
+angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'AuthenticationService', '$window',
+  function ($scope, $state, AuthenticationService, $window) {
   var j = jQuery.noConflict();
   j(document).ready(function(){
     j("#myCarousel").carousel({interval: false});
   });
+  
+  $window.onunload = saveQuestion;
   // calls updateUserProgress to store curIndex in database
-  $scope.$on('$stateChangeStart', function( event ) {
+  $scope.$on('$stateChangeStart', saveQuestion);
+
+  function saveQuestion(event){
     var answer = confirm("Are you sure you want to leave this page?")
     if (!answer) {
         event.preventDefault();
     }
     else {
-      console.log("CUR QUESTION", $scope.curIndex);
-      saveQuestion = {
+      saveQ = {
             'user_id': $scope.user.user_id,
             'curr_question': $scope.curIndex
         };
 
         var j = jQuery.noConflict();
-        j.post('/updateUserProgress', saveQuestion, function(response, status) {
-            console.log("NEW", response, status);
+        j.post('/updateUserProgress', saveQ, function(response, status) {
+            console.log(response, status);
             // deal with results
         });
     }
-  });
+  }
   // sets classes of yes/no buttons depending on current click / click history
   // $scope.mediaRecorder;
   function setrecording() {
