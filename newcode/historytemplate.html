@@ -3,15 +3,15 @@
 <div ng-controller="historyCtrl">
 <div class="history">
     <div class="row">
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+        <div class="col-xs-6 col-s-6 col-md-6 col-lg-6">
             <img src="images/question.png" alt="question" height="60px" style="padding:10px">
             &nbsp;&nbsp;<span class="heading">Question</span>
         </div>
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+<!--         <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
             <img src="images/text.png" alt="text" height="60px">
             &nbsp;&nbsp;<span class="heading">Text</span>
-        </div>
-        <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+        </div> -->
+        <div class="col-xs-6 col-s-6 col-md-6 col-lg-6">
             <img src="images/replay.png" alt="replay" height="60px" style="padding:10px">
             &nbsp;&nbsp;<span class="heading">Replay</span>
         </div>
@@ -20,13 +20,13 @@
         <div ng-repeat="thing in data">
             <hr>
             <div class="row">
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                <div class="col-xs-6 col-s-6 col-md-6 col-lg-6">
                     {{thing.q_id}}
                 </div>
-                <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+               <!--  <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
                     {{thing.txt}}
-            </div>
-            <div class="col-xs-4 col-s-4 col-md-4 col-lg-4">
+                </div> -->
+            <div class="col-xs-6 col-s-6 col-md-6 col-lg-6">
                     <div ng-repeat="item in thing.responses">
                         <a ui-sref="clientview" id="{{item.link}}"><img src="images/play.png" alt="play" height="20px">&nbsp;&nbsp;{{ item.date }}</a>
                     </div>

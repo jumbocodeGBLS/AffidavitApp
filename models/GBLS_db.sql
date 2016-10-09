@@ -45,6 +45,21 @@ CREATE TABLE Response
 	PRIMARY KEY (affidavit,q_num,rec_num)
 );
 
+CREATE TABLE Videos
+(
+	url VARCHAR,
+	yesno VARCHAR,
+	index INT,
+	response VARCHAR
+);
+
+CREATE TABLE Dependencies
+(
+	index INT,
+	yesJump INT,
+	noJump INT
+);
+
 /* The following is a table designed primarily for tracking usage of the app.
 	I know we discussed leaving this table out, but the justification was based
 	on authentication stuff, but that's not what the intention of this table is.

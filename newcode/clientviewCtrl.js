@@ -4,8 +4,10 @@ j(document).ready(function(){
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia ||
   navigator.msGetUserMedia);
+
 // var record = document.getElementById('b3');
 // var stop = document.getElementById('b4');
+
 var audioCtx = new(window.AudioContext || webkitAudioContext)();
 var soundClips = j(".sound-clips");
 console.log("SOUND", soundClips);
@@ -115,7 +117,26 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
   j(document).ready(function(){
     j("#myCarousel").carousel({interval: false});
   });
+  // calls updateUserProgress to store curIndex in database
+  $scope.$on('$stateChangeStart', function( event ) {
+    var answer = confirm("Are you sure you want to leave this page?")
+    if (!answer) {
+        event.preventDefault();
+    }
+    else {
+      console.log("CUR QUESTION", $scope.curIndex);
+      saveQuestion = {
+            'user_id': $scope.user.user_id,
+            'curr_question': $scope.curIndex
+        };
 
+        var j = jQuery.noConflict();
+        j.post('/updateUserProgress', saveQuestion, function(response, status) {
+            console.log("NEW", response, status);
+            // deal with results
+        });
+    }
+  });
   // sets classes of yes/no buttons depending on current click / click history
   // $scope.mediaRecorder;
   function setrecording() {
@@ -243,6 +264,9 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
 
   // set buttons based on whether it's a yes or no question
   $scope.yesno = function() {
+    if (typeof($scope.videos) == "undefined" || typeof($scope.curIndex) == "undefined"){
+      return false;
+    }
     if ($scope.curIndex < $scope.videos.length)
       return $scope.videos[$scope.curIndex]['yesno'];
     else
@@ -313,17 +337,14 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
         } else {
             $scope.user.type = 4;
         }
+        $scope.curIndex = $scope.user.curr_question;
+        $scope.videos = videos;
+        $scope.dependencies = dependencies;
+        $scope.curvid = $scope.videos[$scope.curIndex]['url'];
         $scope.$apply();
       });
     }
   });
-
-  $scope.videos = videos;
-  $scope.dependencies = dependencies;
-  $scope.curvid = $scope.videos[$scope.curIndex]['url'];
-  //document.getElementById('next').hidden = true;
-  $scope.progress=0;
-  //$scope.saveplace();
   console.log($scope.videos, $scope.dependencies);
 
 }]);
