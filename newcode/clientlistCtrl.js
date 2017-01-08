@@ -26,6 +26,7 @@ angular.module('myapp').controller('clientlistCtrl', ['$scope', '$state', 'Authe
                     $scope.user.type = 4;
                 }
                 $scope.getclients();
+                console.log("called")
             });
         }
     });

@@ -1,59 +1,64 @@
 <link rel="stylesheet" type="text/css" href="../css/clientView.css">
 <link rel="stylesheet" type="text/css" href="../css/navBar.css">
 <div ng-controller="clientviewCtrl" class="clientPage">
-  <script type="javascript">
-// console.log("RUN THIS!!!!!!!!!!!!!!!");
-// window.onbeforeunload = function (event) {
-//    var message = 'Sure you want to leave?';
-//    if (typeof event == 'undefined') {
-//     console.log("UNDEFINED");
-//      event = window.event;
-//    }
-//    if (event) {
-//     console.log("EVENT");
-//      event.returnValue = message;
-//    }
-//    return message;
- }</script>
     <div id="page">
         <form>
-            
             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
             <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox" id="videos" ng-hide="lastpage">
-                        <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
+                    <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
                     
-                        <div ng-show="yesno()" class="buttons">
-                            <div class="button1" title="Yes/Si">
-                                <button ng-click="yes()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
-                            </div>
-                            <div class="button2" title="No">
-                                <button ng-click="no()" type="button" class="unclicked circle"id="b2"><i class="glyphicon glyphicon-remove"class="i_button"></i></button>
-                            </div>
+                    <div ng-show="yesno()" class="buttons">
+                        <div class="button1" title="Yes/Si">
+                            <button ng-click="yes()" type="button"class="unclicked circle"id="b1">
+                                <i class="glyphicon glyphicon-ok" class="i_button"></i>
+                            </button>
                         </div>
-                        <div ng-hide="yesno()" class="buttons">
-                          <textarea name="q" id="transcript" hidden></textarea>
-                          <div class="button1" title="Record/Grabar">
-                            <button ng-click="start()" type="button" class="unclicked circle button3" id="b3"><img class="img_button"src="images/microphone-white.png" alt="microphone"/></button>
-                          </div>
-                          <div class="button2" title="Pause/Hacer una pausa">
-                            <button ng-click = "stopDictation()" type="button" class="unclicked circle button4" id="b4"><i class="glyphicon glyphicon-pause i_button"/></button>
-                          </div>
+                        <div class="button2" title="No">
+                            <button ng-click="no()" type="button" class="unclicked circle"id="b2">
+                                <i class="glyphicon glyphicon-remove"class="i_button"></i>
+                            </button>
                         </div>
-                        <section class="sound-clips" id="TRY">
-                          <!-- <article class="clip">
-                          <audio controls></audio>
+                    </div>
+
+                    <div ng-hide="yesno()" class="buttons">
+                        <textarea name="q" id="transcript" hidden></textarea>
+                        <div class="button1" title="Record/Grabar">
+                            <button ng-click="start()" type="button" class="unclicked circle button3" id="b3">
+                                <img class="img_button"src="images/microphone-white.png" alt="microphone"/>
+                            </button>
+                        </div>
+                        <div class="button2" title="Pause/Hacer una pausa">
+                            <button ng-click = "stopDictation()" type="button" class="unclicked circle button4" id="b4">
+                                <i class="glyphicon glyphicon-pause i_button"/>
+                            </button>
+                        </div>
+                    </div>
+
+                    <section class="sound-clips" id="TRY">
+                        <!-- <article class="clip">
+                            <audio controls></audio>
                             <p>TEST</p>
                             <button>Delete</button>
                         </article> -->
-                        </section>
+                    </section>
                 </div>
+
                 <div ng-show="lastpage" title="Submit/Enviar">
                   <h1>Done!</h1>
                   <h3>Submit:</h3>
-                  <button ng-click="submit()" type="button"class="unclicked circle"id="b1"><i class="glyphicon glyphicon-ok" class="i_button"></i></button>
+                  <button ng-click="submit()" type="button"class="unclicked circle"id="b1">
+                      <i class="glyphicon glyphicon-ok" class="i_button"></i>
+                  </button>
                 </div>
-                <a ng-show = "!lastpage" class="right carousel-control" href="#myCarousel" role="button" ng-click="next_vid();" data-slide="next" id="next">
+
+                <a ng-show = "!lastpage"
+                   class="right carousel-control"
+                   href="#myCarousel"
+                   role="button"
+                   ng-click="next_vid();"
+                   data-slide="next"
+                   id="next">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>

@@ -17,8 +17,20 @@
                     <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                 </div>
                 <br>
-                <p class="text-center"><button type="submit" class="btn btn-default btn-lg" ng-click="login(user)" ng-disabled="user.username=='' || user.password==''" ><i class="glyphicon glyphicon-ok"></i></button>
-                &nbsp;&nbsp;<a class="btn btn-default btn-lg" ng-click="resetPswd(user)" ng-show="user.username!=''">Forgot Password?</a></p>
+
+                <p class="text-center">
+                    <button type="submit"
+                            class="btn btn-default btn-lg"
+                            ng-click="login(user)"
+                            ng-disabled="user.username=='' || user.password==''" >
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                    <a class="btn btn-default btn-lg" ng-click="resetPswd(user)" ng-show="user.username!=''">
+                        Forgot Password?
+                    </a>
+                </p>
+
                 <div class="alert alert-danger" ng-show="reserror != '' " >
                     <strong>Error: </strong> {{reserror.data.code}}
                 </div>

@@ -35,7 +35,9 @@ if (navigator.getUserMedia) {
 
   j(document).on("click", "#b4", function() {
       console.log("STOP WAS CLICKED");
-      mediaRecorder.stop();
+      if (mediaRecorder.state == "inactive") {
+          mediaRecorder.stop();
+      }
       console.log(mediaRecorder.state);
       console.log("recorder stopped");
     });
@@ -192,7 +194,7 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
           $scope.videos[$scope.curIndex].response = $scope.result;
       };
       recognition.onerror = function(e) {
-        console.log("error");
+        console.log(e);
         recognition.stop();
         // $scope.mediaRecorder.stop();
         // $scope.mediaRecorder.save();

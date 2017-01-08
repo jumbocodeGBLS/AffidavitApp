@@ -2,13 +2,21 @@
 <link rel="stylesheet" type="text/css" href="../css/navBar.css">
 <div class="page" ng-controller='clientlistCtrl'>
     <div class="row heading">
-        <span class="pull-left"><img src="images/fa-user.png" alt="client" width="30px">&nbsp;<span class="medium">Client Name:</span></span>
-        <span class="pull-right"><span class="medium">Progress</span></span>
+        <span class="pull-left">
+            <img src="images/fa-user.png" alt="client" width="30px">
+            &nbsp;
+            <span class="medium">Client Name:</span>
+        </span>
+        <span class="pull-right">
+            <span class="medium">Progress</span>
+        </span>
     </div>
-    <button class="btn btn-default" ng-click="selectall()">Select All</button>
-    <button class="btn btn-default" ng-click="downloadtranscripts()">Download Transcripts</button>
-    <div ng-repeat="client in data">
-        <div class="panel panel-default">
+    <div ng-if="data.length<=0" class="panel panel-default">LOADING</div>
+    <div ng-if="data.length>0">
+        <button class="btn btn-default" ng-click="selectall()">Select All</button>
+        <button class="btn btn-default" ng-click="downloadtranscripts()">Download Transcripts</button>
+        <div ng-repeat="client in data">
+            <div class="panel panel-default">
             
                 <div class="row body">
                     <span class="pull-left">
@@ -18,13 +26,13 @@
                         <!--</a>-->
                     </span>
                     <span class="pull-right">
-                        <!--<a ng-click="click(client.id)">
-                            {{client.progress}}
-                        </a>-->
-                        &nbsp;&nbsp;&nbsp; <button class="btn btn-default" ng-click="click(client.user_id)">View Progress</button>
+                        <!--<a ng-click="click(client.id)">{{client.curr_question}}</a>-->
+                        &nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-default" ng-click="click(client.user_id)">View Progress</button>
                     </span>
                 </div>
-            
+
+            </div>
         </div>
     </div>
 </div>

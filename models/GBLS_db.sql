@@ -1,12 +1,12 @@
 CREATE TYPE user_type as ENUM ('client','lawyer','admin','other');
 CREATE TABLE App_User(
-	user_id 	INT NOT NULL PRIMARY KEY,
-	fname 		VARCHAR,
-	lname 		VARCHAR,
-	uname   	VARCHAR,
-	language    VARCHAR,
-	progress    INT,
-	type     	user_type
+	user_id 	  INT NOT NULL PRIMARY KEY,
+	fname 		  VARCHAR,
+	lname 		  VARCHAR,
+	uname   	  VARCHAR,
+	language      VARCHAR,
+	curr_question INT,
+	type     	  user_type
 );
 
 CREATE TABLE Client_Access

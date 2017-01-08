@@ -4,6 +4,7 @@ var path = require('path');
 var pg = require('pg');
 var body_parser = require('body-parser');
 var methodOverride = require('method-override');
+
 // get all data/stuff of the body (POST) parameters
 // parse application/json 
 app.use(body_parser.json());
@@ -15,7 +16,7 @@ app.use(body_parser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 var connectionString = process.env.DATABASE_URL ||
-                       'postgres://Rachael:postgres@localhost:5432/postgres';
+                       'postgres://postgres:postgres@localhost:5432/GBLS_db';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -213,13 +214,13 @@ app.get('/clientlistData', function(request, response) {
             response.send(res.rows);
         }
     });
+
     query.on('end', function() { client.end(); });
 });
 
 // should actually be the same as /admin
 app.get('/userData', function(request,response) {
     client = new pg.Client(connectionString);
-    console.log(client);
     client.connect(function(err) {
         if (err) {
             console.log(err);
@@ -280,11 +281,10 @@ app.get('/historyData', function(request,response) {
 
 app.get('/history', function(request,response) {
     response.sendFile(path.join(__dirname, '/index.html'));
-
 });
 
 app.get('/admin', function(request,response) {
-  response.sendFile(path.join(__dirname, '/index.html'));
+    response.sendFile(path.join(__dirname, '/index.html'));
 });
 
 app.get('/clientlist', function(request,response) {
@@ -316,7 +316,7 @@ app.post('/createUser', function(request, response) {
                                           lname, \
                                           uname, \
                                           language, \
-                                          progress, \
+                                          curr_question, \
                                           type) \
                     VALUES ((SELECT max(user_id) from app_user) + 1, \
                             $1::text, \
@@ -330,7 +330,7 @@ app.post('/createUser', function(request, response) {
                               request.body.lname,
                               request.body.uname,
                               request.body.language,
-                              request.body.progress,
+                              request.body.curr_question,
                               request.body.typestr],
                              function(err, res) {
         if (err) {
@@ -349,7 +349,6 @@ app.post('/createUser', function(request, response) {
         }
     });
     query.on('end', function() { client.end(); });
-
 });
 
 
@@ -366,7 +365,7 @@ app.post('/updateUser', function(request, response) {
                                         lname=$2::text, \
                                         uname=$3::text, \
                                         language=$4::text, \
-                                        progress=$5::int, \
+                                        curr_question=$5::int, \
                                         type=$6::user_type \
                     WHERE user_id=$7::int;";
     var query = client.query(queryStr,
@@ -374,7 +373,7 @@ app.post('/updateUser', function(request, response) {
                               request.body.lname,
                               request.body.uname,
                               request.body.language,
-                              request.body.progress,
+                              request.body.curr_question,
                               request.body.typestr,
                               request.body.user_id],
                              function(err, res) {
@@ -387,6 +386,75 @@ app.post('/updateUser', function(request, response) {
     });
     query.on('end', function() { client.end(); });
 });
+
+
+app.post('/createVideo', function(request, response) {
+    client = new pg.Client(connectionString);
+    console.log(request.body)
+    client.connect(function(err) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        }
+    });
+    var queryStr = "INSERT into videos (url, \
+                                        yesno, \
+                                        index, \
+                                        response) \
+                    VALUES ($1::text, \
+                            $2::bool, \
+                            $3::int, \
+                            $4::text);";
+    var query = client.query(queryStr,
+                             [request.body.url,
+                              request.body.yesno,
+                              request.body.index,
+                              request.body.response],
+                             function(err, res) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        }
+        else {
+            console.log(res);
+        }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+app.post('/createDependency', function(request, response) {
+    client = new pg.Client(connectionString);
+    console.log(request.body)
+    client.connect(function(err) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        }
+    });
+    var queryStr = "INSERT into dependencies (index, \
+                                              yesjump, \
+                                              nojump) \
+                    VALUES ($1::int, \
+                            $2::int, \
+                            $3::int);";
+    var query = client.query(queryStr,
+                             [request.body.index,
+                              request.body.yesJump,
+                              request.body.noJump],
+                             function(err, res) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        }
+        else {
+            console.log(res);
+        }
+    });
+    query.on('end', function() { client.end(); });
+});
+
+
+
 // called from admin page
 app.post('/updateUserProgress', function(request, response) {
     client = new pg.Client(connectionString);
@@ -411,6 +479,7 @@ app.post('/updateUserProgress', function(request, response) {
     });
     query.on('end', function() { client.end(); });
 });
+
 // called from admin page
 app.post('/createAssignment', function(request,response) {
     client = new pg.Client(connectionString);

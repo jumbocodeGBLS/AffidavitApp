@@ -103,7 +103,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             'type': type['type'],
             'typestr': type['typestr'],
             'viewee': [],
-            'progress': 0
+            'curr_question': 0
         };
         var firebase_info = {
             'username': $scope.uname,
@@ -196,7 +196,7 @@ angular.module('myapp').controller('adminCtrl', ['$scope', '$state', 'Authentica
             'type': type['type'],
             'typestr': type['typestr'],
             'viewee': [],
-            'progress': 0
+            'curr_question': 0
         };
         var j = jQuery.noConflict();
         j.post('/updateUser', newu, function(response, status) {
