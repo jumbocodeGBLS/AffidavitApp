@@ -3,10 +3,10 @@
 <div ng-controller="clientviewCtrl" class="clientPage">
     <div id="page">
         <form>
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
+            <div ng-show="curIndex<0">LOADING...</div>
+            <div ng-hide="curIndex<0" id="myCarousel" class="carousel slide" data-ride="carousel" data-wrap="false">
             <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox" id="videos" ng-hide="lastpage">
-                    <div ng-show="curIndex<0">LOADING...</div>
                     <iframe width="720" height="405" ng-src="{{curvid | trustUrl}}" frameborder="0"></iframe>
                     
                     <div ng-show="yesno()" class="buttons">

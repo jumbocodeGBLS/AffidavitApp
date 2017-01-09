@@ -198,6 +198,7 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
         $scope.result = "";
         $scope.recording = true;
         $scope.startDictation();
+        setrecording()
     };
     $scope.startDictation = function() {
         if (!$scope.recording) {
