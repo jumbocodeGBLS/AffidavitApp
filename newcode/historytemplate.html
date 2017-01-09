@@ -17,7 +17,8 @@
                 &nbsp;&nbsp;<span class="heading">Replay</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-hide="data.length>0">LOADING...</div>
+        <div class="row" ng-show="data.length>0">
             <div ng-repeat="thing in data">
                 <hr>
                 <div class="row">
