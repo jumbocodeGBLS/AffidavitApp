@@ -13,15 +13,12 @@ j(document).ready(function(){
     console.log("SOUND", soundClips);
     if (navigator.getUserMedia) {
         console.log('YO WE getUserMedia supported.');
-
         var constraints = {audio: true};
         var chunks = [];
-        console.log("WE MIGHT GET SUCCESS");
         var onSuccess = function(stream) {
             console.log("WE ARE ABOUT TO CLICK");
             var mediaRecorder = new MediaRecorder(stream);
             console.log(j("#b3"));
-            // console.log(document.getElementById("b3"));
 
             j(document).on("click", "#b3", function(){
                 console.log("RECORD WAS CLICKED");
@@ -140,18 +137,24 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
             event.preventDefault();
         }
         else {
-            saveQ = {
-                'user_id': $scope.user.user_id,
-                'curr_question': $scope.curIndex
-            };
-
-            var j = jQuery.noConflict();
-            j.post('/updateUserProgress', saveQ, function(response, status) {
-                console.log(response, status);
-                // deal with results
-            });
+            updateProgress()
         }
     }
+
+    function updateProgress() {
+        console.log("updating");
+        saveQ = {
+            'user_id': $scope.user.user_id,
+            'curr_question': $scope.curIndex
+        };
+
+        var j = jQuery.noConflict();
+        j.post('/updateUserProgress', saveQ, function(response, status) {
+            console.log(response, status);
+            // deal with results
+        });
+    }
+
     // sets classes of yes/no buttons depending on current click / click history
     // $scope.mediaRecorder;
     function setrecording() {
@@ -191,8 +194,8 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
     }
 
     // TRANSCRIPTION STUFF
-    $scope.result = "";
     $scope.start = function() {
+        $scope.result = "";
         $scope.recording = true;
         $scope.startDictation();
     };
@@ -306,7 +309,6 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
 
     // view next video
     $scope.next_vid = function(){
-        console.log($scope.curIndex)
         if ($scope.curIndex >= $scope.videos.length - 1) {
           //return;
           $scope.lastpage = true;
@@ -320,9 +322,9 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
             console.log($scope.videos[$scope.curIndex])
             $scope.curIndex = $scope.videos[$scope.curIndex]['nojump'];
         }
-        console.log($scope.curIndex)
         $scope.curvid = $scope.videos[$scope.curIndex]['url'];
         $scope.setbuttons();
+        updateProgress()
     };
 
     // when 'yes' clicked on yes/no question
@@ -345,9 +347,9 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
 
     /********************** SCOPE DATA ****************************/
     $scope.curIndex = -1;
-  
+
     $scope.user = {
-          'type' : 0, 
+          'type' : 0,
           'viewee': []
     };
 
@@ -358,7 +360,7 @@ angular.module('myapp').controller('clientviewCtrl', ['$scope', '$state', 'Authe
             j.ajax({
                 method: "GET",
                 url: '/userData',
-                data: {data: res.password.email} 
+                data: {data: res.password.email}
             })
             .done(function(msg) {
                 $scope.user = msg[0];
