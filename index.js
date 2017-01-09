@@ -387,6 +387,27 @@ app.post('/updateUser', function(request, response) {
     query.on('end', function() { client.end(); });
 });
 
+app.get('/videos', function(request,response) {
+    client = new pg.Client(connectionString);
+    client.connect(function(err) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        }
+    });
+    var queryStr = "SELECT videos.*, dependencies.* FROM videos \
+                    LEFT JOIN dependencies \
+                    ON videos.index = dependencies.index;";
+    var query = client.query(queryStr, function(err, res) {
+        if (err) {
+            console.log(err);
+            // TODO1: handle error
+        } else {
+            response.send(res.rows);
+        }
+    });
+    query.on('end', function() { client.end(); });
+});
 
 app.post('/createVideo', function(request, response) {
     client = new pg.Client(connectionString);
@@ -452,6 +473,8 @@ app.post('/createDependency', function(request, response) {
     });
     query.on('end', function() { client.end(); });
 });
+
+
 
 
 

@@ -4,6 +4,7 @@ angular.module('myapp').controller('clientlistCtrl', ['$scope', '$state', 'Authe
         'type' : 0, 
         'viewee': []
     };
+    $scope.data = []
     AuthenticationService.getUser(function(res){
         if (res != "") {
             console.log(res.password.email);
@@ -25,8 +26,8 @@ angular.module('myapp').controller('clientlistCtrl', ['$scope', '$state', 'Authe
                 } else {
                     $scope.user.type = 4;
                 }
+                $scope.$apply();
                 $scope.getclients();
-                console.log("called")
             });
         }
     });

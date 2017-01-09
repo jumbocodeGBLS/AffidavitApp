@@ -11,7 +11,9 @@
             <span class="medium">Progress</span>
         </span>
     </div>
-    <div ng-if="data.length<=0" class="panel panel-default">LOADING</div>
+    <div ng-if="data.length<=0" class="panel panel-default">
+        <span class="medium">LOADING...</span>
+    </div>
     <div ng-if="data.length>0">
         <button class="btn btn-default" ng-click="selectall()">Select All</button>
         <button class="btn btn-default" ng-click="downloadtranscripts()">Download Transcripts</button>
